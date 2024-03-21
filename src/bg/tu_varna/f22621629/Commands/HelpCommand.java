@@ -1,8 +1,10 @@
-package bg.tu_varna.f22621629;
+package bg.tu_varna.f22621629.Commands;
+
+import bg.tu_varna.f22621629.Handlers.CommandHandler;
 
 import java.io.IOException;
 
-public class HelpCommand implements CommandHandler{
+public class HelpCommand implements CommandHandler {
   @Override
   public void execute(String[] command) throws IOException {
     StringBuilder menu = new StringBuilder();

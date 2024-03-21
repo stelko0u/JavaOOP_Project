@@ -3,6 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 T14.pdf
+TODO.txt
 
 ### Eclipse ###
 .apt_generated

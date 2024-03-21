@@ -1,8 +1,10 @@
-package bg.tu_varna.f22621629;
+package bg.tu_varna.f22621629.Commands;
+
+import bg.tu_varna.f22621629.Handlers.CommandHandler;
 
 import java.io.IOException;
 
-public class SaveAsCommand implements CommandHandler{
+public class SaveAsCommand implements CommandHandler {
   private String filePath;
 
   public SaveAsCommand(String filePath) {

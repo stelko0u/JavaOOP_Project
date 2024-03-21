@@ -1,0 +1,21 @@
+
+<sessions>
+    <session id="1">
+        <image name="lolcat.ppm" format="PPM" width="800" height="600">
+         <!-- Пиксели на изображението -->W
+         </image>
+        <transformations>
+             <grayscale/>
+            <monochrome/>
+        </transformations>
+    </session>
+    <session id="2">
+        <image name="lolcat2.ppm" format="PPM" width="800" height="600">
+        <!-- Пиксели на изображението -->W
+        </image>
+        <transformations>
+            <grayscale/>
+            <monochrome/>
+        </transformations>
+    </session>
+</sessions>
