@@ -53,7 +53,6 @@ public class CommandProcessor {
           } else {
             try {
               command.execute(commandAsParts);
-
             } catch (IOException e) {
               System.err.println("Error: " + e.getMessage());
             }

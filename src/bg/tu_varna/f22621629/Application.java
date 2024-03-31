@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Application {
   public static void main(String[] args) {
-    XMLFileHandler fileHandler = new XMLFileHandler("");
+    XMLFileHandler fileHandler = XMLFileHandler.getInstance();
     CommandProcessor commandProcessor = new CommandProcessor(fileHandler);
     Scanner scanner = new Scanner(System.in);
 

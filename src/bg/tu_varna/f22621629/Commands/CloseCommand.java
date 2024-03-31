@@ -15,9 +15,14 @@ public class CloseCommand implements CommandHandler {
 
   @Override
   public void execute(String[] command) throws IOException {
-    System.out.println("Successfully closed the file!");
-    fileHandler.setFileOpened(false);
-    fileHandler.setContent("");
-    System.out.println();
+    if (fileHandler != null) {
+      fileHandler = null;
+      fileHandler.setFileOpened(false);
+      fileHandler.setContent(null);
+      System.out.println("Successfully closed the file!");
+    } else {
+      System.out.println("No file is currently open.");
+    }
   }
+
 }

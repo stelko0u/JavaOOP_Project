@@ -23,9 +23,9 @@ public class OpenCommand implements CommandHandler {
       return;
     }
     try {
-      System.out.println("\nSuccessfully opened " + args[1]);
       fileHandler.open(args[1]);
       fileHandler.setFileOpened(true);
+      System.out.println("\nSuccessfully opened " + args[1] + " with " + fileHandler.getSessionCount() + " sessions!");
     } catch (FileExceptionHandler e) {
       System.out.println("Error opening the file: " + e.getMessage());
     }
