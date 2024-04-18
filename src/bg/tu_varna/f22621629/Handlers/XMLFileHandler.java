@@ -98,7 +98,7 @@ public class XMLFileHandler {
   }
 
   public int getSessionCount() {
-    return sessionCount;
+    return sessions.size();
   }
 
   public void printSessions() {
@@ -108,4 +108,7 @@ public class XMLFileHandler {
     }
   }
 
+  public Set<Session> getSessions() {
+    return sessions;
+  }
 }

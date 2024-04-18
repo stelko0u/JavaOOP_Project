@@ -28,7 +28,7 @@ public class CommandProcessor {
   public void proccessingCommands(String input) {
     String[] commandAsParts = input.split("\\s+", 2);
     String commandKey = commandAsParts[0].toLowerCase().trim();
-    System.out.println(fileHandler.isFileOpened());
+//    System.out.println(fileHandler.isFileOpened());
 
     if (commands.containsKey(commandKey)) {
       CommandHandler command = commands.get(commandKey);
