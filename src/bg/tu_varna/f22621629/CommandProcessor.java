@@ -22,19 +22,22 @@ public class CommandProcessor {
     commands.put("help", new HelpCommand());
     commands.put("exit", new ExitCommand());
     commands.put("load", new LoadCommand());
+    commands.put("graphics", new GraphicOperations());
+
   }
 
 
   public void proccessingCommands(String input) {
     String[] commandAsParts = input.split("\\s+", 2);
     String commandKey = commandAsParts[0].toLowerCase().trim();
-//    System.out.println(fileHandler.isFileOpened());
-
     if (commands.containsKey(commandKey)) {
       CommandHandler command = commands.get(commandKey);
       try {
         if (commandKey.equals("open") || fileHandler.isFileOpened()) {
           command.execute(commandAsParts);
+        if (fileHandler.isSessionLoaded()) {
+          System.out.println("Use > \"graphics\" to show advanced commands.");
+        }
         } else if (fileHandler == null) {
           System.out.println("File handler is not initialized.");
         } else if (!fileHandler.isFileOpened()) {

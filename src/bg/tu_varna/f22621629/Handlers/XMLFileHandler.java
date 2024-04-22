@@ -1,5 +1,6 @@
 package bg.tu_varna.f22621629.Handlers;
 
+import bg.tu_varna.f22621629.Handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.Models.Session;
 
 import java.io.BufferedReader;
@@ -12,21 +13,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class XMLFileHandler {
-  private static XMLFileHandler instance;
   private String content;
+  private static XMLFileHandler instance;
   private boolean isFileOpened = false;
-  private String filePath;
-  private int sessionCount;
-  private Set<Integer> openedSessions;
   private Set<Session> sessions;
+  private BufferedReader reader;
+  private String fileName;
+  private boolean isSessionLoaded = false;
+
+
 
   private XMLFileHandler() {
     this.isFileOpened = false;
-    this.content = "";
-    this.sessionCount = 0;
-    this.openedSessions = new LinkedHashSet<>();
     this.sessions = new LinkedHashSet<>();
   }
+
 
   public static XMLFileHandler getInstance() {
     if (instance == null) {
@@ -34,6 +35,8 @@ public class XMLFileHandler {
     }
     return instance;
   }
+
+
 
   public void open(String filePath) throws FileExceptionHandler {
     File file = new File(filePath);
@@ -46,8 +49,8 @@ public class XMLFileHandler {
         throw new FileExceptionHandler("Error creating a new file.", e);
       }
     }
+    setFileName(filePath);
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-      StringBuilder sb = new StringBuilder();
       String line;
       String sessionId = null;
       String fileName = null;
@@ -68,7 +71,6 @@ public class XMLFileHandler {
           fileName = null;
         }
       }
-      setContent(sb.toString());
       setFileOpened(true);
       printSessions();
     } catch (IOException e) {
@@ -81,14 +83,6 @@ public class XMLFileHandler {
     sessions.add(session);
   }
 
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
   public boolean isFileOpened() {
     return isFileOpened;
   }
@@ -96,9 +90,8 @@ public class XMLFileHandler {
   public void setFileOpened(boolean fileOpened) {
     isFileOpened = fileOpened;
   }
-
-  public int getSessionCount() {
-    return sessions.size();
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public void printSessions() {
@@ -111,4 +104,44 @@ public class XMLFileHandler {
   public Set<Session> getSessions() {
     return sessions;
   }
-}
+
+  public String getContent() {
+    // You can implement getContent() if needed
+    // For now, let's return an empty string
+    return "";
+  }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
+
+  public String getFileName() {
+    return fileName;
+  }
+
+  public boolean isSessionLoaded() {
+    return isSessionLoaded;
+  }
+
+  public void setSessionLoaded(boolean sessionLoaded) {
+    isSessionLoaded = sessionLoaded;
+  }
+
+  public void close() {
+      try {
+        if (reader != null) {
+          reader.close();
+          reader = null;
+          System.out.println("Sessions closed successfully.");
+        } else {
+          System.out.println("Sessions is already closed or empty.");
+        }
+      } catch (IOException e) {
+        System.out.println("Error occurred while closing the Sessions: " + e.getMessage());
+      } catch (NullPointerException e) {
+        System.out.println("NullPointerException occurred: " + e.getMessage());
+      }
+    }
+
+
+  }

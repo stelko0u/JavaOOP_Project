@@ -18,4 +18,13 @@
             <monochrome/>
         </transformations>
     </session>
+    <session id="3">
+        <image name="stelko.ppm" format="PPM" width="800" height="600">
+            <!-- Пиксели на изображението -->W
+        </image>
+        <transformations>
+            <grayscale/>
+            <monochrome/>
+        </transformations>
+    </session>
 </sessions>
