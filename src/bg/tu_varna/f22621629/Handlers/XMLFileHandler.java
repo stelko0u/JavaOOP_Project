@@ -1,6 +1,5 @@
 package bg.tu_varna.f22621629.Handlers;
 
-import bg.tu_varna.f22621629.Handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.Models.Session;
 
 import java.io.BufferedReader;
@@ -49,6 +48,11 @@ public class XMLFileHandler {
         throw new FileExceptionHandler("Error creating a new file.", e);
       }
     }
+
+    if (!filePath.endsWith(".xml")) {
+      throw new FileExceptionHandler("Only XML files can be opened!");
+    }
+
     setFileName(filePath);
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
       String line;
@@ -72,7 +76,7 @@ public class XMLFileHandler {
         }
       }
       setFileOpened(true);
-      printSessions();
+
     } catch (IOException e) {
       throw new FileExceptionHandler("Error reading the file!");
     }
@@ -105,11 +109,6 @@ public class XMLFileHandler {
     return sessions;
   }
 
-  public String getContent() {
-    // You can implement getContent() if needed
-    // For now, let's return an empty string
-    return "";
-  }
 
   public void setFileName(String fileName) {
     this.fileName = fileName;
@@ -132,6 +131,7 @@ public class XMLFileHandler {
         if (reader != null) {
           reader.close();
           reader = null;
+
           System.out.println("Sessions closed successfully.");
         } else {
           System.out.println("Sessions is already closed or empty.");

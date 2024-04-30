@@ -25,7 +25,7 @@ public class OpenCommand implements CommandHandler {
       System.out.println("\nSuccessfully opened " + args[1] + " with " + fileHandler.getSessions().size() + " sessions!");
       System.out.println("Load a session using -> load <File name>");
     } catch (FileExceptionHandler e) {
-      System.out.println("Error opening the file: " + e.getMessage());
+      System.out.println("Error: " + e.getMessage());
     }
   }
 }

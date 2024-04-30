@@ -1,61 +1,76 @@
 package bg.tu_varna.f22621629.Commands;
 
 import bg.tu_varna.f22621629.Handlers.CommandHandler;
+import bg.tu_varna.f22621629.Handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.Handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.Models.Session;
 
-import java.io.*;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 
 public class LoadCommand implements CommandHandler {
   private XMLFileHandler fileHandler;
+  private boolean isFound = false;
 
   public LoadCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
 
   @Override
-  public void execute(String[] args) throws IOException {
+  public void execute(String[] args) throws IOException, FileExceptionHandler {
+    if (args.length < 2) {
+      System.out.println("Usage: load <session_name>");
+      return;
+    }
+    if (!args[1].endsWith(".pbm") && !args[1].endsWith(".ppm")) {
+      System.out.println("Openning only .ppm / .pbm / .pgm files!");
+      return;
+    }
+
+    String sessionName = args[1];
+    loadSessionImage(sessionName);
+  }
+  private void loadSessionImage(String sessionName) {
+    String imagePath = "images/" + sessionName;
     Set<Session> sessions = fileHandler.getSessions();
-    String filePath = args[1];
-    File file = new File(filePath);
-    boolean found = false;
 
     for (Session session : sessions) {
-      if (filePath.equals(session.getFileName())) {
-        found = true;
+      if (imagePath.equals(session.getFileName())) {
+        isFound = true;
         break;
       }
     }
-    if (found) {
-      System.out.println("File found!");
-      BufferedReader reader = new BufferedReader(new FileReader(fileHandler.getFileName()));
-      getSessionContent(reader, filePath);
+
+    if (isValidImageFile(imagePath) || isFound) {
+      try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
+        StringBuilder imageContent = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+          imageContent.append(line).append("\n");
+        }
+
+        System.out.println("Image loaded successfully:");
+        System.out.println(imageContent.toString());
+      } catch (IOException e) {
+        System.out.println("Error loading image: " + e.getMessage());
+      }
     } else {
-      System.out.println("File not found!");
-      return;
+      System.out.println("Invalid image file: " + imagePath);
     }
   }
 
-  public void getSessionContent(BufferedReader reader, String filePath) throws IOException {
-    StringBuilder xmlContent = new StringBuilder();
-    String line;
-    while ((line = reader.readLine()) != null) {
-      xmlContent.append(line).append("\n");
-    }
-    String regex = "<session\\s+id=\"1\"[^>]*>.*?<image\\s+name\\s*=\\s*\"" + filePath + "\"\\s+.*?>.*?</image>.*?</session>";
+  private boolean isValidImageFile(String filePath) {
+    String extension = getFileExtension(filePath);
+    return extension != null && (extension.equals("ppm") || extension.equals("pgm") || extension.equals("pbm"));
+  }
 
-    Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
-    Matcher matcher = pattern.matcher(xmlContent.toString());
-
-    if (matcher.find()) {
-      fileHandler.setSessionLoaded(true);
-      String matchedText = matcher.group();
-      System.out.println("\n\n" + matchedText);
-    } else {
-      System.out.println("No match found for filename: " + filePath);
+  private String getFileExtension(String filePath) {
+    int dotIndex = filePath.lastIndexOf(".");
+    if (dotIndex == -1 || dotIndex == filePath.length() - 1) {
+      return null;
     }
+    return filePath.substring(dotIndex + 1).toLowerCase();
   }
 }
