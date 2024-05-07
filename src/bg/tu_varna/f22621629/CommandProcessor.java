@@ -25,66 +25,13 @@ public class CommandProcessor {
     commands.put("load", new LoadCommand());
     commands.put("graphics", new GraphicOperations());
     commands.put("session info", new DisplaySessionInfoCommand());
+    commands.put("negative", new NegativeCommand());
+    commands.put("rotate", new RotateImage());
+    commands.put("add", new AddImageCommand());
 
   }
 
-
-//  public void proccessingCommands(String input) throws IOException {
-//    String[] commandAsParts = input.split("\\s+", 2);
-//    String commandKey = commandAsParts[0].toLowerCase().trim();
-//
-//
-//    if (commands.containsKey(commandKey) || commands.containsKey(input)) {
-//      CommandHandler command = commands.get(commandKey);
-//      try {
-//
-//        if (commandKey.equals("open") || fileHandler.isFileOpened()) {
-//          command.execute(commandAsParts);
-//        if (fileHandler.isSessionLoaded()) {
-//          System.out.println("Use > \"graphics\" to show advanced commands.");
-//        }
-//        } else if (fileHandler == null) {
-//          System.out.println("File handler is not initialized.");
-//        } else if (!fileHandler.isFileOpened()) {
-//          System.out.println("No file opened. Please open a file first.");
-//        } else {
-//          if (command instanceof OpenCommand || command instanceof SaveAsCommand) {
-//            if (commandAsParts.length > 1) {
-//              try {
-//                command.execute(commandAsParts);
-//              } catch (IOException e) {
-//                System.err.println("Error: " + e.getMessage());
-//              }
-//            } else {
-//              System.out.println("Invalid command format!");
-//            }
-//          } else {
-//            try {
-//              command.execute(commandAsParts);
-//            } catch (IOException e) {
-//              System.err.println("Error: " + e.getMessage());
-//            }
-//          }
-//        }
-//      } catch (NullPointerException e) {
-//        System.out.println("NullPointerException caught: " + e.getMessage());
-//      } catch (IOException e) {
-//        System.out.println("Error: " + e.getMessage());
-//      }
-//    } else {
-//      System.out.println("Unknown command \""+commandKey+"\" ");
-//    }
-//  }
-
-
-
 public void proccessingCommands(String input) throws IOException, FileExceptionHandler {
-    // Командата се състои от две думи
-    // командата валидна ли е?
-    // докато не е отворен файл, може да се използва само help и open
-
-
-
   String[] commandAsParts = input.split("\\s+", 2);
   String commandKey = commandAsParts[0].toLowerCase().trim();
 
@@ -109,7 +56,6 @@ public void proccessingCommands(String input) throws IOException, FileExceptionH
   } else {
     System.out.println("Unknown command!");
   }
-
 
 //  if ((commands.containsKey(commandKey) || commands.containsKey(input)) && fileHandler.isFileOpened()) {
 //    CommandHandler command = null;

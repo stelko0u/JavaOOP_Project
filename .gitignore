@@ -4,7 +4,8 @@ out/
 !**/src/test/**/out/
 T14.pdf
 TODO.txt
-
+backupImages
+file.txt
 ### Eclipse ###
 .apt_generated
 .classpath

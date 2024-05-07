@@ -19,6 +19,9 @@ public class XMLFileHandler {
   private BufferedReader reader;
   private String fileName;
   private boolean isSessionLoaded = false;
+  private File currentFile;
+  private String nextLocalImage;
+
 
 
 
@@ -34,7 +37,6 @@ public class XMLFileHandler {
     }
     return instance;
   }
-
 
 
   public void open(String filePath) throws FileExceptionHandler {
@@ -54,6 +56,8 @@ public class XMLFileHandler {
     }
 
     setFileName(filePath);
+  sessions.clear();
+
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
       String line;
       String sessionId = null;
@@ -103,27 +107,46 @@ public class XMLFileHandler {
     for (Session session : sessions) {
       System.out.println(session.toString());
     }
+
+  }
+
+  public void setNextLocalImage(String nextLocalImage) {
+    this.nextLocalImage = nextLocalImage;
+  }
+
+  public String getNextLocalImage() {
+    return nextLocalImage;
+  }
+
+  public void setSessions(Set<Session> sessions) {
+    this.sessions = sessions;
   }
 
   public Set<Session> getSessions() {
     return sessions;
   }
-
-
   public void setFileName(String fileName) {
     this.fileName = fileName;
   }
-
   public String getFileName() {
     return fileName;
   }
-
   public boolean isSessionLoaded() {
     return isSessionLoaded;
   }
-
   public void setSessionLoaded(boolean sessionLoaded) {
     isSessionLoaded = sessionLoaded;
+  }
+
+  public String getContent() throws IOException {
+    StringBuilder fileContent = new StringBuilder();
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        fileContent.append(line).append("\n");
+      }
+    }
+    return fileContent.toString();
   }
 
   public void close() {
@@ -131,6 +154,7 @@ public class XMLFileHandler {
         if (reader != null) {
           reader.close();
           reader = null;
+          setContent("");
 
           System.out.println("Sessions closed successfully.");
         } else {
@@ -142,6 +166,4 @@ public class XMLFileHandler {
         System.out.println("NullPointerException occurred: " + e.getMessage());
       }
     }
-
-
   }

@@ -1,17 +1,15 @@
 
 <sessions>
     <session id="1">
-        <image name="lolcat.ppm" format="PPM" width="800" height="600">
-         <!-- Пиксели на изображението -->W
-         </image>
+        <image name="stelko1.pbm">
+        </image>
         <transformations>
-             <grayscale/>
+            <grayscale/>
             <monochrome/>
         </transformations>
     </session>
     <session id="2">
-        <image name="stelko.pbm" format="PPM" width="800" height="600">
-        <!-- Пиксели на изображението -->W
+        <image name="stelko2.ppm">
         </image>
         <transformations>
             <grayscale/>
@@ -19,13 +17,27 @@
         </transformations>
     </session>
     <session id="3">
-        <image name="stelko.ppm" format="PPM" width="800" height="600">
-            <!-- Пиксели на изображението -->W
+        <image name="stelko3.pgm">
         </image>
         <transformations>
             <grayscale/>
             <monochrome/>
         </transformations>
     </session>
-
+<session id="4">
+    <image name="test.pbm">
+    </image>
+    <transformations>
+        <grayscale/>
+        <monochrome/>
+    </transformations>
+</session>
+<session id="5">
+    <image name="test.pbm">
+    </image>
+    <transformations>
+        <grayscale/>
+        <monochrome/>
+    </transformations>
+</session>
 </sessions>
