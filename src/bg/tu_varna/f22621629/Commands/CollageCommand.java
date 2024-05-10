@@ -19,15 +19,14 @@ public class CollageCommand implements CommandHandler {
   @Override
   public void execute(String[] args) throws IOException, FileExceptionHandler {
     String[] commands = args[1].toString().split(" ");
-    System.out.println(commands.length);
     if (commands.length < 4) {
       System.out.println("Usage: collage <direction> <image1> <image2> <outimage>");
       return;
     }
 
     String direction = commands[0];
-    String firstImageFileName = commands[1];
-    String secondImageFileName = commands[2];
+    String firstImageFileName = "images/" + commands[1];
+    String secondImageFileName = "images/" + commands[2];
     String outimage = commands[3];
 
 
@@ -41,56 +40,144 @@ public class CollageCommand implements CommandHandler {
       while ((firstLine = reader.readLine()) != null) {
         firstImageContent.append(firstLine).append("\n");
       }
-
-      System.out.println("Image1 loaded successfully:");
-      System.out.println(firstImageContent.toString());
-
-
-
-      System.out.println("Collage created successfully and added to the current session.");
     }
+
     try (BufferedReader reader = new BufferedReader(new FileReader(secondImageFileName))) {
-
-
       String secondLine;
       while ((secondLine = reader.readLine()) != null) {
-        firstImageContent.append(secondLine).append("\n");
+        secondImageContent.append(secondLine).append("\n");
       }
-      createCollage(firstImageContent, secondImageContent, direction, outimage);
-
-
-      System.out.println("Collage created successfully and added to the current session.");
     }
+
     createCollage(firstImageContent, secondImageContent, direction, outimage);
 
   }
-  private String createCollage(StringBuilder firstImageContent, StringBuilder secondImageContent, String direction, String outImage) throws IOException {
+  private void createCollage(StringBuilder firstImageContent, StringBuilder secondImageContent, String direction, String outImage) throws IOException {
     StringBuilder collageData = new StringBuilder();
 
-
+    // HORIZONTAL
         if (direction.equalsIgnoreCase("horizontal")) {
           String[] contentFirstImage = firstImageContent.toString().split("\n");
-          String[] contentSecondImage = firstImageContent.toString().split("\n");
-          String[] sizes = contentFirstImage[1].split(" ");
-          int width = Integer.parseInt(sizes[0]);
-          int height = Integer.parseInt(sizes[1]);
-          for (int i = 2; i < height; i++) {
-            for (int j = 0; i < width; i++) {
-              collageData.append(firstImageContent).append(secondImageContent);
+          String[] contentSecondImage = secondImageContent.toString().split("\n");
+
+
+          String[] sizes = null;
+          int width = 0;
+          int height = 0;
+          int start = 0;
+
+          if (contentFirstImage[0].startsWith("P1")) {
+            width = Integer.parseInt(sizes[0]);
+            height = Integer.parseInt(sizes[1]);
+            start = 2;
+            collageData.append("P1").append('\n');
+            collageData.append(width+width).append(" ").append(height).append("\n");
+
+            for (int i = start; i < contentFirstImage.length; i++) {
+              collageData.append(contentFirstImage[i]).append(" ");
+              collageData.append(contentSecondImage[i]).append(" ").append("\n");
+            }
+          } else if (contentFirstImage[0].startsWith("P2")) {
+            sizes = contentFirstImage[2].split(" ");
+            width = Integer.parseInt(sizes[0]);
+            height = Integer.parseInt(sizes[1]);
+            start = 4;
+            collageData.append("P2").append("\n");
+            collageData.append("# ").append(outImage).append("\n");
+            collageData.append(width+width).append(" ").append(height).append("\n");
+            for (int i = start; i < contentFirstImage.length; i++) {
+              collageData.append(contentFirstImage[i]).append(" ");
+              collageData.append(contentSecondImage[i]).append(" ").append("\n");
+            }
+          } else if (contentFirstImage[0].startsWith("P3")) {
+            sizes = contentFirstImage[0].split(" ");
+            width = Integer.parseInt(sizes[1]);
+            height = Integer.parseInt(sizes[2]);
+            start = 2;
+            collageData.append("P3").append(" ").append(width+width).append(" ")
+                    .append(height).append(" ").append(sizes[3]).append("\n");
+            for (int i = start; i < contentFirstImage.length; i++) {
+              collageData.append(contentFirstImage[i]).append(" ");
+              collageData.append(contentSecondImage[i]).append(" ").append("\n");
             }
           }
+
+
           saveCollageToFile(collageData.toString(), outImage);
         }
 
-        if (direction.equalsIgnoreCase("vertical")) {
 
+
+        // VERTICAL
+        if (direction.equalsIgnoreCase("vertical")) {
+          String[] contentFirstImage = firstImageContent.toString().split("\n");
+          String[] contentSecondImage = secondImageContent.toString().split("\n");
+
+          String[] sizes = null;
+          int width = 0;
+          int height = 0;
+          int start = 0;
+          if (contentSecondImage[0].equalsIgnoreCase("P1")) {
+
+            sizes = contentFirstImage[1].split(" ");
+            width = Integer.parseInt(sizes[0]);
+            height = Integer.parseInt(sizes[1]);
+            start = 2;
+            collageData.append("P1").append('\n');
+            collageData.append(width).append(" ").append(height+height).append("\n");
+
+            for (int i = start; i < contentFirstImage.length ; i++) {
+              collageData.append(contentFirstImage[i]).append("\n");
+            }
+
+            for (int i = start; i < contentSecondImage.length; i++) {
+              collageData.append(contentSecondImage[i]).append("\n");
+            }
+
+          } else if (contentFirstImage[0].equalsIgnoreCase("P2")) {
+
+            sizes = contentFirstImage[2].split(" ");
+            width = Integer.parseInt(sizes[0]);
+            height = Integer.parseInt(sizes[1]);
+            start = 4;
+            collageData.append("P2").append("\n");
+            collageData.append("# ").append(outImage).append("\n");
+            collageData.append(width).append(" ").append(height+height).append("\n");
+
+            for (int i = start; i < contentFirstImage.length; i++) {
+              collageData.append(contentFirstImage[i]).append("\n");
+            }
+
+            for (int i = start; i < contentSecondImage.length; i++) {
+              collageData.append(contentSecondImage[i]).append("\n");
+            }
+
+          } else if (contentFirstImage[0].startsWith("P3")) {
+
+            sizes = contentFirstImage[0].split(" ");
+            width = Integer.parseInt(sizes[1]);
+            height = Integer.parseInt(sizes[2]);
+            start = 2;
+            collageData.append("P3").append(" ").append(width).append(" ")
+                    .append(height+height).append(" ").append(sizes[3]).append("\n");
+
+            for (int i = start; i < contentFirstImage.length; i++) {
+              collageData.append(contentFirstImage[i]).append("\n");
+            }
+
+            for (int i = start; i < contentSecondImage.length; i++) {
+              collageData.append(contentSecondImage[i]).append("\n");
+            }
+
+          }
+          saveCollageToFile(collageData.toString(), outImage);
         }
-    return collageData.toString();
   }
 
   private void saveCollageToFile(String collageData, String outImage) throws IOException {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(outImage))) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("images/" + outImage))) {
       writer.write(collageData);
     }
+      System.out.println("Collage created successfully and added to the current session: " + outImage);
   }
 }
