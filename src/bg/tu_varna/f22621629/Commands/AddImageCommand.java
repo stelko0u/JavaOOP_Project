@@ -40,36 +40,6 @@ public class AddImageCommand implements CommandHandler {
             "</session>\n";
   fileHandler.setNextLocalImage(newImageElement);
     System.out.println("Image added to session successfully.");
-//    try (BufferedReader reader = new BufferedReader(new FileReader(currentFile))) {
-//      StringBuilder content = new StringBuilder();
-//      String line;
-//      boolean sessionFound = false;
-//
-//      while ((line = reader.readLine()) != null) {
-//        if (line.trim().equals("</sessions>")) {
-//          if (!sessionFound) {
-//            content.append(newImageElement);
-//          }
-//          content.append(line).append("\n");
-//          sessionFound = true;
-//        } else {
-//          content.append(line).append("\n");
-//        }
-//      }
-//
-//      if (!sessionFound) {
-//        content.append(newImageElement);
-//      }
-//
-//      try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile))) {
-//        writer.write(content.toString());
-//      }
-//
-//      System.out.println("Image added to session successfully.");
-
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
   }
 }
 

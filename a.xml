@@ -1,0 +1,19 @@
+
+<sessions>
+    <session id="1">
+        <image name="proba.pbm">
+        </image>
+        <transformations>
+            <grayscale/>
+            <monochrome/>
+        </transformations>
+    </session>
+<session id="2">
+    <image name="test.pbm">
+    </image>
+    <transformations>
+        <grayscale/>
+        <monochrome/>
+    </transformations>
+</session>
+</sessions>

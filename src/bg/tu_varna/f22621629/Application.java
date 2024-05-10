@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-
+/** Application **/
 public class Application {
   public static void main(String[] args) {
     System.out.println("Welcome to Raster graphics application. Type \"help\" to show basic commands!");

@@ -24,53 +24,28 @@ public class NegativeCommand implements CommandHandler {
       System.out.println("No file is currently open. Please open a file first.");
       return;
     }
+    String loadedImageAsString = fileHandler.getLoadedImage();
+    StringBuilder loadedImageBuffer = new StringBuilder(loadedImageAsString);
+    if (loadedImageBuffer == null || loadedImageBuffer.length() == 0) {
+      System.out.println("No image is currently loaded. Please load an image first.");
+      return;
+    }
 
-    Set<Session> sessions = fileHandler.getSessions();
-    for (Session session : sessions) {
-      String imagePath = IMAGES_FOLDER + session.getFileName();
-      File imageFile = new File(imagePath);
-      if (imageFile.exists()) {
-        if (isSupportedImageFormat(session.getFileName())) {
-          StringBuilder imageData = new StringBuilder();
-          try (BufferedReader reader = new BufferedReader(new FileReader(imageFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-              imageData.append(line).append("\n");
-            }
-          } catch (IOException e) {
-            e.printStackTrace();
-            return;
-          }
+    // Приложете ефекта "Negative" върху зареденото изображение
+    String modifiedImageData = applyNegativeEffect(loadedImageBuffer.toString());
 
-          String modifiedImageData = applyNegativeEffect(imageData.toString());
-
-          String negativeImagePath = IMAGES_FOLDER + getNegativeFileName(session.getFileName());
-          try (BufferedWriter writer = new BufferedWriter(new FileWriter(negativeImagePath))) {
-            writer.write(modifiedImageData);
-          } catch (IOException e) {
-            e.printStackTrace();
-            return;
-          }
-
-          System.out.println("Negative effect applied successfully to: " + session.getFileName());
-        } else {
-          System.out.println("Unsupported image format for negative effect: " + session.getFileName());
-        }
-      } else {
-        System.out.println("Image file not found: " + session.getFileName());
-      }
+    // Създайте нов файл с модифицираното изображение
+    String negativeFileName = "negative_" + fileHandler.getFileNameLoadedImage();
+    String negativeImagePath = IMAGES_FOLDER + negativeFileName;
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(negativeImagePath))) {
+      writer.write(modifiedImageData);
+      System.out.println("Negative effect applied successfully to: " + fileHandler.getFileNameLoadedImage());
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
-  private boolean isSupportedImageFormat(String fileName) {
-    String[] supportedFormats = {"ppm", "pgm", "pbm"};
-    for (String format : supportedFormats) {
-      if (fileName.toLowerCase().endsWith(format)) {
-        return true;
-      }
-    }
-    return false;
-  }
+
 
   private String applyNegativeEffect(String imageData) {
     StringBuilder modifiedImageData = new StringBuilder();

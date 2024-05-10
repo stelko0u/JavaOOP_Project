@@ -22,7 +22,6 @@ public class CloseCommand implements CommandHandler {
       fileHandler.setContent(null);
       System.out.println("Successfully closed the file!");
       fileHandler.close();
-
     } else {
       System.out.println("No file is currently open.");
     }

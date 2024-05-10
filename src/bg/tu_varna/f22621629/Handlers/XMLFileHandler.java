@@ -21,7 +21,8 @@ public class XMLFileHandler {
   private boolean isSessionLoaded = false;
   private File currentFile;
   private String nextLocalImage;
-
+  private String loadedImage;
+  private String fileNameLoadedImage;
 
 
 
@@ -136,6 +137,22 @@ public class XMLFileHandler {
   }
   public void setSessionLoaded(boolean sessionLoaded) {
     isSessionLoaded = sessionLoaded;
+  }
+
+  public void setLoadedImage(String loadedImage) {
+    this.loadedImage = loadedImage;
+  }
+
+  public String getLoadedImage() {
+    return loadedImage;
+  }
+
+  public void setFileNameLoadedImage(String fileNameLoadedImage) {
+    this.fileNameLoadedImage = fileNameLoadedImage;
+  }
+
+  public String getFileNameLoadedImage() {
+    return fileNameLoadedImage;
   }
 
   public String getContent() throws IOException {

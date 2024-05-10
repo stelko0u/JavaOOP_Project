@@ -19,7 +19,7 @@ public class CommandProcessor {
     commands.put("open", new OpenCommand());
     commands.put("close", new CloseCommand());
     commands.put("save", new SaveCommand());
-    commands.put("saveas", new SaveAsCommand(""));
+    commands.put("saveas", new SaveAsCommand());
     commands.put("help", new HelpCommand());
     commands.put("exit", new ExitCommand());
     commands.put("load", new LoadCommand());
@@ -28,6 +28,7 @@ public class CommandProcessor {
     commands.put("negative", new NegativeCommand());
     commands.put("rotate", new RotateImage());
     commands.put("add", new AddImageCommand());
+    commands.put("collage", new CollageCommand());
 
   }
 
@@ -56,29 +57,5 @@ public void proccessingCommands(String input) throws IOException, FileExceptionH
   } else {
     System.out.println("Unknown command!");
   }
-
-//  if ((commands.containsKey(commandKey) || commands.containsKey(input)) && fileHandler.isFileOpened()) {
-//    CommandHandler command = null;
-//    if (commands.containsKey(input)) {
-//       command = commands.get(input);
-//    } else {
-//       command = commands.get(commandKey);
-//    }
-//    if (command != null) {
-//      try {
-//        command.execute(commandAsParts);
-//        if (fileHandler.isSessionLoaded()) {
-//          System.out.println("Use > \"graphics\" to show advanced commands.");
-//        }
-//      } catch (IOException e) {
-//        System.err.println("Error executing command: " + e.getMessage());
-//      }
-//    } else {
-//      System.out.println("Command handler for \"" + commandKey + "\" is null. Please check if the command is correctly implemented.");
-//    }
-//  } else {
-//    System.out.println("Unknown command \"" + commandKey + "\" ");
-//  }
 }
-
 }

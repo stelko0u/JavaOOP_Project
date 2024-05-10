@@ -13,9 +13,16 @@ import java.util.*;
 public class LoadCommand implements CommandHandler {
   private XMLFileHandler fileHandler;
   private boolean isFound = false;
+  private StringBuilder loadedImageBuffer;
+
+  public StringBuilder getLoadedImageBuffer() {
+    return loadedImageBuffer;
+  }
 
   public LoadCommand() {
+
     this.fileHandler = XMLFileHandler.getInstance();
+    this.loadedImageBuffer = new StringBuilder();
   }
 
   @Override
@@ -33,13 +40,27 @@ public class LoadCommand implements CommandHandler {
     loadSessionImage(sessionName);
   }
   private void loadSessionImage(String sessionName) {
+    fileHandler.setFileNameLoadedImage(sessionName);
     String imagePath = "images/" + sessionName;
     Set<Session> sessions = fileHandler.getSessions();
+
+    loadedImageBuffer.setLength(0);
 
     for (Session session : sessions) {
       if (imagePath.equals(session.getFileName())) {
         isFound = true;
-        break;
+        try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
+          String line;
+          while ((line = reader.readLine()) != null) {
+            loadedImageBuffer.append(line).append("\n");
+          }
+
+          System.out.println("Image loaded successfully:");
+          System.out.println(loadedImageBuffer.toString());
+        } catch (IOException e) {
+          System.out.println("Error loading image: " + e.getMessage());
+        }
+        return;
       }
     }
 
@@ -50,7 +71,7 @@ public class LoadCommand implements CommandHandler {
         while ((line = reader.readLine()) != null) {
           imageContent.append(line).append("\n");
         }
-
+        fileHandler.setLoadedImage(imageContent.toString());
         System.out.println("Image loaded successfully:");
         System.out.println(imageContent.toString());
       } catch (IOException e) {

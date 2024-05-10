@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"bg.tu_varna.f22621629"},{"l":"bg.tu_varna.f22621629.Commands"},{"l":"bg.tu_varna.f22621629.Handlers"},{"l":"bg.tu_varna.f22621629.Models"}];updateSearchResults();

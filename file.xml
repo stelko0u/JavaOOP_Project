@@ -25,15 +25,7 @@
         </transformations>
     </session>
 <session id="4">
-    <image name="test.pbm">
-    </image>
-    <transformations>
-        <grayscale/>
-        <monochrome/>
-    </transformations>
-</session>
-<session id="5">
-    <image name="test.pbm">
+    <image name="proba.pbm">
     </image>
     <transformations>
         <grayscale/>

@@ -42,7 +42,7 @@ public class RotateImage implements CommandHandler {
             return;
           }
 
-          String rotatedImageData = rotateImage(imageData.toString(), direction);
+          String rotatedImageData = rotateImage(session.getFileName() ,imageData.toString(), direction);
 
           String rotatedImagePath = IMAGES_FOLDER + getRotatedFileName(session.getFileName(), direction);
           try (BufferedWriter writer = new BufferedWriter(new FileWriter(rotatedImagePath))) {
@@ -52,7 +52,7 @@ public class RotateImage implements CommandHandler {
             return;
           }
 
-          System.out.println("Image rotated successfully: " + session.getFileName());
+//          System.out.println("Image rotated successfully: " + session.getFileName());
         } else {
           System.out.println("Unsupported image format for rotation: " + session.getFileName());
         }
@@ -72,51 +72,96 @@ public class RotateImage implements CommandHandler {
     return false;
   }
 
-  private String rotateImage(String imageData, String direction) {
+  private String rotateImage(String fileName, String imageData, String direction) {
     StringBuilder rotatedImageData = new StringBuilder();
-
     String[] lines = imageData.split("\n");
 
+
     if (lines[0].startsWith("P1")) {
-      return imageData;
-    } else if (lines[0].startsWith("P2")) {
-      int height = Integer.parseInt(lines[2].split("\\s+")[1]);
-      int width = lines[2].split("\\s+").length;
+      String[][] rotatedImage;
+      String[][] pixels;
+      String[] sizes;
+      int width = 0;
+      int height = 0;
 
-      char[][] pixels = new char[height][width];
+      if (direction.equalsIgnoreCase("right")) {
+          sizes = lines[1].split(" ");
+          width = Integer.parseInt(sizes[0]);
+          height = Integer.parseInt(sizes[1]);
 
-      for (int i = 0; i < height; i++) {
-        String[] row = lines[i + 3].split("\\s+");
-        for (int j = 0; j < width; j++) {
-          pixels[i][j] = row[j].charAt(0);
-        }
-      }
-
-      if (direction.equals("right")) {
-        for (int j = 0; j < width; j++) {
-          for (int i = height - 1; i >= 0; i--) {
-            rotatedImageData.append(pixels[i][j]);
-            if (i > 0) {
-              rotatedImageData.append(" ");
-            }
+          pixels = new String[height][];
+          rotatedImage = new String[width][height];
+          for (int i = 2; i < lines.length; i++) {
+            String[] row = lines[i].split("\\s+");
+            pixels[i - 2] = row;
           }
-          if (j < width - 1) {
-            rotatedImageData.append("\n");
-          }
-        }
-      } else if (direction.equals("left")) {
-        for (int j = width - 1; j >= 0; j--) {
+
           for (int i = 0; i < height; i++) {
-            rotatedImageData.append(pixels[i][j]);
-            if (i < height - 1) {
-              rotatedImageData.append(" ");
+            for (int j = 0; j < width; j++) {
+              rotatedImage[j][height - 1 - i] = pixels[i][j];
             }
           }
-          if (j > 0) {
-            rotatedImageData.append("\n");
+        }
+
+        if (direction.equalsIgnoreCase("left")) {
+          sizes = lines[1].split(" ");
+          width = Integer.parseInt(sizes[0]);
+          height = Integer.parseInt(sizes[1]);
+
+          pixels = new String[height][];
+          rotatedImage = new String[width][height];
+          for (int i = 2; i < lines.length; i++) {
+            String[] row = lines[i].split("\\s+");
+            pixels[i - 2] = row;
+          }
+
+          for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+              rotatedImage[width - 1 - j][i] = pixels[i][j];
+            }
           }
         }
+
+
+
+    }
+
+    if (lines[0].startsWith("P2")) {
+      String[] sizes = lines[2].split(" ");
+      int width = Integer.parseInt(sizes[0]);
+      int height = Integer.parseInt(sizes[1]);
+
+      int[][] pixels = new int[height][width];
+
+      int lineIndex = 4;
+      for (int i = 0; i < height; i++) {
+        String[] pixelValues = lines[lineIndex++].trim().split("\\s+");
+        for (int j = 0; j < width; j++) {
+          pixels[i][j] = Integer.parseInt(pixelValues[j]);
+        }
       }
+
+      int[][] rotatedImage = new int[width][height];
+      for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+          rotatedImage[i][j] = pixels[j][width - 1 - i];
+        }
+      }
+
+      System.out.println("P2");
+      System.out.println("# stelko_rotated.pgm");
+      System.out.println(height + " " + width);
+      System.out.println("15");
+      for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+          System.out.print(rotatedImage[i][j] + " ");
+        }
+        System.out.println();
+      }
+
+
+
+
     } else if (lines[0].startsWith("P3")) {
       int width = Integer.parseInt(lines[1].split("\\s+")[0]);
       int height = Integer.parseInt(lines[1].split("\\s+")[1]);
