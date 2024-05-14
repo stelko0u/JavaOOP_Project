@@ -45,7 +45,10 @@ public class LoadCommand implements CommandHandler {
     Set<Session> sessions = fileHandler.getSessions();
 
     loadedImageBuffer.setLength(0);
-
+    if(fileHandler.getCurrentSession() == null) {
+      System.out.println("First you need to switch to some session, you can see the sessions from > session info");
+      return;
+    }
       if (imagePath.equals("images/" + fileHandler.getCurrentSession().getFileName())) {
         isFound = true;
         try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {

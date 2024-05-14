@@ -25,21 +25,42 @@ public class NegativeCommand implements CommandHandler {
       return;
     }
     String loadedImageAsString = fileHandler.getLoadedImage();
+    if (loadedImageAsString == null || loadedImageAsString.length() == 0) {
+      System.out.println("No image is currently loaded. Please load an image first.");
+      return;
+    }
     StringBuilder loadedImageBuffer = new StringBuilder(loadedImageAsString);
     if (loadedImageBuffer == null || loadedImageBuffer.length() == 0) {
       System.out.println("No image is currently loaded. Please load an image first.");
       return;
     }
 
-    // Приложете ефекта "Negative" върху зареденото изображение
     String modifiedImageData = applyNegativeEffect(loadedImageBuffer.toString());
 
-    // Създайте нов файл с модифицираното изображение
     String negativeFileName = "negative_" + fileHandler.getFileNameLoadedImage();
     String negativeImagePath = IMAGES_FOLDER + negativeFileName;
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(negativeImagePath))) {
       writer.write(modifiedImageData);
       System.out.println("Negative effect applied successfully to: " + fileHandler.getFileNameLoadedImage());
+
+      String currentFile = fileHandler.getFileName();
+      if (currentFile == null) {
+        System.out.println("Error: No file is currently open.");
+        return;
+      }
+
+      int nextId = fileHandler.getSessions().size() + 1;
+
+      String newImageElement = "<session id=\"" + nextId + "\">\n" +
+              "    <image name=\"" + negativeFileName + "\">\n" +
+              "    </image>\n" +
+              "    <transformations>\n" +
+              "        <grayscale/>\n" +
+              "        <monochrome/>\n" +
+              "    </transformations>\n" +
+              "</session>\n";
+      fileHandler.setNextLocalImage(newImageElement);
+      System.out.println("Image added to session successfully.");
     } catch (IOException e) {
       e.printStackTrace();
     }

@@ -3,65 +3,21 @@
     <session id="1">
         <image name="proba.pbm">
         </image>
-        <transformations>
-            <grayscale/>
-            <monochrome/>
-        </transformations>
-    </session>
-<session id="2">
-    <image name="test.pbm">
-    </image>
-    <transformations>
-        <grayscale/>
-        <monochrome/>
-    </transformations>
-</session>
-    <session id="3">
-        <image name="A.pbm">
+  </session>
+    <session id="2">
+        <image name="D.pbm">
         </image>
-        <transformations>
-            <grayscale/>
-            <monochrome/>
-        </transformations>
+   </session>
+    <session id="3">
+        <image name="UA.pbm">
+        </image>
+        <image name="P2.pgm">
+        </image>
+   </session>
+    <session id="4">
+        <image name="UA.pbm">
+        </image>
+        <image name="s.ppm">
+        </image>
     </session>
-<session id="4">
-    <image name="I.pbm">
-    </image>
-    <transformations>
-        <grayscale/>
-        <monochrome/>
-    </transformations>
-</session>
-<session id="5">
-    <image name="U.pbm">
-    </image>
-    <transformations>
-        <grayscale/>
-        <monochrome/>
-    </transformations>
-</session>
-<session id="6">
-    <image name="D.pbm">
-    </image>
-    <transformations>
-        <grayscale/>
-        <monochrome/>
-    </transformations>
-</session>
-<session id="7">
-    <image name="P2.pgm">
-    </image>
-    <transformations>
-        <grayscale/>
-        <monochrome/>
-    </transformations>
-</session>
-<session id="8">
-    <image name="s.ppm">
-    </image>
-    <transformations>
-        <grayscale/>
-        <monochrome/>
-    </transformations>
-</session>
 </sessions>

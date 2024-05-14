@@ -31,6 +31,7 @@ public class SwitchCommand implements CommandHandler {
     for (Session session : sessions) {
       if (Integer.toString(session.getId()).equals(sessionId)) {
         sessionFound = true;
+        fileHandler.setCurrentSessionNumber(Integer.parseInt(sessionId));
         fileHandler.setCurrentSession(session);
         System.out.println("Switched to session with ID: " + sessionId);
         break;

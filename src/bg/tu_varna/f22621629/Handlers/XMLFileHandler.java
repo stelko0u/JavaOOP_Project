@@ -24,6 +24,7 @@ public class XMLFileHandler {
   private String loadedImage;
   private String fileNameLoadedImage;
   private Session currentSession;
+  private int currentSessionNumber;
 
 
 
@@ -104,10 +105,33 @@ public class XMLFileHandler {
     this.content = content;
   }
 
+  public int getCurrentSessionNumber() {
+    return currentSessionNumber;
+  }
+
+  public void setCurrentSessionNumber(int currentSessionNumber) {
+    this.currentSessionNumber = currentSessionNumber;
+  }
+
   public void printSessions() {
-    System.out.println("Sessions:");
+    Set<Session> sessions = getSessions();
+
     for (Session session : sessions) {
-      System.out.println(session.toString());
+      System.out.println("Session ID: " + session.getId());
+      System.out.println(" * Files in session:");
+      System.out.println("   - " + session.getFileName());
+
+      String fileName = session.getFileName();
+      String[] extensionsToCheck = {"_negative", "_rotated_left","_rotated_right", "_monochrome", "_grayscale"};
+
+      for (String extension : extensionsToCheck) {
+        String alternativeFileName = fileName + extension;
+        File alternativeFile = new File("images/" + alternativeFileName);
+        if (alternativeFile.exists()) {
+          System.out.println("  " + alternativeFileName);
+        }
+      }
+      System.out.print("\n");
     }
 
   }
@@ -191,4 +215,23 @@ public class XMLFileHandler {
         System.out.println("NullPointerException occurred: " + e.getMessage());
       }
     }
+
+    public Session findSessionByNumber(int sessionNumber) {
+      for(Session session : sessions) {
+        if(session.getId() == sessionNumber) {
+          return session;
+        }
+      }
+    return null;
+    }
+
+
+  public void setNextLocalImageForSession(int sessionNumber, String newImageElement) {
+    Session session = findSessionByNumber(sessionNumber);
+    if (session != null) {
+      session.setTransformations(newImageElement);
+    } else {
+      System.out.println("Session with number " + sessionNumber + " not found.");
+    }
+  }
   }

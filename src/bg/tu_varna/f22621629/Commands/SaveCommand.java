@@ -1,6 +1,7 @@
 package bg.tu_varna.f22621629.Commands;
 
 import bg.tu_varna.f22621629.Handlers.CommandHandler;
+import bg.tu_varna.f22621629.Handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.Handlers.XMLFileHandler;
 
 import java.io.*;
@@ -13,7 +14,7 @@ public class SaveCommand implements CommandHandler {
   }
 
   @Override
-  public void execute(String[] command) throws IOException {
+  public void execute(String[] command) throws IOException, FileExceptionHandler {
     String currentFile = fileHandler.getFileName();
     if (currentFile == null) {
       System.out.println("Error: No file is currently open.");
@@ -31,20 +32,18 @@ public class SaveCommand implements CommandHandler {
       boolean sessionFound = false;
 
       while ((line = reader.readLine()) != null) {
-        if (line.trim().equals("</sessions>")) {
-          if (!sessionFound) {
-            content.append(fileHandler.getNextLocalImage());
-          }
+        if (line.trim().equals("</session>")) {
+
           content.append(line).append("\n");
-          sessionFound = true;
+
         } else {
           content.append(line).append("\n");
+          if (line.contains("<session id=\"" + fileHandler.getCurrentSessionNumber() + "\">")) {
+            content.append(fileHandler.getCurrentSession().getTransformations());
+          }
         }
       }
 
-      if (!sessionFound) {
-        content.append(fileHandler.getNextLocalImage());
-      }
 
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile))) {
         writer.write(content.toString());
@@ -57,5 +56,6 @@ public class SaveCommand implements CommandHandler {
     }
 
     System.out.println("Changes successfully saved to the file.");
+    fileHandler.open(fileHandler.getFileName());
   }
 }
