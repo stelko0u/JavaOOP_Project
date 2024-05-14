@@ -23,6 +23,7 @@ public class XMLFileHandler {
   private String nextLocalImage;
   private String loadedImage;
   private String fileNameLoadedImage;
+  private Session currentSession;
 
 
 
@@ -137,6 +138,13 @@ public class XMLFileHandler {
   }
   public void setSessionLoaded(boolean sessionLoaded) {
     isSessionLoaded = sessionLoaded;
+  }
+  public void setCurrentSession(Session session) {
+    this.currentSession = session;
+  }
+
+  public Session getCurrentSession() {
+    return currentSession;
   }
 
   public void setLoadedImage(String loadedImage) {

@@ -40,16 +40,16 @@ public class LoadCommand implements CommandHandler {
     loadSessionImage(sessionName);
   }
   private void loadSessionImage(String sessionName) {
-    fileHandler.setFileNameLoadedImage(sessionName);
+
     String imagePath = "images/" + sessionName;
     Set<Session> sessions = fileHandler.getSessions();
 
     loadedImageBuffer.setLength(0);
 
-    for (Session session : sessions) {
-      if (imagePath.equals(session.getFileName())) {
+      if (imagePath.equals("images/" + fileHandler.getCurrentSession().getFileName())) {
         isFound = true;
         try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
+          fileHandler.setFileNameLoadedImage(sessionName);
           String line;
           while ((line = reader.readLine()) != null) {
             loadedImageBuffer.append(line).append("\n");
@@ -62,9 +62,8 @@ public class LoadCommand implements CommandHandler {
         }
         return;
       }
-    }
 
-    if (isValidImageFile(imagePath) || isFound) {
+    if (isValidImageFile(imagePath) && isFound) {
       try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
         StringBuilder imageContent = new StringBuilder();
         String line;

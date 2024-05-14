@@ -29,6 +29,7 @@ public class CommandProcessor {
     commands.put("rotate", new RotateImage());
     commands.put("add", new AddImageCommand());
     commands.put("collage", new CollageCommand());
+    commands.put("switch", new SwitchCommand());
 
   }
 
