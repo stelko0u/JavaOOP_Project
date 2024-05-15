@@ -1,11 +1,9 @@
 package bg.tu_varna.f22621629;
 
-import bg.tu_varna.f22621629.Handlers.FileExceptionHandler;
-import bg.tu_varna.f22621629.Handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.handlers.CommandsException;
+import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
+import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 /** Application **/
@@ -27,6 +25,8 @@ public class Application {
       try {
         commandProcessor.proccessingCommands(input);
       } catch (IOException | FileExceptionHandler e) {
+        throw new RuntimeException(e);
+      } catch (CommandsException e) {
         throw new RuntimeException(e);
       }
     }

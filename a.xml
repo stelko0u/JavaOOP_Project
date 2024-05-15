@@ -1,23 +1,15 @@
 
 <sessions>
     <session id="1">
-        <image name="proba.pbm">
+        <image name="P1.pbm">
         </image>
-  </session>
+    </session>
     <session id="2">
-        <image name="D.pbm">
-        </image>
-   </session>
-    <session id="3">
-        <image name="UA.pbm">
-        </image>
         <image name="P2.pgm">
         </image>
-   </session>
-    <session id="4">
-        <image name="UA.pbm">
-        </image>
-        <image name="s.ppm">
+    </session>
+    <session id="3">
+        <image name="P3.ppm">
         </image>
     </session>
 </sessions>
