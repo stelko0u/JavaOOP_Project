@@ -1,3 +1,7 @@
+/**
+ * The GrayScaleCommand class implements the CommandHandler interface to handle the grayscale conversion command.
+ * It converts color images to grayscale images in the current session.
+ */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -7,14 +11,22 @@ import bg.tu_varna.f22621629.models.Session;
 import java.io.*;
 import java.util.List;
 
-
 public class GrayScaleCommand implements CommandHandler {
+
   private XMLFileHandler fileHandler;
 
+  /**
+   * Constructs a GrayScaleCommand object and initializes the XMLFileHandler instance.
+   */
   public GrayScaleCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
 
+  /**
+   * Executes the command to convert color images to grayscale images in the current session.
+   * @param args The command arguments (not used in this command).
+   * @throws IOException if an I/O error occurs.
+   */
   @Override
   public void execute(String[] args) throws IOException {
     if (!fileHandler.isFileOpened()) {
@@ -42,6 +54,11 @@ public class GrayScaleCommand implements CommandHandler {
     }
   }
 
+  /**
+   * Checks if the image file is in color format.
+   * @param fileName The file name of the image.
+   * @return true if the image is in color format, false otherwise.
+   */
   private boolean isColorImage(String fileName) {
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       String line;
@@ -54,6 +71,10 @@ public class GrayScaleCommand implements CommandHandler {
     return false;
   }
 
+  /**
+   * Applies the grayscale effect to the color image and saves the result.
+   * @param fileName The file name of the image to be converted.
+   */
   private void applyGrayScaleEffect(String fileName) {
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       StringBuilder imageAsString = new StringBuilder();
@@ -98,5 +119,3 @@ public class GrayScaleCommand implements CommandHandler {
     }
   }
 }
-
-

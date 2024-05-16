@@ -1,3 +1,6 @@
+/**
+ * The Application class represents the entry point of the Raster graphics application.
+ */
 package bg.tu_varna.f22621629;
 
 import bg.tu_varna.f22621629.handlers.CommandsException;
@@ -6,9 +9,18 @@ import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 
 import java.io.IOException;
 import java.util.Scanner;
-/** Application **/
+
+/**
+ * The Application class represents the entry point of the Raster graphics application.
+ */
 public class Application {
-  public static void main(String[] args) {
+
+  /**
+   * The main method starts the application, initializes necessary components,
+   * and processes user commands.
+   * @param args Command-line arguments (not used).
+   */
+  public static void main(String[] args) throws CommandsException {
     System.out.println("Welcome to Raster graphics application. Type \"help\" to show basic commands!");
     XMLFileHandler fileHandler = XMLFileHandler.getInstance();
     CommandProcessor commandProcessor = new CommandProcessor(fileHandler);
@@ -23,10 +35,8 @@ public class Application {
       }
 
       try {
-        commandProcessor.proccessingCommands(input);
+        commandProcessor.processingCommands(input);
       } catch (IOException | FileExceptionHandler e) {
-        throw new RuntimeException(e);
-      } catch (CommandsException e) {
         throw new RuntimeException(e);
       }
     }

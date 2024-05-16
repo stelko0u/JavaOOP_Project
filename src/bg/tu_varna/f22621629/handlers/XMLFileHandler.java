@@ -74,7 +74,7 @@ public class XMLFileHandler {
         }
         if (sessionId != null && fileName != null) {
           saveSession(Integer.parseInt(sessionId), fileName);
-          sessionId = null;
+//          sessionId = null;
           fileName = null;
         }
       }

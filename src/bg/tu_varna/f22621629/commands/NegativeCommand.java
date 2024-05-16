@@ -1,3 +1,7 @@
+/**
+ * The NegativeCommand class implements the CommandHandler interface to handle the application of negative effect to an image.
+ * It interacts with an XMLFileHandler instance to manage file operations.
+ */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -5,15 +9,23 @@ import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 
 import java.io.*;
 
-
 public class NegativeCommand implements CommandHandler {
+
   private XMLFileHandler fileHandler;
   private static final String IMAGES_FOLDER = "images\\";
 
+  /**
+   * Constructs a NegativeCommand object and initializes the XMLFileHandler instance.
+   */
   public NegativeCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
 
+  /**
+   * Executes the command to apply negative effect to the loaded image.
+   * @param args The command arguments (not used in this command).
+   * @throws IOException if an I/O error occurs.
+   */
   @Override
   public void execute(String[] args) throws IOException {
     XMLFileHandler fileHandler = XMLFileHandler.getInstance();
@@ -51,10 +63,6 @@ public class NegativeCommand implements CommandHandler {
       String newImageElement = "<session id=\"" + nextId + "\">\n" +
               "    <image name=\"" + negativeFileName + "\">\n" +
               "    </image>\n" +
-              "    <transformations>\n" +
-              "        <grayscale/>\n" +
-              "        <monochrome/>\n" +
-              "    </transformations>\n" +
               "</session>\n";
       fileHandler.setNextLocalImage(newImageElement);
       System.out.println("Image added to session successfully.");
@@ -63,8 +71,11 @@ public class NegativeCommand implements CommandHandler {
     }
   }
 
-
-
+  /**
+   * Applies the negative effect to the image data.
+   * @param imageData The image data as a string.
+   * @return The modified image data after applying the negative effect.
+   */
   private String applyNegativeEffect(String imageData) {
     StringBuilder modifiedImageData = new StringBuilder();
 
@@ -153,10 +164,20 @@ public class NegativeCommand implements CommandHandler {
     return modifiedImageData.toString();
   }
 
+  /**
+   * Inverts the value to apply the negative effect.
+   * @param value The original value.
+   * @return The inverted value.
+   */
   private int invert(int value) {
     return 255 - value;
   }
 
+  /**
+   * Generates the negative file name for the original file.
+   * @param originalFileName The original file name.
+   * @return The negative file name.
+   */
   private String getNegativeFileName(String originalFileName) {
     int dotIndex = originalFileName.lastIndexOf(".");
     String fileNameWithoutExtension = originalFileName.substring(0, dotIndex);

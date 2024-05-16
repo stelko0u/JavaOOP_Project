@@ -7,13 +7,25 @@ import bg.tu_varna.f22621629.models.Session;
 import java.io.*;
 import java.util.List;
 
+/**
+ * The MonoChromeCommand class represents a command for converting color images to monochrome.
+ */
 public class MonoChromeCommand implements CommandHandler {
+
   private XMLFileHandler fileHandler;
 
+  /**
+   * Constructs a MonoChromeCommand object.
+   */
   public MonoChromeCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
 
+  /**
+   * Executes the monochrome conversion command.
+   * @param args Command arguments (not used).
+   * @throws IOException If an I/O error occurs.
+   */
   @Override
   public void execute(String[] args) throws IOException {
     if (!fileHandler.isFileOpened()) {
@@ -41,6 +53,11 @@ public class MonoChromeCommand implements CommandHandler {
     }
   }
 
+  /**
+   * Checks if the image file is in color format.
+   * @param fileName The name of the image file.
+   * @return True if the image is in color format, false otherwise.
+   */
   private boolean isColorImage(String fileName) {
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       String line;
@@ -53,6 +70,10 @@ public class MonoChromeCommand implements CommandHandler {
     return false;
   }
 
+  /**
+   * Applies the monochrome effect to the color image.
+   * @param fileName The name of the image file.
+   */
   private void applyMonochromeEffect(String fileName) {
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       StringBuilder imageAsString = new StringBuilder();

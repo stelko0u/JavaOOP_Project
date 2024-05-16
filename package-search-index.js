@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"bg.tu_varna.f22621629"},{"l":"bg.tu_varna.f22621629.Commands"},{"l":"bg.tu_varna.f22621629.Handlers"},{"l":"bg.tu_varna.f22621629.Models"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"bg.tu_varna.f22621629"},{"l":"bg.tu_varna.f22621629.commands"},{"l":"bg.tu_varna.f22621629.enums"},{"l":"bg.tu_varna.f22621629.handlers"},{"l":"bg.tu_varna.f22621629.models"}];updateSearchResults();

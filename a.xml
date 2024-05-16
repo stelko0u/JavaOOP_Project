@@ -1,11 +1,19 @@
 
 <sessions>
     <session id="1">
+        <image name="stelkoasd.ppm">
+        </image>
+        <image name="P1_rotated_left_rotated_left.pbm">
+        </image>
+        <image name="P1_rotated_left.pbm">
+        </image>
         <image name="P1.pbm">
         </image>
     </session>
     <session id="2">
         <image name="P2.pgm">
+        </image>
+        <image name="P1.pgm">
         </image>
     </session>
     <session id="3">

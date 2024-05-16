@@ -1,3 +1,7 @@
+/**
+ * The SwitchCommand class implements the CommandHandler interface to handle the switch command.
+ * It switches to the specified session by ID.
+ */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -9,11 +13,22 @@ import java.io.IOException;
 import java.util.Set;
 
 public class SwitchCommand implements CommandHandler {
+
   private final XMLFileHandler fileHandler;
+
+  /**
+   * Constructs a SwitchCommand object and initializes the XMLFileHandler instance.
+   */
   public SwitchCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
 
+  /**
+   * Executes the command to switch to the specified session by ID.
+   * @param args The command arguments containing the session ID to switch to.
+   * @throws IOException if an I/O error occurs.
+   * @throws FileExceptionHandler if an error related to file handling occurs.
+   */
   @Override
   public void execute(String[] args) throws IOException, FileExceptionHandler {
     if (args.length < 2) {
@@ -21,8 +36,6 @@ public class SwitchCommand implements CommandHandler {
       return;
     };
     String sessionId = args[1];
-
-
 
     Set<Session> sessions = fileHandler.getSessions();
 
