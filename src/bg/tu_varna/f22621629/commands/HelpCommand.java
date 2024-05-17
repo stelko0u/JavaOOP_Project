@@ -1,12 +1,11 @@
-/**
- * The HelpCommand class implements the CommandHandler interface to display available commands and their descriptions.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 
 import java.io.IOException;
-
+/**
+ * The HelpCommand class implements the CommandHandler interface to display available commands and their descriptions.
+ */
 public class HelpCommand implements CommandHandler {
 
   /**

@@ -1,7 +1,3 @@
-/**
- * The GrayScaleCommand class implements the CommandHandler interface to handle the grayscale conversion command.
- * It converts color images to grayscale images in the current session.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -10,7 +6,10 @@ import bg.tu_varna.f22621629.models.Session;
 
 import java.io.*;
 import java.util.List;
-
+/**
+ * The GrayScaleCommand class implements the CommandHandler interface to handle the grayscale conversion command.
+ * It converts color images to grayscale images in the current session.
+ */
 public class GrayScaleCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;

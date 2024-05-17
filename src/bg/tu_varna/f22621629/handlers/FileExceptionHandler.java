@@ -1,9 +1,8 @@
+package bg.tu_varna.f22621629.handlers;
 /**
  * The FileExceptionHandler class represents an exception specific to file handling.
  * It is used to indicate exceptional conditions that occur during file-related operations.
  */
-package bg.tu_varna.f22621629.handlers;
-
 public class FileExceptionHandler extends Exception {
 
   /**

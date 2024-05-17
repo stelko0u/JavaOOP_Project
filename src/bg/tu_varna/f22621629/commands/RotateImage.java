@@ -319,10 +319,17 @@ public class RotateImage implements CommandHandler {
 
 
     if (lines[0].startsWith("P3")) {
+
+      int[][][] pixelMatrix;
       // P3 RIGHT
       if (direction.equalsIgnoreCase("right")) {
         String[] data = imageData.split("\n");
+
+        int width = Integer.parseInt(data[1].split(" ")[0]);
+        int height = Integer.parseInt(data[1].split(" ")[1]);
+        int maxValue = Integer.parseInt(data[1].split(" ")[2]);
         matrix = new int[data.length - 2][data.length - 2];
+        pixelMatrix = new int[width][height][maxValue];
 
         for (int i = 0; i < data.length - 2; i++) {
           String[] values = data[i + 2].split("\\s+");
@@ -331,45 +338,87 @@ public class RotateImage implements CommandHandler {
             matrix[i][j] = Integer.parseInt(values[j]);
           }
         }
-        int row = matrix.length;
-        int cols = matrix[0].length;
-        for (int i = 0; i < row; i++) {
-          for (int j = i; j < cols; j++) {
-            int temp = matrix[i][j];
-            matrix[i][j] = matrix[j][i];
-            matrix[j][i] = temp;
+
+        for(int i = 0; i < height; i++) {
+          for (int j = 0; j < width; j++) {
+            pixelMatrix[i][j] = matrix[i * width + j];
           }
         }
 
-        for (int i = 0; i < row; i++) {
-          for (int j = 0; j < cols / 2; j++) {
-            int temp = matrix[i][j];
-            matrix[i][j] = matrix[i][cols - 1 - j];
-            matrix[i][cols - 1 - j] = temp;
-          }
-        }
-
+        int[][][] rotatedMatrix = rotatedCounterClockwise(pixelMatrix, width, height);
         System.out.println("\nSuccessfully rotated on 90 degrees clockwise");
+
+        System.out.println("P3");
         rotatedImageData.append("P3").append("\n");
-        rotatedImageData.append(matrix.length / 2).append(" ").append(matrix.length / 2).append(" ").append(255).append("\n");
-        for (int[] rows : matrix) {
-          for (int i = 0; i < rows.length; i++) {
-            System.out.print(rows[i]);
-            rotatedImageData.append(rows[i]);
-            if (i < rows.length - 1) {
-              System.out.print(" ");
-              rotatedImageData.append(" ");
+        rotatedImageData.append(width).append(" ")
+                .append(height).append(" ").append(maxValue).append("\n");
+        System.out.println(width + " " + height + " " + maxValue);
+        for (int i = 0; i < width; i++) {
+          for (int j = 0; j < height; j++) {
+            System.out.println(rotatedMatrix[i][j][0] + " " + rotatedMatrix[i][j][1] + " " + rotatedMatrix[i][j][2]);
+
+            rotatedImageData
+                    .append(rotatedMatrix[i][j][0]).append(" ")
+                    .append(rotatedMatrix[i][j][1]).append(" ")
+                    .append(rotatedMatrix[i][j][2]);
+            if (j < height) {
+              rotatedImageData.append("\n");
             }
+
           }
-          rotatedImageData.append("\n");
-          System.out.println();
         }
+
+
+//        for (int i = 0; i < data.length - 2; i++) {
+//          String[] values = data[i + 2].split("\\s+");
+//          matrix[i] = new int[values.length];
+//          for (int j = 0; j < values.length; j++) {
+//            matrix[i][j] = Integer.parseInt(values[j]);
+//          }
+//        }
+//        int row = matrix.length;
+//        int cols = matrix[0].length;
+//        for (int i = 0; i < row; i++) {
+//          for (int j = i; j < cols; j++) {
+//            int temp = matrix[i][j];
+//            matrix[i][j] = matrix[j][i];
+//            matrix[j][i] = temp;
+//          }
+//        }
+//
+//        for (int i = 0; i < row; i++) {
+//          for (int j = 0; j < cols / 2; j++) {
+//            int temp = matrix[i][j];
+//            matrix[i][j] = matrix[i][cols - 1 - j];
+//            matrix[i][cols - 1 - j] = temp;
+//          }
+//        }
+
+//        rotatedImageData.append("P3").append("\n");
+//        rotatedImageData.append(matrix.length / 2).append(" ").append(matrix.length / 2).append(" ").append(255).append("\n");
+//        for (int[] rows : matrix) {
+//          for (int i = 0; i < rows.length; i++) {
+//            System.out.print(rows[i]);
+//            rotatedImageData.append(rows[i]);
+//            if (i < rows.length - 1) {
+//              System.out.print(" ");
+//              rotatedImageData.append(" ");
+//            }
+//          }
+//          rotatedImageData.append("\n");
+//          System.out.println();
+//        }
       }
 
       // P3 LEFT
       if (direction.equalsIgnoreCase("left")) {
         String[] data = imageData.split("\n");
+
+        int width = Integer.parseInt(data[1].split(" ")[0]);
+        int height = Integer.parseInt(data[1].split(" ")[1]);
+        int maxValue = Integer.parseInt(data[1].split(" ")[2]);
         matrix = new int[data.length - 2][data.length - 2];
+        pixelMatrix = new int[width][height][maxValue];
 
         for (int i = 0; i < data.length - 2; i++) {
           String[] values = data[i + 2].split("\\s+");
@@ -379,34 +428,35 @@ public class RotateImage implements CommandHandler {
           }
         }
 
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-
-
-        int[][] rotatedMatrix = new int[cols][rows];
-        for (int i = 0; i < rows; i++) {
-          for (int j = 0; j < cols; j++) {
-            rotatedMatrix[cols - 1 - j][i] = matrix[i][j];
+        for(int i = 0; i < height; i++) {
+          for (int j = 0; j < width; j++) {
+            pixelMatrix[i][j] = matrix[i * width + j];
           }
         }
 
-        System.out.println("\nSuccessfully rotated 90 degrees counterclockwise:");
-        rotatedImageData.append("P2").append("\n");
-        rotatedImageData.append(matrix.length / 2).append(" ").append(matrix.length / 2).append(" ").append(255).append("\n");
-        for (int[] row : rotatedMatrix) {
-          for (int i = 0; i < row.length; i++) {
-            System.out.print(row[i]);
-            rotatedImageData.append(row[i]);
-            if (i < row.length - 1) {
-              System.out.print(" ");
-              rotatedImageData.append(" ");
+        int[][][] rotatedMatrix = rotatedClockwise(pixelMatrix, width, height);
+        System.out.println("\nSuccessfully rotated on 90 degrees clockwise");
+
+        System.out.println("P3");
+        rotatedImageData.append("P3").append("\n");
+        rotatedImageData.append(width).append(" ")
+                .append(height).append(" ").append(maxValue).append("\n");
+        System.out.println(width + " " + height + " " + maxValue);
+        for (int i = 0; i < width; i++) {
+          for (int j = 0; j < height; j++) {
+            System.out.println(rotatedMatrix[i][j][0] + " " + rotatedMatrix[i][j][1] + " " + rotatedMatrix[i][j][2]);
+
+            rotatedImageData
+                    .append(rotatedMatrix[i][j][0]).append(" ")
+                    .append(rotatedMatrix[i][j][1]).append(" ")
+                    .append(rotatedMatrix[i][j][2]);
+            if (j < height) {
+              rotatedImageData.append("\n");
             }
           }
-          rotatedImageData.append("\n");
-          System.out.println();
         }
-
-      }    }
+      }
+    }
 
     return rotatedImageData.toString();
   }
@@ -424,5 +474,23 @@ public class RotateImage implements CommandHandler {
     int dotIndex = originalFileName.lastIndexOf(".");
     String fileNameWithoutExtension = originalFileName.substring(0, dotIndex);
     return fileNameWithoutExtension + "_rotated_" + direction + "." + originalFileName.substring(dotIndex + 1);
+  }
+  private int[][][] rotatedCounterClockwise(int[][][] matrix, int width, int height) {
+    int[][][] rotatedMatrix = new int[width][height][3];
+    for(int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        rotatedMatrix[width - 1 - j][i] = matrix[i][j];
+      }
+    }
+    return rotatedMatrix;
+  }
+  private int[][][] rotatedClockwise(int[][][] matrix, int width, int height) {
+    int[][][] rotatedMatrix = new int[width][height][3];
+    for(int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        rotatedMatrix[j][height - 1 - i] = matrix[i][j];
+      }
+    }
+    return rotatedMatrix;
   }
 }

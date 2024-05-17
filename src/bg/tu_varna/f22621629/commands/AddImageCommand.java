@@ -1,7 +1,3 @@
-/**
- * The AddImageCommand class implements the CommandHandler interface to handle the add image command.
- * It adds an image element to the current session in the XML file.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -9,6 +5,10 @@ import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 
 import java.io.IOException;
 
+/**
+ * The AddImageCommand class implements the CommandHandler interface to handle the add image command.
+ * It adds an image element to the current session in the XML file.
+ */
 public class AddImageCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;

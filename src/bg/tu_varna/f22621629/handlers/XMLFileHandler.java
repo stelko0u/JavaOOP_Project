@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * The XMLFileHandler class is responsible for handling XML file operations such as opening, reading, and
+ * saving sessions. This class follows the singleton pattern to ensure only one instance is created.
+ */
 public class XMLFileHandler {
   private String content;
   private static XMLFileHandler instance;
@@ -23,13 +26,19 @@ public class XMLFileHandler {
   private String fileNameLoadedImage;
   private Session currentSession;
   private int currentSessionNumber;
-
+  /**
+   * Private constructor to prevent direct instantiation.
+   */
   private XMLFileHandler() {
     this.isFileOpened = false;
     this.sessions = new LinkedHashSet<>();
   }
 
-
+  /**
+   * Returns the single instance of XMLFileHandler.
+   *
+   * @return the single instance of XMLFileHandler
+   */
   public static XMLFileHandler getInstance() {
     if (instance == null) {
       instance = new XMLFileHandler();
@@ -37,13 +46,21 @@ public class XMLFileHandler {
     return instance;
   }
 
-
+  /**
+   * Opens the specified XML file and loads its content.
+   *
+   * @param filePath the path of the file to be opened.
+   * @throws FileExceptionHandler if there is an error opening the file.
+   */
   public void open(String filePath) throws FileExceptionHandler {
     File file = new File(filePath);
     if (!file.exists()) {
       try {
         if (!file.createNewFile()) {
           throw new FileExceptionHandler("Failed to create a new file!");
+        } else {
+          writeInitialContentToFile(filePath);
+
         }
       } catch (IOException e) {
         throw new FileExceptionHandler("Error creating a new file.", e);
@@ -84,18 +101,33 @@ public class XMLFileHandler {
       throw new FileExceptionHandler("Error reading the file!");
     }
   }
-
+  /**
+   * Writes initial content to the specified file.
+   *
+   * @param filePath the path of the file to write to.
+   * @throws IOException if there is an error writing to the file.
+   */
   private void writeInitialContentToFile(String filePath) throws IOException {
     String initialContent = "<sessions>\n" +
             "   <session id=\"1\">\n" +
             "   </session>\n" +
-            "</sessions>";
+            "</sessions>"+
+              "<sessions>\n" +
+            "   <session id=\"2\">\n" +
+            "   </session>\n" +
+            "</sessions>"
+            ;
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
       writer.write(initialContent);
     }
   }
-
+  /**
+   * Saves a session with the specified session ID and file name.
+   *
+   * @param sessionId the ID of the session
+   * @param fileName  the name of the file to add to the session
+   */
   public void saveSession(int sessionId, String fileName) {
     Session existingSession = findSessionById(sessionId);
     if (existingSession != null) {
@@ -106,7 +138,12 @@ public class XMLFileHandler {
       sessions.add(session);
     }
   }
-
+  /**
+   * Finds a session by its ID.
+   *
+   * @param sessionId the ID of the session to find.
+   * @return the session with the given ID, or null if not found.
+   */
   private Session findSessionById(int sessionId) {
     for (Session session : sessions) {
       if (session.getId() == sessionId) {
@@ -115,27 +152,49 @@ public class XMLFileHandler {
     }
     return null;
   }
-
+  /**
+   * Checks if a file is opened.
+   *
+   * @return true if a file is opened, false otherwise.
+   */
   public boolean isFileOpened() {
     return isFileOpened;
   }
-
+  /**
+   * Sets the file opened status.
+   *
+   * @param fileOpened the file opened status to set.
+   */
   public void setFileOpened(boolean fileOpened) {
     isFileOpened = fileOpened;
   }
-
+  /**
+   * Sets the content of the file handler.
+   *
+   * @param content the content to set.
+   */
   public void setContent(String content) {
     this.content = content;
   }
-
+  /**
+   * Gets the current session number.
+   *
+   * @return the current session number.
+   */
   public int getCurrentSessionNumber() {
     return currentSessionNumber;
   }
-
+  /**
+   * Sets the current session number.
+   *
+   * @param currentSessionNumber the current session number to set.
+   */
   public void setCurrentSessionNumber(int currentSessionNumber) {
     this.currentSessionNumber = currentSessionNumber;
   }
-
+  /**
+   * Prints the sessions and their files to the console.
+   */
   public void printSessions() {
     Set<Session> sessions = getSessions();
     if (sessions.size() == 0) {
@@ -165,63 +224,124 @@ public class XMLFileHandler {
       System.out.println();
     }
   }
-
+  /**
+   * Sets the next local image.
+   *
+   * @param nextLocalImage the next local image to set.
+   */
   public void setNextLocalImage(String nextLocalImage) {
     this.nextLocalImage = nextLocalImage;
   }
-
+  /**
+   * Gets the next local image.
+   *
+   * @return the next local image.
+   */
   public String getNextLocalImage() {
     return nextLocalImage;
   }
-
+  /**
+   * Sets the sessions for this instance.
+   *
+   * @param sessions the set of sessions to be set.
+   */
   public void setSessions(Set<Session> sessions) {
     this.sessions = sessions;
   }
-
+  /**
+   * Gets the sessions.
+   *
+   * @return the sessions.
+   */
   public Set<Session> getSessions() {
     return sessions;
   }
-
+  /**
+   * Sets the file name.
+   *
+   * @param fileName the file name to set.
+   */
   public void setFileName(String fileName) {
     this.fileName = fileName;
   }
-
+  /**
+   * Gets the file name.
+   *
+   * @return the file name.
+   */
   public String getFileName() {
     return fileName;
   }
-
+  /**
+   * Checks if a session is loaded.
+   *
+   * @return true if a session is loaded, false otherwise.
+   */
   public boolean isSessionLoaded() {
     return isSessionLoaded;
   }
-
+  /**
+   * Sets the session loaded status.
+   *
+   * @param sessionLoaded the session loaded status to set.
+   */
   public void setSessionLoaded(boolean sessionLoaded) {
     isSessionLoaded = sessionLoaded;
   }
-
+  /**
+   * Sets the current session.
+   *
+   * @param session the session to set.
+   */
   public void setCurrentSession(Session session) {
     this.currentSession = session;
   }
-
+  /**
+   * Gets the current session.
+   *
+   * @return the current session.
+   */
   public Session getCurrentSession() {
     return currentSession;
   }
-
+  /**
+   * Sets the loaded image.
+   *
+   * @param loadedImage the loaded image to set.
+   */
   public void setLoadedImage(String loadedImage) {
     this.loadedImage = loadedImage;
   }
-
+  /**
+   * Gets the loaded image.
+   *
+   * @return the loaded image.
+   */
   public String getLoadedImage() {
     return loadedImage;
   }
-
+  /**
+   * Sets the file name of the loaded image.
+   *
+   * @param fileNameLoadedImage the file name of the loaded image to set.
+   */
   public void setFileNameLoadedImage(String fileNameLoadedImage) {
     this.fileNameLoadedImage = fileNameLoadedImage;
   }
-
+  /**
+   * Gets the file name of the loaded image.
+   *
+   * @return the name of the loaded image file.
+   */
   public String getFileNameLoadedImage() {
     return fileNameLoadedImage;
   }
-
+  /**
+   * Reads the content of a file specified by the fileName.
+   *
+   * @return the content of the file as a String.
+   * @throws IOException if an I/O error occurs.
+   */
   public String getContent() throws IOException {
     StringBuilder fileContent = new StringBuilder();
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -232,7 +352,9 @@ public class XMLFileHandler {
     }
     return fileContent.toString();
   }
-
+  /**
+   * Closes the current session and resets the content.
+   */
   public void close() {
       try {
         if (reader != null) {
@@ -249,7 +371,12 @@ public class XMLFileHandler {
         System.out.println("NullPointerException occurred: " + e.getMessage());
       }
     }
-
+  /**
+   * Finds a session by its number.
+   *
+   * @param sessionNumber the number of the session.
+   * @return the session with the specified number, or null if not found.
+   */
   public Session findSessionByNumber(int sessionNumber) {
       for(Session session : sessions) {
         if(session.getId() == sessionNumber) {
@@ -258,7 +385,12 @@ public class XMLFileHandler {
       }
     return null;
     }
-
+  /**
+   * Sets the next local image for the specified session.
+   *
+   * @param sessionNumber    the number of the session.
+   * @param newImageElement  the new image element to be set.
+   */
   public void setNextLocalImageForSession(int sessionNumber, String newImageElement) {
     Session session = findSessionByNumber(sessionNumber);
     if (session != null) {
@@ -267,7 +399,12 @@ public class XMLFileHandler {
       System.out.println("Session with number " + sessionNumber + " not found.");
     }
   }
-
+  /**
+   * Checks if a file is in the current session.
+   *
+   * @param imagePath the path of the image file.
+   * @return true if the file is in the current session, false otherwise.
+   */
   public boolean isFileInCurrentSession(String imagePath) {
     Session currentSession = getCurrentSession();
     if (currentSession != null) {

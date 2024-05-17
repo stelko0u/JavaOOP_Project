@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"bg.tu_varna.f22621629"},{"l":"bg.tu_varna.f22621629.commands"},{"l":"bg.tu_varna.f22621629.enums"},{"l":"bg.tu_varna.f22621629.handlers"},{"l":"bg.tu_varna.f22621629.models"},{"l":"bg.tu_varna.f22621629.processor"}];updateSearchResults();

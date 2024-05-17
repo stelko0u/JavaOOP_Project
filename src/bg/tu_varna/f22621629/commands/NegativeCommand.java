@@ -1,14 +1,13 @@
-/**
- * The NegativeCommand class implements the CommandHandler interface to handle the application of negative effect to an image.
- * It interacts with an XMLFileHandler instance to manage file operations.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 
 import java.io.*;
-
+/**
+ * The NegativeCommand class implements the CommandHandler interface to handle the application of negative effect to an image.
+ * It interacts with an XMLFileHandler instance to manage file operations.
+ */
 public class NegativeCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;

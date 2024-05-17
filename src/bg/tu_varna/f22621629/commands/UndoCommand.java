@@ -1,13 +1,12 @@
-/**
- * The UndoCommand class implements the CommandHandler interface to handle the undo command.
- * It removes the last transformation from the current session.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Session;
-
+/**
+ * The UndoCommand class implements the CommandHandler interface to handle the undo command.
+ * It removes the last transformation from the current session.
+ */
 public class UndoCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;

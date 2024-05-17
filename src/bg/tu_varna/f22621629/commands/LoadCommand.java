@@ -1,7 +1,3 @@
-/**
- * The LoadCommand class implements the CommandHandler interface to handle the load command.
- * It loads an image file specified by the session name.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -12,8 +8,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+  /**
+   * The LoadCommand class implements the CommandHandler interface to handle the load command.
+   * It loads an image file specified by the session name.
+   */
 public class LoadCommand implements CommandHandler {
-
   private XMLFileHandler fileHandler;
   private boolean isFound = false;
   private StringBuilder loadedImageBuffer;

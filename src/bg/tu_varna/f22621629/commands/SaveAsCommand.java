@@ -1,7 +1,3 @@
-/**
- * The SaveAsCommand class implements the CommandHandler interface to handle the saveas command.
- * It saves the current content to the specified file path.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -13,7 +9,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
+/**
+ * The SaveAsCommand class implements the CommandHandler interface to handle the saveas command.
+ * It saves the current content to the specified file path.
+ */
 public class SaveAsCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;

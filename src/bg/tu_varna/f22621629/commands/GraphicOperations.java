@@ -1,13 +1,12 @@
-/**
- * The GraphicOperations class implements the CommandHandler interface to handle graphic operations command.
- * It provides a menu of supported graphic operations commands.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 
 import java.io.IOException;
-
+/**
+ * The GraphicOperations class implements the CommandHandler interface to handle graphic operations command.
+ * It provides a menu of supported graphic operations commands.
+ */
 public class GraphicOperations implements CommandHandler {
 
   /**

@@ -1,10 +1,9 @@
+package bg.tu_varna.f22621629.handlers;
+import java.io.IOException;
 /**
  * The CommandHandler interface represents a handler for executing commands.
  * Implementing classes are responsible for defining the logic of executing specific commands.
  */
-package bg.tu_varna.f22621629.handlers;
-import java.io.IOException;
-
 public interface CommandHandler {
 
   /**

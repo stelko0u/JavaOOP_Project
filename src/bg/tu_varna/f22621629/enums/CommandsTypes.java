@@ -1,27 +1,59 @@
-/**
- * The CommandsTypes enum defines different types of commands supported by the application.
- */
 package bg.tu_varna.f22621629.enums;
 
 import bg.tu_varna.f22621629.handlers.CommandsException;
-
+/**
+ * The CommandsTypes enum defines different types of commands supported by the application.
+ */
 public enum CommandsTypes {
+  /** Open command. */
   OPEN("open"),
+
+  /** Close command. */
   CLOSE("close"),
+
+  /** Save command. */
   SAVE("save"),
+
+  /** SaveAs command. */
   SAVEAS("saveas"),
+
+  /** Help command. */
   HELP("help"),
+
+  /** Exit command. */
   EXIT("exit"),
+
+  /** Load command. */
   LOAD("load"),
+
+  /** Grayscale command. */
   GRAYSCALE("grayscale"),
+
+  /** Monochrome command. */
   MONOCHROME("monochrome"),
+
+  /** Negative command. */
   NEGATIVE("negative"),
+
+  /** Rotate command. */
   ROTATE("rotate"),
+
+  /** Undo command. */
   UNDO("undo"),
+
+  /** Add command. */
   ADD("add"),
+
+  /** Session Info command. */
   SESSIONINFO("session info"),
+
+  /** Switch command. */
   SWITCH("switch"),
+
+  /** Collage command. */
   COLLAGE("collage"),
+
+  /** Graphics Help command. */
   GRAPHICSHELP("graphics help");
 
   private final String command;

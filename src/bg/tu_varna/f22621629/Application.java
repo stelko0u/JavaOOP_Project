@@ -1,13 +1,9 @@
-/**
- * The Application class represents the entry point of the Raster graphics application.
- */
 package bg.tu_varna.f22621629;
 
 import bg.tu_varna.f22621629.handlers.CommandsException;
-import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.processor.CommandProcessor;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -36,8 +32,8 @@ public class Application {
 
       try {
         commandProcessor.processingCommands(input);
-      } catch (IOException | FileExceptionHandler e) {
-        throw new RuntimeException(e);
+      } catch (Exception e) {
+        System.out.println("An error has occurred!");
       }
     }
   }

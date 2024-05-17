@@ -1,12 +1,11 @@
-/**
- * The CloseCommand class implements the CommandHandler interface to handle the closing of a file.
- * It interacts with an XMLFileHandler instance to close the file and reset file-related attributes.
- */
 package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import java.io.IOException;
-
+/**
+ * The CloseCommand class implements the CommandHandler interface to handle the closing of a file.
+ * It interacts with an XMLFileHandler instance to close the file and reset file-related attributes.
+ */
 public class CloseCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;

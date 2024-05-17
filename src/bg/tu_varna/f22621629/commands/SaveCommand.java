@@ -1,7 +1,3 @@
-/**
- * The SaveCommand class implements the CommandHandler interface to handle the save command.
- * It saves the current content to the opened file.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
@@ -9,7 +5,10 @@ import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 
 import java.io.*;
-
+/**
+ * The SaveCommand class implements the CommandHandler interface to handle the save command.
+ * It saves the current content to the opened file.
+ */
 public class SaveCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;

@@ -1,13 +1,12 @@
-/**
- * The ExitCommand class implements the CommandHandler interface to handle the exit command.
- * It terminates the program execution when executed.
- */
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 
 import java.io.IOException;
-
+/**
+ * The ExitCommand class implements the CommandHandler interface to handle the exit command.
+ * It terminates the program execution when executed.
+ */
 public class ExitCommand implements CommandHandler {
 
   /**
