@@ -33,7 +33,7 @@ public class Application {
       try {
         commandProcessor.processingCommands(input);
       } catch (Exception e) {
-        System.out.println("An error has occurred!");
+        System.out.println("An error has occurred!" + e.getMessage());
       }
     }
   }

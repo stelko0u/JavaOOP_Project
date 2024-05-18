@@ -12,5 +12,5 @@ public interface CommandHandler {
    * @throws IOException if an I/O error occurs.
    * @throws FileExceptionHandler if there is an exception related to file handling.
    */
-  void execute(String[] args) throws IOException, FileExceptionHandler;
+  void execute(String[] args) throws IOException, FileExceptionHandler, InterruptedException, Exception;
 }

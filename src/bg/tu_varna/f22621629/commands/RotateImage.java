@@ -367,47 +367,6 @@ public class RotateImage implements CommandHandler {
 
           }
         }
-
-
-//        for (int i = 0; i < data.length - 2; i++) {
-//          String[] values = data[i + 2].split("\\s+");
-//          matrix[i] = new int[values.length];
-//          for (int j = 0; j < values.length; j++) {
-//            matrix[i][j] = Integer.parseInt(values[j]);
-//          }
-//        }
-//        int row = matrix.length;
-//        int cols = matrix[0].length;
-//        for (int i = 0; i < row; i++) {
-//          for (int j = i; j < cols; j++) {
-//            int temp = matrix[i][j];
-//            matrix[i][j] = matrix[j][i];
-//            matrix[j][i] = temp;
-//          }
-//        }
-//
-//        for (int i = 0; i < row; i++) {
-//          for (int j = 0; j < cols / 2; j++) {
-//            int temp = matrix[i][j];
-//            matrix[i][j] = matrix[i][cols - 1 - j];
-//            matrix[i][cols - 1 - j] = temp;
-//          }
-//        }
-
-//        rotatedImageData.append("P3").append("\n");
-//        rotatedImageData.append(matrix.length / 2).append(" ").append(matrix.length / 2).append(" ").append(255).append("\n");
-//        for (int[] rows : matrix) {
-//          for (int i = 0; i < rows.length; i++) {
-//            System.out.print(rows[i]);
-//            rotatedImageData.append(rows[i]);
-//            if (i < rows.length - 1) {
-//              System.out.print(" ");
-//              rotatedImageData.append(" ");
-//            }
-//          }
-//          rotatedImageData.append("\n");
-//          System.out.println();
-//        }
       }
 
       // P3 LEFT

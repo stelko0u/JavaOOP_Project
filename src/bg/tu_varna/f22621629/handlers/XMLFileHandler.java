@@ -3,9 +3,7 @@ package bg.tu_varna.f22621629.handlers;
 import bg.tu_varna.f22621629.models.Session;
 
 import java.io.*;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
@@ -77,24 +75,32 @@ public class XMLFileHandler {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
       String line;
       String sessionId = null;
-      String fileName = null;
+      List<String> fileNames = new ArrayList<>();
       Pattern sessionIdPattern = Pattern.compile("<session id=\"(\\d+)\">");
       Pattern fileNamePattern = Pattern.compile("<image name=\"([^\"]+)\"");
+
       while ((line = reader.readLine()) != null) {
         Matcher sessionIdMatcher = sessionIdPattern.matcher(line);
         Matcher fileNameMatcher = fileNamePattern.matcher(line);
+
         if (sessionIdMatcher.find()) {
+          if (sessionId != null) {
+            saveSession(Integer.parseInt(sessionId), String.join(", ", fileNames));
+          }
           sessionId = sessionIdMatcher.group(1);
+          fileNames = new ArrayList<>();
         }
-        if (fileNameMatcher.find()) {
-          fileName = fileNameMatcher.group(1);
-        }
-        if (sessionId != null && fileName != null) {
-          saveSession(Integer.parseInt(sessionId), fileName);
-//          sessionId = null;
-          fileName = null;
+
+        if (fileNameMatcher.find() && sessionId != null) {
+          String fileName = fileNameMatcher.group(1);
+          fileNames.add(fileName);
         }
       }
+
+      if (sessionId != null) {
+        saveSession(Integer.parseInt(sessionId), String.join(", ", fileNames));
+      }
+
       setFileOpened(true);
 
     } catch (IOException e) {
@@ -112,7 +118,6 @@ public class XMLFileHandler {
             "   <session id=\"1\">\n" +
             "   </session>\n" +
             "</sessions>"+
-              "<sessions>\n" +
             "   <session id=\"2\">\n" +
             "   </session>\n" +
             "</sessions>"
@@ -121,6 +126,7 @@ public class XMLFileHandler {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
       writer.write(initialContent);
     }
+
   }
   /**
    * Saves a session with the specified session ID and file name.
@@ -207,23 +213,22 @@ public class XMLFileHandler {
       System.out.println(" * Files in session:");
 
       List<String> fileNames = session.getFileNames();
-      for (String fileName : fileNames) {
-        System.out.println("   - " + fileName);
-
-        String[] extensionsToCheck = {"_negative", "_rotated_left", "_rotated_right", "_monochrome", "_grayscale"};
-
-        for (String extension : extensionsToCheck) {
-          String alternativeFileName = fileName + extension;
-          File alternativeFile = new File("images/" + alternativeFileName);
-          if (alternativeFile.exists()) {
-            System.out.println("     " + alternativeFileName);
-          }
+      List<String> individualFileNames = new ArrayList<>();
+      for (String files : fileNames) {
+        individualFileNames.addAll(Arrays.asList(files.split(", ")));
+      }
+      for (String fileName : individualFileNames) {
+        if (fileName.isEmpty()) {
+          System.out.println("  - Empty");
+        } else {
+          System.out.println("   - " + fileName);
         }
       }
 
       System.out.println();
     }
   }
+
   /**
    * Sets the next local image.
    *

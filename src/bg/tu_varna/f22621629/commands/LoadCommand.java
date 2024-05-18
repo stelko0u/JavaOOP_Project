@@ -58,40 +58,28 @@ public class LoadCommand implements CommandHandler {
       System.out.println("First you need to switch to some session, you can see the sessions from > session info");
       return;
     }
-    if (fileHandler.isFileInCurrentSession(imagePath)) {
-      isFound = true;
-      try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
-        fileHandler.setFileNameLoadedImage(sessionName);
 
-        String line;
-        while ((line = reader.readLine()) != null) {
-          loadedImageBuffer.append(line).append("\n");
-        }
-        fileHandler.setLoadedImage(line);
-        System.out.println("Image loaded successfully:");
-        System.out.println(loadedImageBuffer.toString());
-        fileHandler.setLoadedImage(loadedImageBuffer.toString());
-      } catch (IOException e) {
-        System.out.println("Error loading image: " + e.getMessage());
-      }
+    if (!fileHandler.isFileInCurrentSession(imagePath)) {
+      System.out.println("This file is not current session!");
       return;
     }
 
-    if (isValidImageFile(imagePath) && isFound) {
-      try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
-        StringBuilder imageContent = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-          imageContent.append(line).append("\n");
+    if (isValidImageFile(imagePath)) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
+          fileHandler.setFileNameLoadedImage(sessionName);
+
+          String line;
+          while ((line = reader.readLine()) != null) {
+            loadedImageBuffer.append(line).append("\n");
+          }
+          fileHandler.setLoadedImage(line);
+          System.out.println("Image loaded successfully:");
+          System.out.println(loadedImageBuffer.toString());
+          fileHandler.setLoadedImage(loadedImageBuffer.toString());
+        } catch (IOException e) {
+          System.out.println("Error loading image: " + e.getMessage());
         }
-        fileHandler.setLoadedImage(imageContent.toString());
-        System.out.println("Image loaded successfully:");
-      } catch (IOException e) {
-        System.out.println("Error loading image: " + e.getMessage());
       }
-    } else {
-      System.out.println("Invalid image file: " + imagePath);
-    }
   }
 
   /**

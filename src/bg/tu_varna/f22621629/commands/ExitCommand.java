@@ -15,8 +15,16 @@ public class ExitCommand implements CommandHandler {
    * @throws IOException if an I/O error occurs.
    */
   @Override
-  public void execute(String[] command) throws IOException {
-    System.out.println("Exiting the program...");
+  public void execute(String[] command) throws IOException, Exception  {
+    Thread.sleep(300);
+    animateText("Exiting the program...");
     System.exit(0);
+  }
+  public void animateText(String text) throws Exception {
+    for (int i = 0; i < text.length(); i++) {
+      System.out.print(text.charAt(i));
+      Thread.sleep(20);
+    }
+    System.out.println();
   }
 }
