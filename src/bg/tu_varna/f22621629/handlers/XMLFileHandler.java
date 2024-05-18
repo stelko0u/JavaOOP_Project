@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * saving sessions. This class follows the singleton pattern to ensure only one instance is created.
  */
 public class XMLFileHandler {
-  private String content;
+  private StringBuilder content;
   private static XMLFileHandler instance;
   private boolean isFileOpened = false;
   private Set<Session> sessions;
@@ -179,7 +179,7 @@ public class XMLFileHandler {
    *
    * @param content the content to set.
    */
-  public void setContent(String content) {
+  public void setContent(StringBuilder content) {
     this.content = content;
   }
   /**
@@ -365,7 +365,7 @@ public class XMLFileHandler {
         if (reader != null) {
           reader.close();
           reader = null;
-          setContent("");
+          this.content.setLength(0);
 
           System.out.println("Sessions closed successfully.");
           return;
