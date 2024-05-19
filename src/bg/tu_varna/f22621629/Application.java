@@ -15,6 +15,7 @@ public class Application {
    * The main method starts the application, initializes necessary components,
    * and processes user commands.
    * @param args Command-line arguments (not used).
+   * @throws CommandsException if there is an exception related to command execution.
    */
   public static void main(String[] args) throws CommandsException {
     System.out.println("Welcome to Raster graphics application. Type \"help\" to show basic commands!");

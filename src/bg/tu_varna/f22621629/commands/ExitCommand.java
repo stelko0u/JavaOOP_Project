@@ -20,6 +20,13 @@ public class ExitCommand implements CommandHandler {
     animateText("Exiting the program...");
     System.exit(0);
   }
+
+
+  /**
+   * Animates the provided text by printing it character by character with a delay.
+   * @param text The text to be animated.
+   * @throws Exception if an interruption occurs during the animation.
+   */
   public void animateText(String text) throws Exception {
     for (int i = 0; i < text.length(); i++) {
       System.out.print(text.charAt(i));
