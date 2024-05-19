@@ -112,12 +112,12 @@ public class CollageCommand implements CommandHandler {
           collageData.append(contentSecondImage[i]).append(" ").append("\n");
         }
       } else if (contentFirstImage[0].startsWith("P3")) {
-        sizes = contentFirstImage[0].split(" ");
-        width = Integer.parseInt(sizes[1]);
-        height = Integer.parseInt(sizes[2]);
+        sizes = contentFirstImage[1].split(" ");
+        width = Integer.parseInt(sizes[0]);
+        height = Integer.parseInt(sizes[1]);
         start = 2;
         collageData.append("P3").append(" ").append(width+width).append(" ")
-                .append(height).append(" ").append(sizes[3]).append("\n");
+                .append(height).append(" ").append(sizes[2]).append("\n");
         for (int i = start; i < contentFirstImage.length; i++) {
           collageData.append(contentFirstImage[i]).append(" ");
           collageData.append(contentSecondImage[i]).append(" ").append("\n");
@@ -129,7 +129,7 @@ public class CollageCommand implements CommandHandler {
     if (direction.equalsIgnoreCase("vertical")) {
       String[] contentFirstImage = firstImageContent.toString().split("\n");
       String[] contentSecondImage = secondImageContent.toString().split("\n");
-      String[] sizes = contentFirstImage[1].split(" ");
+      String[] sizes;
 
       int width = 0;
       int height = 0;
@@ -162,12 +162,12 @@ public class CollageCommand implements CommandHandler {
           collageData.append(contentSecondImage[i]).append("\n");
         }
       } else if (contentFirstImage[0].startsWith("P3")) {
-        sizes = contentFirstImage[0].split(" ");
-        width = Integer.parseInt(sizes[1]);
-        height = Integer.parseInt(sizes[2]);
+        sizes = contentFirstImage[1].split(" ");
+        width = Integer.parseInt(sizes[0]);
+        height = Integer.parseInt(sizes[1]);
         start = 2;
         collageData.append("P3").append(" ").append(width).append(" ")
-                .append(height+height).append(" ").append(sizes[3]).append("\n");
+                .append(height+height).append(" ").append(sizes[2]).append("\n");
         for (int i = start; i < contentFirstImage.length; i++) {
           collageData.append(contentFirstImage[i]).append("\n");
         }

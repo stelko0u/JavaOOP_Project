@@ -31,6 +31,10 @@ public class OpenCommand implements CommandHandler {
       System.out.println("Usage: open <file>");
       return;
     }
+    if (fileHandler.isFileOpened()) {
+      System.out.println("Already opened a file!");
+      return;
+    }
     try {
       fileHandler.open(args[1]);
       fileHandler.setFileOpened(true);

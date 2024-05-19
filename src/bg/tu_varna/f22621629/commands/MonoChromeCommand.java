@@ -5,6 +5,8 @@ import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Session;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,7 +42,12 @@ public class MonoChromeCommand implements CommandHandler {
     }
 
     List<String> fileNames = currentSession.getFileNames();
-    for (String fileName : fileNames) {
+    List<String> individualFileNames = new ArrayList<>();
+
+    for (String files : fileNames) {
+      individualFileNames.addAll(Arrays.asList(files.split(", ")));
+    }
+    for (String fileName : individualFileNames) {
       String filePath = "images/" + fileName;
       if (!new File(filePath).exists()) {
         System.out.println("File '" + fileName + "' not found in the current session. Skipping.");
@@ -49,6 +56,8 @@ public class MonoChromeCommand implements CommandHandler {
 
       if (isColorImage(filePath)) {
         applyMonochromeEffect(filePath);
+      } else {
+        System.out.println("The image cannot be made monochrome!");
       }
     }
   }

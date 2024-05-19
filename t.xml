@@ -6,6 +6,8 @@
     <session id="2">
         <image name="P2.pgm">
         </image>
+        <image name="P1.pgm">
+        </image>
     </session>
     <session id="3">
         <image name="P3.ppm">

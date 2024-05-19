@@ -78,11 +78,12 @@ public class XMLFileHandler {
       List<String> fileNames = new ArrayList<>();
       Pattern sessionIdPattern = Pattern.compile("<session id=\"(\\d+)\">");
       Pattern fileNamePattern = Pattern.compile("<image name=\"([^\"]+)\"");
+      StringBuilder content = new StringBuilder();
 
       while ((line = reader.readLine()) != null) {
         Matcher sessionIdMatcher = sessionIdPattern.matcher(line);
         Matcher fileNameMatcher = fileNamePattern.matcher(line);
-
+        content.append(line).append("\n");
         if (sessionIdMatcher.find()) {
           if (sessionId != null) {
             saveSession(Integer.parseInt(sessionId), String.join(", ", fileNames));
@@ -102,7 +103,7 @@ public class XMLFileHandler {
       }
 
       setFileOpened(true);
-
+      setContent(content);
     } catch (IOException e) {
       throw new FileExceptionHandler("Error reading the file!");
     }
@@ -411,10 +412,20 @@ public class XMLFileHandler {
    * @return true if the file is in the current session, false otherwise.
    */
   public boolean isFileInCurrentSession(String imagePath) {
+//    List<String> fileNames = session.getFileNames();
+//    List<String> individualFileNames = new ArrayList<>();
+//    for (String files : fileNames) {
+//      individualFileNames.addAll(Arrays.asList(files.split(", ")));
+//    }
     Session currentSession = getCurrentSession();
     if (currentSession != null) {
       List<String> fileNames = currentSession.getFileNames();
-      for (String fileName : fileNames) {
+      List<String> individualFileNames = new ArrayList<>();
+
+      for (String files : fileNames) {
+        individualFileNames.addAll(Arrays.asList(files.split(", ")));
+      }
+      for (String fileName : individualFileNames) {
         if (imagePath.equals("images/" + fileName)) {
           return true;
         }

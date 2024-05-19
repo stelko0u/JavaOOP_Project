@@ -17,7 +17,7 @@ public class HelpCommand implements CommandHandler {
   public void execute(String[] command) throws IOException {
     StringBuilder menu = new StringBuilder();
     menu.append("The following commands are supported:\n");
-    menu.append(" - open <file> opens <file>\n");
+    menu.append(" - open <file>\n");
     menu.append(" - close\n");
     menu.append(" - save\n");
     menu.append(" - saveas <file>\n");
