@@ -50,6 +50,9 @@ public class GrayScaleCommand implements CommandHandler {
       if (isColorImage(filePath)) {
         applyGrayScaleEffect(filePath);
       }
+      if (!isColorImage(filePath)) {
+        System.out.println("This format is not supported!");
+      }
     }
   }
 
@@ -64,6 +67,7 @@ public class GrayScaleCommand implements CommandHandler {
       if ((line = reader.readLine()) != null) {
         return line.startsWith("P3");
       }
+
     } catch (IOException e) {
       e.printStackTrace();
     }
