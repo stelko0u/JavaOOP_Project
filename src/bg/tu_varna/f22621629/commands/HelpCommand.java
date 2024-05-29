@@ -1,6 +1,7 @@
 package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.IOException;
 /**
@@ -14,7 +15,7 @@ public class HelpCommand implements CommandHandler {
    * @throws IOException if an I/O error occurs.
    */
   @Override
-  public void execute(String[] command) throws IOException {
+  public void execute(Command command) throws IOException {
     StringBuilder menu = new StringBuilder();
     menu.append("The following commands are supported:\n");
     menu.append(" - open <file>\n");

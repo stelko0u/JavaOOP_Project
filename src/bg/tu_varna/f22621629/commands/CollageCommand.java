@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 import bg.tu_varna.f22621629.models.Session;
 
 import java.io.*;
@@ -25,27 +26,27 @@ public class CollageCommand implements CommandHandler {
   /**
    * Executes the collage creation command.
    *
-   * @param args Command arguments including direction, image filenames, and output filename.
+//   * @param args Command arguments including direction, image filenames, and output filename.
    * @throws IOException            If an I/O error occurs.
    * @throws FileExceptionHandler If an exception related to file handling occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException, FileExceptionHandler {
+  public void execute(Command command) throws IOException, FileExceptionHandler {
     if (!fileHandler.isSessionLoaded()) {
       System.out.println("No loaded session. Use > switch 'id' ");
       return;
     }
-    if (args.length < 5) {
+    if (command.getArguments().length != 4) {
       System.out.println("Usage: collage <direction> <image1> <image2> <outimage>");
       return;
     }
 
 
 
-    String direction = args[1];
-    String firstImageFileName = "images/" + args[2];
-    String secondImageFileName = "images/" + args[3];
-    String outimage = args[4];
+    String direction = command.getArguments()[0];
+    String firstImageFileName = "images/" + command.getArguments()[1];
+    String secondImageFileName = "images/" + command.getArguments()[2];
+    String outimage = command.getArguments()[3];
 
 
     Set<Session> sessions = fileHandler.getSessions();

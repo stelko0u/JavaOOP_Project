@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 import bg.tu_varna.f22621629.models.Session;
 
 import java.io.IOException;
@@ -24,17 +25,17 @@ public class SwitchCommand implements CommandHandler {
 
   /**
    * Executes the command to switch to the specified session by ID.
-   * @param args The command arguments containing the session ID to switch to.
+//   * @param args The command arguments containing the session ID to switch to.
    * @throws IOException if an I/O error occurs.
    * @throws FileExceptionHandler if an error related to file handling occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException, FileExceptionHandler {
-    if (args.length < 2) {
+  public void execute(Command command) throws IOException, FileExceptionHandler {
+    if (command.getArguments().length != 1) {
       System.out.println("Usage: switch <session>");
       return;
     };
-    String sessionId = args[1];
+    String sessionId = command.getArguments()[0];
 
     Set<Session> sessions = fileHandler.getSessions();
 

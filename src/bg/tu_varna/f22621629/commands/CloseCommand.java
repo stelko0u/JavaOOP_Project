@@ -1,6 +1,8 @@
 package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
+
 import java.io.IOException;
 /**
  * The CloseCommand class implements the CommandHandler interface to handle the closing of a file.
@@ -22,7 +24,7 @@ public class CloseCommand implements CommandHandler {
    * @throws IOException if an I/O error occurs.
    */
   @Override
-  public void execute(String[] command) throws IOException {
+  public void execute(Command command) throws IOException {
     if (fileHandler != null) {
       fileHandler.setFileOpened(false);
       fileHandler.setContent(null);

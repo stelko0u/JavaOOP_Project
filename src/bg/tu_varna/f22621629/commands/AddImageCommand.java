@@ -2,6 +2,7 @@ package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.IOException;
 
@@ -22,12 +23,12 @@ public class AddImageCommand implements CommandHandler {
 
   /**
    * Executes the command to add an image element to the current session in the XML file.
-   * @param args The command arguments containing the image name.
+//   * @param args The command arguments containing the image name.
    * @throws IOException if an I/O error occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException {
-    if (args.length < 2) {
+  public void execute(Command command) throws IOException {
+    if (command.getArguments().length != 1) {
       System.out.println("Usage: add <image>");
       return;
     }
@@ -40,7 +41,7 @@ public class AddImageCommand implements CommandHandler {
 
     int currentSessionNumber = fileHandler.getCurrentSessionNumber();
 
-    String newImageElement = "        <image name=\"" + args[1] + "\">\n" +
+    String newImageElement = "        <image name=\"" + command.getArguments()[0] + "\">\n" +
             "        </image>\n";
     fileHandler.setNextLocalImageForSession(currentSessionNumber, newImageElement);
     System.out.println("Image added to session " + currentSessionNumber + " successfully.");

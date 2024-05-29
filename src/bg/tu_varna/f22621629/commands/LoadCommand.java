@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,22 +28,22 @@ public class LoadCommand implements CommandHandler {
 
   /**
    * Executes the command to load an image file specified by the session name.
-   * @param args The command arguments containing the session name.
+//   * @param args The command arguments containing the session name.
    * @throws IOException if an I/O error occurs.
    * @throws FileExceptionHandler if an error related to file handling occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException, FileExceptionHandler {
-    if (args.length < 2) {
+  public void execute(Command command) throws IOException, FileExceptionHandler {
+    if (command.getArguments().length != 1) {
       System.out.println("Usage: load <session_name>");
       return;
     }
-    if (!args[1].endsWith(".pbm") && !args[1].endsWith(".ppm") && !args[1].endsWith(".pgm")) {
+    if (!command.getArguments()[0].endsWith(".pbm") && !command.getArguments()[0].endsWith(".ppm") && !command.getArguments()[0].endsWith(".pgm")) {
       System.out.println("Opening only .ppm / .pbm / .pgm files!");
       return;
     }
 
-    String sessionName = args[1];
+    String sessionName = command.getArguments()[0];
     loadSessionImage(sessionName);
   }
 

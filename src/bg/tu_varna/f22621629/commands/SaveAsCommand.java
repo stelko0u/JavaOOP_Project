@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.*;
 import java.util.Scanner;
@@ -28,12 +29,12 @@ public class SaveAsCommand implements CommandHandler {
    * @throws IOException if an I/O error occurs.
    */
   @Override
-  public void execute(String[] command) throws IOException, FileExceptionHandler {
-    if (command.length < 2) {
+  public void execute(Command command) throws IOException, FileExceptionHandler {
+    if (command.getArguments().length != 1) {
       System.out.println("Usage: saveas <file_path>");
       return;
     }
-    String filePath = command[1];
+    String filePath = command.getArguments()[0];
     if (!filePath.endsWith(".xml")) {
       System.out.println("Save only in XML format files!");
       return;

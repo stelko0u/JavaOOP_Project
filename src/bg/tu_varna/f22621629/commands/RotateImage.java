@@ -2,6 +2,7 @@ package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.*;
 
@@ -22,11 +23,11 @@ public class RotateImage implements CommandHandler {
   /**
    * Executes the rotation command on an image.
    *
-   * @param args Command arguments.
+//   * @param args Command arguments.
    * @throws IOException If an I/O error occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException {
+  public void execute(Command commands) throws IOException {
     XMLFileHandler fileHandler = XMLFileHandler.getInstance();
     if (!fileHandler.isFileOpened()) {
       System.out.println("No file is currently open. Please open a file first.");
@@ -37,18 +38,18 @@ public class RotateImage implements CommandHandler {
       return;
     }
 
-    if (args.length != 2) {
+    if (commands.getArguments().length != 1) {
       System.out.println("Usage: rotate <left/right>");
       return;
     }
 
-    if (!args[1].equalsIgnoreCase("left") && !args[1].equalsIgnoreCase("right")) {
+    if (!commands.getArguments()[0].equalsIgnoreCase("left") && !commands.getArguments()[0].equalsIgnoreCase("right")) {
       System.out.println("Usage only 'left' and 'right' directions!");
       return;
     }
-    String direction = args.length > 1 ? args[1] : "left";
+    String direction = commands.getArguments().length == 1 ? commands.getArguments()[0] : "left";
 
-    String loadedImage = fileHandler.getLoadedImage();
+    String loadedImage = String.valueOf(fileHandler.getLoadedImage());
     String loadedImageFilePath = fileHandler.getFileNameLoadedImage();
     if (fileHandler.getLoadedImage() == null) {
       return;

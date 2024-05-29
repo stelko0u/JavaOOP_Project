@@ -2,6 +2,7 @@ package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 import bg.tu_varna.f22621629.models.Session;
 
 import java.io.*;
@@ -27,7 +28,7 @@ public class GrayScaleCommand implements CommandHandler {
    * @throws IOException if an I/O error occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException {
+  public void execute(Command command) throws IOException {
     if (!fileHandler.isFileOpened()) {
       System.out.println("No file is currently open. Please open a file first.");
       return;

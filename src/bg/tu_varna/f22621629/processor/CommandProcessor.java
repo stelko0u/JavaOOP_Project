@@ -6,6 +6,7 @@
   import bg.tu_varna.f22621629.handlers.CommandsException;
   import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
   import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+  import bg.tu_varna.f22621629.models.Command;
 
   import java.io.IOException;
   import java.util.HashMap;
@@ -48,47 +49,61 @@
     /**
      * Processes the user input command by splitting it into parts and determining the command type.
      * Executes the corresponding command handler based on the command type and file status.
+     * <p>
+     * //     * @param input The user input command string.
      *
-     * @param input The user input command string.
      * @throws IOException          if an I/O error occurs.
      * @throws FileExceptionHandler if there is an exception related to file handling.
      * @throws CommandsException    if there is an exception related to command execution.
      */
-    public void processingCommands(String input) throws Exception {
+    public void processingCommands(Command command) throws Exception {
       try {
-        String[] commandAsParts = input.split("\\s+", 5);
-        CommandsTypes commandKey;
-
-
-        if (input.equalsIgnoreCase("session info") || input.equalsIgnoreCase("graphics help")) {
-          commandKey = CommandsTypes.getByValue(input);
+        CommandsTypes commandType = CommandsTypes.getByValue(command.getName());
+        CommandHandler handler = commands.get(commandType);
+        if (handler != null) {
+          handler.execute(command);
         } else {
-          String commandType = commandAsParts[0].toLowerCase();
-            commandKey = CommandsTypes.getByValue(commandAsParts[0]);
+          System.out.println("Unknown command: " + command.getName());
         }
-
-
-        if (commands.containsKey(commandKey) || commands.containsKey(input)) {
-          if (fileHandler.isFileOpened() && commandKey == CommandsTypes.SESSIONINFO) {
-            CommandHandler command = commands.get(commandKey);
-            command.execute(commandAsParts);
-            return;
-          }
-
-          if (fileHandler.isFileOpened() || commandKey == CommandsTypes.OPEN || commandKey == CommandsTypes.HELP || commandKey == CommandsTypes.EXIT) {
-            CommandHandler command = commands.get(commandKey);
-            if (command != null) {
-              command.execute(commandAsParts);
-              return;
-            }
-          } else {
-            System.out.println("No file opened. Please open a file first.");
-          }
-        } else {
-          System.out.println("Unknown command!");
-        }
-      } catch (CommandsException e) {
-        System.out.println("Error processing command: " + e.getMessage());
+      } catch (IllegalArgumentException e) {
+        System.out.println("Unknown command: " + command.getName());
       }
     }
   }
+//      try {
+//        String[] commandAsParts = input.split("\\s+", 5);
+//        CommandsTypes commandKey;
+//
+//
+//        if (input.equalsIgnoreCase("session info") || input.equalsIgnoreCase("graphics help")) {
+//          commandKey = CommandsTypes.getByValue(input);
+//        } else {
+//          String commandType = commandAsParts[0].toLowerCase();
+//            commandKey = CommandsTypes.getByValue(commandAsParts[0]);
+//        }
+//
+//
+//        if (commands.containsKey(commandKey) || commands.containsKey(input)) {
+//          if (fileHandler.isFileOpened() && commandKey == CommandsTypes.SESSIONINFO) {
+//            CommandHandler command = commands.get(commandKey);
+//            command.execute(commandAsParts);
+//            return;
+//          }
+//
+//          if (fileHandler.isFileOpened() || commandKey == CommandsTypes.OPEN || commandKey == CommandsTypes.HELP || commandKey == CommandsTypes.EXIT) {
+//            CommandHandler command = commands.get(commandKey);
+//            if (command != null) {
+//              command.execute(commandAsParts);
+//              return;
+//            }
+//          } else {
+//            System.out.println("No file opened. Please open a file first.");
+//          }
+//        } else {
+//          System.out.println("Unknown command!");
+//        }
+//      } catch (CommandsException e) {
+//        System.out.println("Error processing command: " + e.getMessage());
+//      }
+//    }
+//  }

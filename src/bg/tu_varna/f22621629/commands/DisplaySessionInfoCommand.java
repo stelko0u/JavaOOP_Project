@@ -2,6 +2,7 @@ package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.IOException;
 
@@ -30,11 +31,10 @@ public class DisplaySessionInfoCommand implements CommandHandler {
   /**
    * Executes the display session info command.
    *
-   * @param args Command arguments.
    * @throws IOException If an I/O error occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException {
+  public void execute(Command command) throws IOException {
     displayInfo(fileHandler);
   }
 }

@@ -1,11 +1,8 @@
 package bg.tu_varna.f22621629;
 
 import bg.tu_varna.f22621629.handlers.CommandsException;
-import bg.tu_varna.f22621629.handlers.XMLFileHandler;
-import bg.tu_varna.f22621629.processor.ApplicationProcessor;
-import bg.tu_varna.f22621629.processor.CommandProcessor;
+import bg.tu_varna.f22621629.processor.App;
 
-import java.util.Scanner;
 /**
  * The {@code Application} class is the entry point of the raster graphics application.
  * It initializes and starts the application by invoking the {@code run} method of {@code ApplicationProcessor}.
@@ -21,7 +18,6 @@ public class Application {
    */
 
   public static void main(String[] args) throws CommandsException {
-    ApplicationProcessor appProcessor = new ApplicationProcessor();
-    appProcessor.run();
+    App.run();
   }
 }

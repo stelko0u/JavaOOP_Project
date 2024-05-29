@@ -2,6 +2,7 @@ package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.*;
 /**
@@ -22,17 +23,17 @@ public class NegativeCommand implements CommandHandler {
 
   /**
    * Executes the command to apply negative effect to the loaded image.
-   * @param args The command arguments (not used in this command).
+//   * @param args The command arguments (not used in this command).
    * @throws IOException if an I/O error occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException {
+  public void execute(Command command) throws IOException {
     XMLFileHandler fileHandler = XMLFileHandler.getInstance();
     if (!fileHandler.isFileOpened()) {
       System.out.println("No file is currently open. Please open a file first.");
       return;
     }
-    String loadedImageAsString = fileHandler.getLoadedImage();
+    String loadedImageAsString = String.valueOf(fileHandler.getLoadedImage());
     if (loadedImageAsString == null || loadedImageAsString.length() == 0) {
       System.out.println("No image is currently loaded. Please load an image first.");
       return;

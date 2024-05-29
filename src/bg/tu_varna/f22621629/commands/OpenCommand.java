@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
+import bg.tu_varna.f22621629.models.Command;
 
 import java.io.IOException;
 
@@ -22,12 +23,12 @@ public class OpenCommand implements CommandHandler {
   /**
    * Executes the open command to open a file.
    *
-   * @param args Command arguments.
+//   * @param args Command arguments.
    * @throws IOException If an I/O error occurs.
    */
   @Override
-  public void execute(String[] args) throws IOException {
-    if (args.length < 2) {
+  public void execute(Command command) throws IOException {
+    if (command.getArguments().length < 1) {
       System.out.println("Usage: open <file>");
       return;
     }
@@ -36,9 +37,9 @@ public class OpenCommand implements CommandHandler {
       return;
     }
     try {
-      fileHandler.open(args[1]);
+      fileHandler.open(command.getArguments()[0]);
       fileHandler.setFileOpened(true);
-      System.out.println("\nSuccessfully opened " + args[1] + " with " + fileHandler.getSessions().size() + " sessions!");
+      System.out.println("\nSuccessfully opened " + command.getArguments()[0] + " with " + fileHandler.getSessions().size() + " sessions!");
       System.out.println("Load a session using -> session info");
     } catch (FileExceptionHandler e) {
       System.out.println("Error: " + e.getMessage());
