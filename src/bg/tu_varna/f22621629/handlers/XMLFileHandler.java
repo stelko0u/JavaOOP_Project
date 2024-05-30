@@ -412,11 +412,6 @@ public class XMLFileHandler {
    * @return true if the file is in the current session, false otherwise.
    */
   public boolean isFileInCurrentSession(String imagePath) {
-//    List<String> fileNames = session.getFileNames();
-//    List<String> individualFileNames = new ArrayList<>();
-//    for (String files : fileNames) {
-//      individualFileNames.addAll(Arrays.asList(files.split(", ")));
-//    }
     Session currentSession = getCurrentSession();
     if (currentSession != null) {
       List<String> fileNames = currentSession.getFileNames();

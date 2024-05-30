@@ -3,16 +3,13 @@
   import bg.tu_varna.f22621629.commands.*;
   import bg.tu_varna.f22621629.enums.CommandsTypes;
   import bg.tu_varna.f22621629.handlers.CommandHandler;
-  import bg.tu_varna.f22621629.handlers.CommandsException;
-  import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
   import bg.tu_varna.f22621629.handlers.XMLFileHandler;
   import bg.tu_varna.f22621629.models.Command;
 
-  import java.io.IOException;
   import java.util.HashMap;
   /**
-   * The CommandProcessor class handles the processing of user commands in the Raster graphics application.
-   * It maps command types to their corresponding handlers and executes commands based on user input.
+   * Processes commands for the Raster graphics application.
+   * Initializes and manages the available commands and their handlers.
    */
   public class CommandProcessor {
 
@@ -20,10 +17,10 @@
     private XMLFileHandler fileHandler;
 
     /**
-     * Constructs a CommandProcessor object with the given XMLFileHandler instance.
-     * Initializes the commands mapping with corresponding command handlers.
+     * Initializes the CommandProcessor with the given XMLFileHandler.
+     * Sets up the available commands and their respective handlers.
      *
-     * @param fileHandler The XMLFileHandler instance to handle file operations.
+     * @param fileHandler the XMLFileHandler instance to be used by the command processor
      */
     public CommandProcessor(XMLFileHandler fileHandler) {
       this.fileHandler = XMLFileHandler.getInstance();
@@ -47,15 +44,12 @@
     }
 
     /**
-     * Processes the user input command by splitting it into parts and determining the command type.
-     * Executes the corresponding command handler based on the command type and file status.
-     * <p>
-     * //     * @param input The user input command string.
+     * Processes the given command by determining its type and executing the corresponding handler.
      *
-     * @throws IOException          if an I/O error occurs.
-     * @throws FileExceptionHandler if there is an exception related to file handling.
-     * @throws CommandsException    if there is an exception related to command execution.
+     * @param command the Command object containing the command name and arguments
+     * @throws Exception if an error occurs during command processing
      */
+
     public void processingCommands(Command command) throws Exception {
       try {
         CommandsTypes commandType = CommandsTypes.getByValue(command.getName());
@@ -65,45 +59,8 @@
         } else {
           System.out.println("Unknown command: " + command.getName());
         }
-      } catch (IllegalArgumentException e) {
-        System.out.println("Unknown command: " + command.getName());
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
       }
-    }
   }
-//      try {
-//        String[] commandAsParts = input.split("\\s+", 5);
-//        CommandsTypes commandKey;
-//
-//
-//        if (input.equalsIgnoreCase("session info") || input.equalsIgnoreCase("graphics help")) {
-//          commandKey = CommandsTypes.getByValue(input);
-//        } else {
-//          String commandType = commandAsParts[0].toLowerCase();
-//            commandKey = CommandsTypes.getByValue(commandAsParts[0]);
-//        }
-//
-//
-//        if (commands.containsKey(commandKey) || commands.containsKey(input)) {
-//          if (fileHandler.isFileOpened() && commandKey == CommandsTypes.SESSIONINFO) {
-//            CommandHandler command = commands.get(commandKey);
-//            command.execute(commandAsParts);
-//            return;
-//          }
-//
-//          if (fileHandler.isFileOpened() || commandKey == CommandsTypes.OPEN || commandKey == CommandsTypes.HELP || commandKey == CommandsTypes.EXIT) {
-//            CommandHandler command = commands.get(commandKey);
-//            if (command != null) {
-//              command.execute(commandAsParts);
-//              return;
-//            }
-//          } else {
-//            System.out.println("No file opened. Please open a file first.");
-//          }
-//        } else {
-//          System.out.println("Unknown command!");
-//        }
-//      } catch (CommandsException e) {
-//        System.out.println("Error processing command: " + e.getMessage());
-//      }
-//    }
-//  }
+}

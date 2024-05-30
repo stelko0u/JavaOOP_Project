@@ -1,23 +1,20 @@
 package bg.tu_varna.f22621629;
 
-import bg.tu_varna.f22621629.handlers.CommandsException;
 import bg.tu_varna.f22621629.processor.App;
 
-/**
- * The {@code Application} class is the entry point of the raster graphics application.
- * It initializes and starts the application by invoking the {@code run} method of {@code ApplicationProcessor}.
- */
 
+/**
+ * The Application class serves as the entry point for running the image processing application.
+ */
 public class Application {
   /**
-   * The main method that serves as the entry point of the application.
-   * It creates an instance of {@code ApplicationProcessor} and starts the application.
+   * The main method to start the application.
    *
-   * @param args command-line arguments (not used).
-   * @throws CommandsException if an error occurs while processing commands.
+   * @param args command-line arguments (not used)
+   * @throws Exception if an error occurs while running the application
    */
 
-  public static void main(String[] args) throws CommandsException {
+  public static void main(String[] args) throws Exception {
     App.run();
   }
 }

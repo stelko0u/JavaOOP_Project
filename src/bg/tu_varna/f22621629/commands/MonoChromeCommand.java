@@ -4,31 +4,33 @@ import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
 import bg.tu_varna.f22621629.models.Session;
+import bg.tu_varna.f22621629.utils.FileUtils;
+import bg.tu_varna.f22621629.utils.ImageUtils;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 /**
  * The MonoChromeCommand class represents a command for converting color images to monochrome.
  */
 public class MonoChromeCommand implements CommandHandler {
-
+  /** The XML file handler instance for handling file operations. */
   private XMLFileHandler fileHandler;
 
   /**
-   * Constructs a MonoChromeCommand object.
+   * Constructs a MonoChromeCommand.
    */
   public MonoChromeCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
-
   /**
-   * Executes the monochrome conversion command.
-//   * @param args Command arguments (not used).
-   * @throws IOException If an I/O error occurs.
+   * Executes the monochrome command by converting each color image in the current session to monochrome.
+   *
+   * @param command the command object representing the monochrome command
+   * @throws IOException if an I/O error occurs while processing image files
    */
+
   @Override
   public void execute(Command command) throws IOException {
     if (!fileHandler.isFileOpened()) {
@@ -50,84 +52,16 @@ public class MonoChromeCommand implements CommandHandler {
     }
     for (String fileName : individualFileNames) {
       String filePath = "images/" + fileName;
-      if (!new File(filePath).exists()) {
+      if (!FileUtils.fileExists(filePath)) {
         System.out.println("File '" + fileName + "' not found in the current session. Skipping.");
         continue;
       }
 
-      if (isColorImage(filePath)) {
-        applyMonochromeEffect(filePath);
+      if (ImageUtils.isColorImage(filePath)) {
+        ImageUtils.applyMonochromeEffect(filePath);
       } else {
         System.out.println("The image cannot be made monochrome!");
       }
-    }
-  }
-
-  /**
-   * Checks if the image file is in color format.
-   * @param fileName The name of the image file.
-   * @return True if the image is in color format, false otherwise.
-   */
-  private boolean isColorImage(String fileName) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-      String line;
-      if ((line = reader.readLine()) != null) {
-        return line.startsWith("P3");
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return false;
-  }
-
-  /**
-   * Applies the monochrome effect to the color image.
-   * @param fileName The name of the image file.
-   */
-  private void applyMonochromeEffect(String fileName) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-      StringBuilder imageAsString = new StringBuilder();
-      String line;
-
-      while ((line = reader.readLine()) != null) {
-        imageAsString.append(line).append("\n");
-      }
-
-      if (imageAsString.length() >= 4 && imageAsString.toString().startsWith("P3")) {
-        String[] imageAsStringArray = imageAsString.toString().split("\n");
-        String[] dimensions = imageAsStringArray[1].split(" ");
-        String[] fullFilePath = fileName.split("/");
-        String[] fileAndExtension = fullFilePath[1].split("\\.");
-        String newFile = fullFilePath[0] + "/" + fileAndExtension[0] + "_monochrome." + fileAndExtension[1];
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
-          writer.write("P1\n");
-          writer.write(String.join(" ", dimensions) + "\n");
-
-          for (int i = 3; i < imageAsStringArray.length; i++) {
-            line = imageAsStringArray[i];
-            String[] pixelValues = line.trim().split("\\s+");
-
-            for (int j = 0; j < pixelValues.length; j += 3) {
-              int red = Integer.parseInt(pixelValues[j]);
-              int green = Integer.parseInt(pixelValues[j + 1]);
-              int blue = Integer.parseInt(pixelValues[j + 2]);
-
-              int grayValue = (int) (0.299 * red + 0.587 * green + 0.114 * blue);
-              int monochromeValue = grayValue < 128 ? 0 : 1;
-              writer.write(monochromeValue + " ");
-            }
-            writer.write("\n");
-          }
-          System.out.println("Successfully converted image to monochrome: " + newFile);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      } else {
-        System.out.println("The image format is not supported for conversion to monochrome.");
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 }

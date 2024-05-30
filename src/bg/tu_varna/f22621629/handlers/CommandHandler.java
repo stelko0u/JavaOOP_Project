@@ -3,18 +3,18 @@ import bg.tu_varna.f22621629.models.Command;
 
 import java.io.IOException;
 /**
- * The CommandHandler interface represents a handler for executing commands.
- * Implementing classes are responsible for defining the logic of executing specific commands.
+ * The CommandHandler interface defines the contract for classes that handle commands in the application.
  */
 public interface CommandHandler {
-
   /**
-   * Executes the command with the given arguments.
-//   * @param command The arguments needed to execute the command.
-   * @throws IOException if an I/O error occurs.
-   * @throws FileExceptionHandler if there is an exception related to file handling.
-   * @throws InterruptedException if the thread executing the command is interrupted.
-   * @throws Exception if any other exception occurs during command execution.
+   * Executes a command based on the provided Command object.
+   *
+   * @param command the Command object representing the command to be executed
+   * @throws IOException          if an I/O error occurs during command execution
+   * @throws FileExceptionHandler if a file-related exception occurs during command execution
+   * @throws InterruptedException if the execution is interrupted
+   * @throws Exception            if an error occurs during command execution
    */
+
   void execute(Command command) throws IOException, FileExceptionHandler, InterruptedException, Exception;
 }

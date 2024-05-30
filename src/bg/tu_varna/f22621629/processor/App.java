@@ -1,21 +1,24 @@
 package bg.tu_varna.f22621629.processor;
 
+import bg.tu_varna.f22621629.handlers.CommandsException;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
 
 import java.util.Scanner;
 
 /**
- * The {@code ApplicationProcessor} class is responsible for running the main loop of the raster graphics application.
- * It interacts with the user through the command line, processes commands, and handles exceptions.
+ * Main application class for the Raster graphics application.
+ * This class contains the main loop that processes user commands.
  */
 
 public class App {
   /**
-   * Starts the main loop of the application.
-   * It prints a welcome message, initializes the necessary handlers, and processes user commands.
+   * Runs the main application loop.
+   * Initializes necessary components and handles user input commands.
+   *
+   * @throws Exception if an unexpected error occurs during execution
    */
-  public static void run() {
+  public static void run() throws Exception {
     System.out.println("Welcome to Raster graphics application. Type \"help\" to show basic commands!");
     XMLFileHandler fileHandler = XMLFileHandler.getInstance();
     CommandProcessor commandProcessor = new CommandProcessor(fileHandler);
@@ -46,7 +49,7 @@ public class App {
 
       try {
         commandProcessor.processingCommands(command);
-      } catch (Exception e) {
+      } catch (CommandsException e) {
         System.out.println("An error has occurred! " + e.getMessage());
       }
     }
