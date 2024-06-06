@@ -1,23 +1,25 @@
 package bg.tu_varna.f22621629.imageRotator;
 
 
+import bg.tu_varna.f22621629.models.Image;
+
 /**
- * Provides methods to rotate images in various formats.
+ * Utility class for rotating images in PBM, PGM, and PPM formats.
+ * Provides methods for rotating images to the right or left.
  */
 public class ImageRotator {
 
   /**
-   * Rotates the image data according to the specified direction.
-   * Supports rotation for PBM, PGM, and PPM image formats.
+   * Rotates an image based on the specified direction.
    *
-   * @param fileName   the name of the file containing the image data
-   * @param imageData  the image data to rotate
-   * @param direction  the direction of rotation ("right" or "left")
-   * @return the rotated image data
+   * @param fileName   the name of the file containing the image
+   * @param imageData  the Image object containing the image data
+   * @param direction  the direction to rotate the image ("right" or "left")
+   * @return a string representing the rotated image data
    */
-  public static String rotateImage(String fileName, String imageData, String direction) {
-    StringBuilder rotatedImageData = new StringBuilder();
-    String[] lines = imageData.split("\n");
+  public static String rotateImage(String fileName, Image imageData, String direction) {
+    Image rotatedImageData = new Image("");
+    String[] lines = imageData.getContent().split("\n");
     int[][] matrix = null;
     int[][][] pixelMatrix = null;
     int maxLightValue;
@@ -25,21 +27,21 @@ public class ImageRotator {
     if (lines[0].startsWith("P1")) {
       matrix = parsePBMData(lines);
       matrix = direction.equalsIgnoreCase("right") ? rotateRight(matrix) : rotateLeft(matrix);
-      rotatedImageData.append(formatPBMData(matrix));
+      rotatedImageData.setContent(formatPBMData(matrix));
     } else if (lines[0].startsWith("P2")) {
       matrix = parsePGMData(lines);
       matrix = direction.equalsIgnoreCase("right") ? rotateRight(matrix) : rotateLeft(matrix);
       maxLightValue = Integer.parseInt(lines[3]);
-      rotatedImageData.append(formatPGMData(matrix, maxLightValue));
+      rotatedImageData.setContent(formatPGMData(matrix, maxLightValue));
     } else if (lines[0].startsWith("P3")) {
       String[] temp = lines[1].split(" ");
       maxLightValue = Integer.parseInt(temp[2]);
       pixelMatrix = parsePPMData(lines);
       pixelMatrix = direction.equalsIgnoreCase("right") ? rotateClockwise(pixelMatrix) : rotateCounterClockwise(pixelMatrix);
-      rotatedImageData.append(formatPPMData(pixelMatrix, maxLightValue));
+      rotatedImageData.setContent(formatPPMData(pixelMatrix, maxLightValue));
     }
 
-    return rotatedImageData.toString();
+    return rotatedImageData.getContent();
   }
   /**
    * Parses the image data of a PBM (Portable Bitmap) format.

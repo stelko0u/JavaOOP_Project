@@ -5,6 +5,7 @@ import bg.tu_varna.f22621629.handlers.ImageHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.imageRotator.ImageRotator;
 import bg.tu_varna.f22621629.models.Command;
+import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.utils.FileUtils;
 import bg.tu_varna.f22621629.utils.ImageUtils;
 
@@ -38,7 +39,7 @@ public class RotateImage implements CommandHandler {
       System.out.println("No file is currently open. Please open a file first.");
       return;
     }
-    if (fileHandler.getFileNameLoadedImage() == null) {
+    if (fileHandler.getLoadedImage() == null) {
       System.out.println("No loaded image! Please load an image first!");
       return;
     }
@@ -60,8 +61,8 @@ public class RotateImage implements CommandHandler {
 
     if (imageFile.exists() && ImageUtils.isSupportedImageFormat(loadedImageFilePath)) {
       ImageHandler imageHandler = new ImageHandler(imagePath);
-      String imageData = imageHandler.readImageData();
-      String rotatedImageData = ImageRotator.rotateImage(loadedImageFilePath, imageData, direction);
+      Image imageData = new Image(imageHandler.readImageData());
+      Image rotatedImageData = new Image(ImageRotator.rotateImage(loadedImageFilePath, imageData, direction));
       String rotatedImagePath = IMAGES_FOLDER + FileUtils.getRotatedFileName(loadedImageFilePath, direction);
       imageHandler.writeImageData(rotatedImagePath, rotatedImageData);
       System.out.println("Image rotated successfully: " + rotatedImagePath);

@@ -1,18 +1,18 @@
 package bg.tu_varna.f22621629.utils;
-
+import bg.tu_varna.f22621629.models.Image;
 import java.io.*;
+
 /**
- * Utility class for file operations.
- * This class provides methods for writing to files, checking file existence,
- * saving collages to files, and generating rotated file names.
- * It follows the Singleton pattern to ensure a single instance.
+ * Utility class for file operations such as writing, checking existence, and saving collages.
+ * This class follows the singleton pattern to ensure only one instance is created.
  */
 public class FileUtils {
 
   private static FileUtils instance;
+
   /**
    * Returns the singleton instance of the FileUtils class.
-   * Ensures that only one instance of the class is created.
+   * Uses double-checked locking for thread safety.
    *
    * @return the singleton instance of FileUtils
    */
@@ -28,20 +28,20 @@ public class FileUtils {
   }
 
   /**
-   * Writes the given content to a file with the specified name.
-   * If the file already exists, it will be overwritten.
+   * Writes the content of an Image object to a file.
    *
    * @param fileName the name of the file to write to
-   * @param content the content to write to the file
+   * @param image the Image object containing the content to write
    * @throws IOException if an I/O error occurs
    */
-  public static void writeFile(String fileName, String content) throws IOException {
+  public static void writeFile(String fileName, Image image) throws IOException {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-      writer.write(content);
+      writer.write(image.getContent());
     }
   }
+
   /**
-   * Checks if a file exists at the specified file path.
+   * Checks if a file exists at the specified path.
    *
    * @param filePath the path of the file to check
    * @return true if the file exists, false otherwise
@@ -49,12 +49,12 @@ public class FileUtils {
   public static boolean fileExists(String filePath) {
     return new File(filePath).exists();
   }
+
   /**
-   * Saves collage data to a file in the images directory.
-   * The collage data is written to a file with the specified output image name.
+   * Saves collage data to a specified file.
    *
    * @param collageData the data of the collage to save
-   * @param outImage the name of the output image file
+   * @param outImage the name of the output file
    * @throws IOException if an I/O error occurs
    */
   public void saveCollageToFile(String collageData, String outImage) throws IOException {
@@ -63,13 +63,13 @@ public class FileUtils {
     }
     System.out.println("Collage created successfully and added to the current session: " + outImage);
   }
+
   /**
-   * Generates a rotated file name based on the original file name and rotation direction.
-   * The new file name includes the rotation direction before the file extension.
+   * Generates a file name for a rotated image based on the original file name and rotation direction.
    *
    * @param originalFileName the original file name
-   * @param direction the direction of rotation (e.g., "left" or "right")
-   * @return the generated file name with rotation direction included
+   * @param direction the direction of rotation (e.g., "left", "right")
+   * @return the new file name with rotation information
    */
   public static String getRotatedFileName(String originalFileName, String direction) {
     int dotIndex = originalFileName.lastIndexOf(".");

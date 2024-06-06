@@ -1,5 +1,6 @@
 package bg.tu_varna.f22621629.creators;
 
+import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.utils.FileUtils;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class CollageCreator {
    * @param outImage the path to save the collage image
    * @throws IOException if an I/O error occurs while creating the collage
    */
-  public void createCollage(StringBuilder firstImageContent, StringBuilder secondImageContent, String direction, String outImage) throws IOException {
+  public void createCollage(Image firstImageContent, Image secondImageContent, String direction, String outImage) throws IOException {
     StringBuilder collageData = new StringBuilder();
     if (direction.equalsIgnoreCase("horizontal")) {
       createHorizontalCollage(firstImageContent, secondImageContent, collageData, outImage);
@@ -41,9 +42,9 @@ public class CollageCreator {
    * @param collageData the StringBuilder to store collage data
    * @param outImage the path to save the collage image
    */
-  private void createHorizontalCollage(StringBuilder firstImageContent, StringBuilder secondImageContent, StringBuilder collageData, String outImage) {
-    String[] contentFirstImage = firstImageContent.toString().split("\n");
-    String[] contentSecondImage = secondImageContent.toString().split("\n");
+  private void createHorizontalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, String outImage) {
+    String[] contentFirstImage = firstImageContent.getContent().split("\n");
+    String[] contentSecondImage = secondImageContent.getContent().split("\n");
     String[] sizes = contentFirstImage[1].split(" ");
     int width = 0;
     int height = 0;
@@ -91,9 +92,9 @@ public class CollageCreator {
    * @param collageData the StringBuilder to store collage data
    * @param outImage the path to save the collage image
    */
-  private void createVerticalCollage(StringBuilder firstImageContent, StringBuilder secondImageContent, StringBuilder collageData, String outImage) {
-    String[] contentFirstImage = firstImageContent.toString().split("\n");
-    String[] contentSecondImage = secondImageContent.toString().split("\n");
+  private void createVerticalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, String outImage) {
+    String[] contentFirstImage = firstImageContent.getContent().split("\n");
+    String[] contentSecondImage = secondImageContent.getContent().split("\n");
     String[] sizes;
 
     int width = 0;

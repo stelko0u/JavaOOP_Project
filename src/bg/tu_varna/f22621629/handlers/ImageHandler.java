@@ -1,5 +1,7 @@
 package bg.tu_varna.f22621629.handlers;
 
+import bg.tu_varna.f22621629.models.Image;
+
 import java.io.*;
 /**
  * Handles reading and writing image data to and from files.
@@ -22,14 +24,16 @@ public class ImageHandler {
    * @throws IOException if an I/O error occurs while reading the file
    */
   public String readImageData() throws IOException {
-    StringBuilder imageData = new StringBuilder();
+    Image imageData = new Image("");
+    StringBuilder sb = new StringBuilder();
     try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        imageData.append(line).append("\n");
+        sb.append(line).append("\n");
       }
+      imageData.setContent(sb.toString());
     }
-    return imageData.toString();
+    return imageData.getContent();
   }
   /**
    * Writes the rotated image data to the specified file path.
@@ -38,9 +42,9 @@ public class ImageHandler {
    * @param rotatedImageData the rotated image data to write to the file
    * @throws IOException if an I/O error occurs while writing the file
    */
-  public void writeImageData(String rotatedImagePath, String rotatedImageData) throws IOException {
+  public void writeImageData(String rotatedImagePath, Image rotatedImageData) throws IOException {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(rotatedImagePath))) {
-      writer.write(rotatedImageData);
+      writer.write(rotatedImageData.getContent());
     }
   }
 }

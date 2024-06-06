@@ -1,5 +1,6 @@
 package bg.tu_varna.f22621629.handlers;
 
+import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.models.Session;
 
 import java.io.*;
@@ -20,7 +21,7 @@ public class XMLFileHandler {
   private boolean isSessionLoaded = false;
   private File currentFile;
   private String nextLocalImage;
-  private String loadedImage;
+  private Image loadedImage;
   private String fileNameLoadedImage;
   private Session currentSession;
   private int currentSessionNumber;
@@ -51,6 +52,9 @@ public class XMLFileHandler {
    * @throws FileExceptionHandler if there is an error opening the file.
    */
   public void open(String filePath) throws FileExceptionHandler {
+    if (!filePath.endsWith(".xml")) {
+      throw new FileExceptionHandler("Only XML files can be opened!");
+    }
     File file = new File(filePath);
     if (!file.exists()) {
       try {
@@ -65,9 +69,6 @@ public class XMLFileHandler {
       }
     }
 
-    if (!filePath.endsWith(".xml")) {
-      throw new FileExceptionHandler("Only XML files can be opened!");
-    }
 
     setFileName(filePath);
     sessions.clear();
@@ -315,7 +316,7 @@ public class XMLFileHandler {
    *
    * @param loadedImage the loaded image to set.
    */
-  public void setLoadedImage(String loadedImage) {
+  public void setLoadedImage(Image loadedImage) {
     this.loadedImage = loadedImage;
   }
   /**
@@ -323,7 +324,7 @@ public class XMLFileHandler {
    *
    * @return the loaded image.
    */
-  public String getLoadedImage() {
+  public Image getLoadedImage() {
     return loadedImage;
   }
   /**
@@ -397,10 +398,10 @@ public class XMLFileHandler {
    * @param sessionNumber    the number of the session.
    * @param newImageElement  the new image element to be set.
    */
-  public void setNextLocalImageForSession(int sessionNumber, String newImageElement) {
+  public void setNextLocalImageForSession(int sessionNumber, Image newImageElement) {
     Session session = findSessionByNumber(sessionNumber);
     if (session != null) {
-      session.setTransformations(newImageElement);
+      session.setTransformations(newImageElement.toXMLString());
     } else {
       System.out.println("Session with number " + sessionNumber + " not found.");
     }

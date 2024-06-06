@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
+import bg.tu_varna.f22621629.models.Image;
 
 import java.io.IOException;
 
@@ -33,8 +34,7 @@ public class AddImageCommand implements CommandHandler {
       return;
     }
 
-    String currentFile = fileHandler.getFileName();
-    if (currentFile == null) {
+    if (fileHandler.getFileName() == null) {
       System.out.println("Error: No file is currently open.");
       return;
     }
@@ -43,7 +43,9 @@ public class AddImageCommand implements CommandHandler {
 
     String newImageElement = "        <image name=\"" + command.getArguments()[0] + "\">\n" +
             "        </image>\n";
-    fileHandler.setNextLocalImageForSession(currentSessionNumber, newImageElement);
+    Image newImage = new Image(newImageElement);
+    newImage.setName(command.getArguments()[0]);
+    fileHandler.setNextLocalImageForSession(currentSessionNumber, newImage);
     System.out.println("Image added to session " + currentSessionNumber + " successfully.");
   }
 }

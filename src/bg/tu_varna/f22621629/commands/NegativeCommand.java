@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
+import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.processor.ImageProcessor;
 import bg.tu_varna.f22621629.utils.FileUtils;
 import bg.tu_varna.f22621629.utils.ImageUtils;
@@ -36,18 +37,18 @@ public class NegativeCommand implements CommandHandler {
   @Override
   public void execute(Command command) throws IOException {
     XMLFileHandler fileHandler = XMLFileHandler.getInstance();
-    if (!fileHandler.isFileOpened()) {
-      System.out.println("No file is currently open. Please open a file first.");
+    if (fileHandler.getLoadedImage() == null) {
+      System.out.println("No loaded image! Please load an image first!");
       return;
     }
 
-    String loadedImageAsString = String.valueOf(fileHandler.getLoadedImage());
-    if (loadedImageAsString == null || loadedImageAsString.length() == 0) {
+    Image loadedImageAsString = fileHandler.getLoadedImage();
+    if (loadedImageAsString == null) {
       System.out.println("No image is currently loaded. Please load an image first.");
       return;
     }
 
-    String modifiedImageData = imageUtils.applyNegativeEffect(loadedImageAsString);
+    Image modifiedImageData = new Image(imageUtils.applyNegativeEffect(loadedImageAsString.getContent()));
 
     String negativeFileName = "negative_" + fileHandler.getFileNameLoadedImage();
     String negativeImagePath = IMAGES_FOLDER + negativeFileName;

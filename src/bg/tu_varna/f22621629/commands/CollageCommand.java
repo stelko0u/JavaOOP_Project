@@ -5,6 +5,7 @@ import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
+import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.models.Session;
 import bg.tu_varna.f22621629.utils.ImageUtils;
 
@@ -52,8 +53,8 @@ public class CollageCommand implements CommandHandler {
     String secondImageFileName = "images/" + command.getArguments()[2];
     String outimage = command.getArguments()[3];
 
-    StringBuilder firstImageContent = imageReader.readImage(firstImageFileName);
-    StringBuilder secondImageContent = imageReader.readImage(secondImageFileName);
+    Image firstImageContent = new Image(imageReader.readImage(firstImageFileName).toString());
+    Image secondImageContent = new Image(imageReader.readImage(secondImageFileName).toString());
 
     collageCreator.createCollage(firstImageContent, secondImageContent, direction, outimage);
   }

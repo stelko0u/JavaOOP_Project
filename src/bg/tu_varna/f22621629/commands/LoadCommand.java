@@ -4,6 +4,7 @@ import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
+import bg.tu_varna.f22621629.models.Image;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,8 +16,8 @@ import java.io.IOException;
    */
 public class LoadCommand implements CommandHandler {
   private XMLFileHandler fileHandler;
-  private boolean isFound = false;
   private StringBuilder loadedImageBuffer;
+  private Image image;
 
   /**
    * Constructs a LoadCommand object and initializes the XMLFileHandler instance.
@@ -24,14 +25,16 @@ public class LoadCommand implements CommandHandler {
   public LoadCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
     this.loadedImageBuffer = new StringBuilder();
+    this.image = new Image("");
   }
 
-  /**
-   * Executes the command to load an image file specified by the session name.
-//   * @param args The command arguments containing the session name.
-   * @throws IOException if an I/O error occurs.
-   * @throws FileExceptionHandler if an error related to file handling occurs.
-   */
+    /**
+     * Executes the load command, loading an image file specified by the session name.
+     *
+     * @param command the Command object containing the session name
+     * @throws IOException            if an I/O error occurs while loading the image
+     * @throws FileExceptionHandler   if a file-related exception occurs
+     */
   @Override
   public void execute(Command command) throws IOException, FileExceptionHandler {
     if (command.getArguments().length != 1) {
@@ -73,10 +76,11 @@ public class LoadCommand implements CommandHandler {
           while ((line = reader.readLine()) != null) {
             loadedImageBuffer.append(line).append("\n");
           }
-          fileHandler.setLoadedImage(line);
+          image.setContent(loadedImageBuffer.toString());
+          fileHandler.setLoadedImage(image);
           System.out.println("Image loaded successfully:");
           System.out.println(loadedImageBuffer.toString());
-          fileHandler.setLoadedImage(loadedImageBuffer.toString());
+          fileHandler.setLoadedImage(image);
         } catch (IOException e) {
           System.out.println("Error loading image: " + e.getMessage());
         }
