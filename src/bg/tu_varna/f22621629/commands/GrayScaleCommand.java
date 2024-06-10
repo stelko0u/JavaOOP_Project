@@ -3,6 +3,7 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
+import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.models.Session;
 import bg.tu_varna.f22621629.processor.ImageProcessor;
 import bg.tu_varna.f22621629.utils.FileUtils;
@@ -54,12 +55,14 @@ public class GrayScaleCommand implements CommandHandler {
     }
     for (String fileName : individualFileNames) {
       String filePath = "images/" + fileName;
-      if (!FileUtils.fileExists(filePath)) {
+      Image image = new Image("");
+      image.setName(filePath);
+      if (!FileUtils.fileExists(image)) {
         System.out.println("File '" + fileName + "' not found in the current session. Skipping.");
         continue;
       }
-        if (imageProcessor.isColorImage(filePath)) {
-          imageProcessor.applyGrayScaleEffect(filePath);
+        if (imageProcessor.isColorImage(image)) {
+          imageProcessor.applyGrayScaleEffect(image);
         } else {
           System.out.println("This format is not supported! - " + fileName);
         }

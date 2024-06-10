@@ -55,7 +55,6 @@ public class SaveAsCommand implements CommandHandler {
     try (BufferedReader reader = new BufferedReader(new FileReader(fileHandler.getFileName()))) {
       StringBuilder content = new StringBuilder();
       String line;
-      boolean sessionFound = false;
 
       while ((line = reader.readLine()) != null) {
         if (line.trim().equals("</session>")) {

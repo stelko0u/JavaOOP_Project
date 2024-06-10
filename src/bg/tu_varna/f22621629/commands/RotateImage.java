@@ -56,15 +56,19 @@ public class RotateImage implements CommandHandler {
     }
 
     String loadedImageFilePath = fileHandler.getFileNameLoadedImage();
+    Image loadedImage = new Image("");
+    loadedImage.setName(loadedImageFilePath);
     String imagePath = IMAGES_FOLDER + loadedImageFilePath;
     File imageFile = new File(imagePath);
 
-    if (imageFile.exists() && ImageUtils.isSupportedImageFormat(loadedImageFilePath)) {
+    if (imageFile.exists() && ImageUtils.isSupportedImageFormat(loadedImage)) {
       ImageHandler imageHandler = new ImageHandler(imagePath);
-      Image imageData = new Image(imageHandler.readImageData());
-      Image rotatedImageData = new Image(ImageRotator.rotateImage(loadedImageFilePath, imageData, direction));
-      String rotatedImagePath = IMAGES_FOLDER + FileUtils.getRotatedFileName(loadedImageFilePath, direction);
-      imageHandler.writeImageData(rotatedImagePath, rotatedImageData);
+      Image image = new Image(imageHandler.readImageData());
+      Image rotatedImageData = new Image(ImageRotator.rotateImage(image, direction));
+      String rotatedImagePath = IMAGES_FOLDER + FileUtils.getRotatedFileName(loadedImage, direction);
+      Image rotatedImage = new Image("");
+      rotatedImage.setName(rotatedImagePath);
+      imageHandler.writeImageData(rotatedImage, rotatedImageData);
       System.out.println("Image rotated successfully: " + rotatedImagePath);
     } else {
       System.out.println("Unsupported image format or file not found: " + loadedImageFilePath);

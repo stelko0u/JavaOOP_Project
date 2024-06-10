@@ -8,15 +8,14 @@ import java.util.List;
  * A session contains an ID, a list of file names, and transformations applied to the files.
  */
 public class Session {
-
   private int id;
   private List<String> fileNames;
   private String transformations;
 
   /**
-   * Constructs a new Session object with the specified ID.
+   * Constructs a Session object with the specified ID.
    *
-   * @param id The ID of the session.
+   * @param id the ID of the session
    */
   public Session(int id) {
     this.id = id;
@@ -25,27 +24,27 @@ public class Session {
   }
 
   /**
-   * Retrieves the ID of the session.
+   * Gets the ID of the session.
    *
-   * @return The ID of the session.
+   * @return the ID of the session
    */
   public int getId() {
     return id;
   }
 
   /**
-   * Retrieves the list of file names associated with the session.
+   * Gets the list of file names associated with the session.
    *
-   * @return The list of file names.
+   * @return the list of file names
    */
   public List<String> getFileNames() {
     return fileNames;
   }
 
   /**
-   * Retrieves the transformations applied to the files in the session.
+   * Gets the transformations applied to the files in the session.
    *
-   * @return The transformations applied to the files.
+   * @return the transformations applied
    */
   public String getTransformations() {
     return transformations;
@@ -54,34 +53,34 @@ public class Session {
   /**
    * Sets the transformations applied to the files in the session.
    *
-   * @param transformations The transformations to be set.
+   * @param transformations the transformations applied
    */
   public void setTransformations(String transformations) {
     this.transformations = transformations;
   }
 
   /**
-   * Adds a single file name to the session.
+   * Adds a file name to the session.
    *
-   * @param fileName The file name to be added.
+   * @param fileName the file name to add
    */
   public void addFileName(String fileName) {
     fileNames.add(fileName);
   }
 
   /**
-   * Adds a list of file names to the session.
+   * Adds multiple file names to the session.
    *
-   * @param fileNames The list of file names to be added.
+   * @param fileNames the list of file names to add
    */
   public void addFileNames(List<String> fileNames) {
     this.fileNames.addAll(fileNames);
   }
 
   /**
-   * Returns a string representation of the session, including its ID and the list of file names.
+   * Returns a string representation of the session.
    *
-   * @return A string representation of the session.
+   * @return a string representation of the session
    */
   @Override
   public String toString() {

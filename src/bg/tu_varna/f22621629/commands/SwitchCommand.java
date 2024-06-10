@@ -7,6 +7,7 @@ import bg.tu_varna.f22621629.models.Command;
 import bg.tu_varna.f22621629.models.Session;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 /**
  * The SwitchCommand class implements the CommandHandler interface to handle the switch command.
@@ -37,11 +38,11 @@ public class SwitchCommand implements CommandHandler {
     };
     String sessionId = command.getArguments()[0];
 
-    Set<Session> sessions = fileHandler.getSessions();
+    Map<Integer, Session> sessions = fileHandler.getSessions();
 
     boolean sessionFound = false;
     fileHandler.setSessionLoaded(false);
-    for (Session session : sessions) {
+    for (Session session : sessions.values()) {
       if (Integer.toString(session.getId()).equals(sessionId)) {
         sessionFound = true;
         fileHandler.setCurrentSessionNumber(Integer.parseInt(sessionId));

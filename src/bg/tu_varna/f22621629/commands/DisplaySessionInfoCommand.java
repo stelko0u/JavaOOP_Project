@@ -24,7 +24,7 @@ public class DisplaySessionInfoCommand implements CommandHandler {
    *
    * @param fileHandler The XMLFileHandler object for handling XML files.
    */
-  public void displayInfo(XMLFileHandler fileHandler) {
+  private void displayInfo(XMLFileHandler fileHandler) {
     fileHandler.printSessions();
   }
 

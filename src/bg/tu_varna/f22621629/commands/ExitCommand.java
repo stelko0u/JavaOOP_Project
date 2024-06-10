@@ -28,7 +28,7 @@ public class ExitCommand implements CommandHandler {
    * @param text The text to be animated.
    * @throws Exception if an interruption occurs during the animation.
    */
-  public void animateText(String text) throws Exception {
+  private void animateText(String text) throws Exception {
     for (int i = 0; i < text.length(); i++) {
       System.out.print(text.charAt(i));
       Thread.sleep(100);

@@ -46,16 +46,18 @@ public class LoadCommand implements CommandHandler {
       return;
     }
 
-    String sessionName = command.getArguments()[0];
-    loadSessionImage(sessionName);
+    Image image = new Image("");
+    image.setName(command.getArguments()[0]);
+    loadSessionImage(image);
   }
 
-  /**
-   * Loads an image file specified by the session name.
-   * @param sessionName The name of the session containing the image.
-   */
-  private void loadSessionImage(String sessionName) {
-    String imagePath = "images/" + sessionName;
+    /**
+     * Loads an image file specified by the session name.
+     *
+     * @param image the Image object representing the image to load
+     */
+  private void loadSessionImage(Image image) {
+    String imagePath = "images/" + image.getName();
 
     loadedImageBuffer.setLength(0);
     if (fileHandler.getCurrentSession() == null) {
@@ -67,10 +69,9 @@ public class LoadCommand implements CommandHandler {
       System.out.println("This file is not current session!");
       return;
     }
-
-    if (isValidImageFile(imagePath)) {
+    if (isValidImageFile(image)) {
         try (BufferedReader reader = new BufferedReader(new FileReader(imagePath))) {
-          fileHandler.setFileNameLoadedImage(sessionName);
+          fileHandler.setFileNameLoadedImage(image.getName());
 
           String line;
           while ((line = reader.readLine()) != null) {
@@ -87,26 +88,28 @@ public class LoadCommand implements CommandHandler {
       }
   }
 
-  /**
-   * Checks if the file extension is a valid image format.
-   * @param filePath The path of the file.
-   * @return true if the file extension is valid for image format, otherwise false.
-   */
-  private boolean isValidImageFile(String filePath) {
-    String extension = getFileExtension(filePath);
+    /**
+     * Checks if the file extension is a valid image format.
+     *
+     * @param image the Image object
+     * @return true if the file extension is valid for image format, otherwise false
+     */
+  private boolean isValidImageFile(Image image) {
+    String extension = getFileExtension(image);
     return extension != null && (extension.equals("ppm") || extension.equals("pgm") || extension.equals("pbm"));
   }
 
-  /**
-   * Gets the extension of a file from its path.
-   * @param filePath The path of the file.
-   * @return The extension of the file.
-   */
-  private String getFileExtension(String filePath) {
-    int dotIndex = filePath.lastIndexOf(".");
-    if (dotIndex == -1 || dotIndex == filePath.length() - 1) {
+    /**
+     * Gets the extension of a file from its path.
+     *
+     * @param image the Image object
+     * @return the extension of the file
+     */
+  private String getFileExtension(Image image) {
+    int dotIndex = image.getName().lastIndexOf(".");
+    if (dotIndex == -1 || dotIndex == image.getName().length() - 1) {
       return null;
     }
-    return filePath.substring(dotIndex + 1).toLowerCase();
+    return image.getName().substring(dotIndex + 1).toLowerCase();
   }
 }

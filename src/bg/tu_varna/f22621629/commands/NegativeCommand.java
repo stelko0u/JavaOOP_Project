@@ -48,7 +48,7 @@ public class NegativeCommand implements CommandHandler {
       return;
     }
 
-    Image modifiedImageData = new Image(imageUtils.applyNegativeEffect(loadedImageAsString.getContent()));
+    Image modifiedImageData = new Image(imageUtils.applyNegativeEffect(loadedImageAsString));
 
     String negativeFileName = "negative_" + fileHandler.getFileNameLoadedImage();
     String negativeImagePath = IMAGES_FOLDER + negativeFileName;

@@ -28,6 +28,6 @@ public class GraphicOperations implements CommandHandler {
     menu.append(" - session info\n");
     menu.append(" - switch <session>\n");
     menu.append(" - collage <direction> <image1> <image2> <outimage>");
-    System.out.println(menu.toString());
+    System.out.println(menu);
   }
 }

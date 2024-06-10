@@ -1,5 +1,7 @@
 package bg.tu_varna.f22621629.utils;
 
+import bg.tu_varna.f22621629.models.Image;
+
 import java.io.*;
 /**
  * Utility class for image processing operations.
@@ -14,11 +16,11 @@ public class ImageUtils {
    * Checks if the image is a color image by reading its header.
    * A color image is identified by the "P3" format.
    *
-   * @param fileName the name of the file to check
+   * @param image the name of the file to check
    * @return true if the image is a color image, false otherwise
    */
-  public static boolean isColorImage(String fileName) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+  public static boolean isColorImage(Image image) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(image.getName()))) {
       String line;
       if ((line = reader.readLine()) != null) {
         return line.startsWith("P3");
@@ -29,14 +31,15 @@ public class ImageUtils {
     return false;
   }
 
+
   /**
    * Applies a monochrome effect to a P3 (color) image.
    * Converts the image to a P1 (monochrome) format.
    *
-   * @param fileName the name of the file to convert
+   * @param image the name of the file to convert
    */
-  public static void applyMonochromeEffect(String fileName) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+  public static void applyMonochromeEffect(Image image) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(image.getName()))) {
       StringBuilder imageAsString = new StringBuilder();
       String line;
 
@@ -47,7 +50,7 @@ public class ImageUtils {
       if (imageAsString.length() >= 4 && imageAsString.toString().startsWith("P3")) {
         String[] imageAsStringArray = imageAsString.toString().split("\n");
         String[] dimensions = imageAsStringArray[1].split(" ");
-        String[] fullFilePath = fileName.split("/");
+        String[] fullFilePath = image.getName().split("/");
         String[] fileAndExtension = fullFilePath[1].split("\\.");
         String newFile = fullFilePath[0] + "/" + fileAndExtension[0] + "_monochrome." + fileAndExtension[1];
 
@@ -85,13 +88,13 @@ public class ImageUtils {
   /**
    * Reads the content of an image file.
    *
-   * @param fileName the name of the file to read
+   * @param image the name of the file to read
    * @return the content of the image file as a StringBuilder
    * @throws IOException if an I/O error occurs
    */
-    public StringBuilder readImage(String fileName) throws IOException {
+    public StringBuilder readImage(Image image) throws IOException {
       StringBuilder imageContent = new StringBuilder();
-      try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+      try (BufferedReader reader = new BufferedReader(new FileReader(image.getName()))) {
         String line;
         while ((line = reader.readLine()) != null) {
           imageContent.append(line).append("\n");
@@ -103,12 +106,12 @@ public class ImageUtils {
    * Applies a negative effect to an image.
    * Inverts the pixel values of the image.
    *
-   * @param imageData the content of the image as a string
+   * @param image the content of the image as a string
    * @return the modified image data with the negative effect applied
    */
-  public String applyNegativeEffect(String imageData) {
+  public String applyNegativeEffect(Image image) {
     StringBuilder modifiedImageData = new StringBuilder();
-    String[] lines = imageData.split("\n");
+    String[] lines = image.getContent().split("\n");
     modifiedImageData.append(lines[0]).append("\n");
 
     if (lines[0].equals("P1")) {
@@ -170,12 +173,12 @@ public class ImageUtils {
    * Checks if the image format is supported.
    * Supported formats are "ppm", "pgm", and "pbm".
    *
-   * @param fileName the name of the file to check
+   * @param image the name of the file to check
    * @return true if the format is supported, false otherwise
    */
-  public static boolean isSupportedImageFormat(String fileName) {
+  public static boolean isSupportedImageFormat(Image image) {
     for (String format : SUPPORTED_FORMATS) {
-      if (fileName.toLowerCase().endsWith(format)) {
+      if (image.getName().toLowerCase().endsWith(format)) {
         return true;
       }
     }

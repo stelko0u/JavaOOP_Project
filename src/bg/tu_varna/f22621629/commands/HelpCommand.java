@@ -24,6 +24,6 @@ public class HelpCommand implements CommandHandler {
     menu.append(" - saveas <file>\n");
     menu.append(" - help\n");
     menu.append(" - exit\n");
-    System.out.println(menu.toString());
+    System.out.println(menu);
   }
 }

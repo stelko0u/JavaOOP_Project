@@ -1,5 +1,7 @@
 package bg.tu_varna.f22621629.utils;
 import bg.tu_varna.f22621629.models.Image;
+import bg.tu_varna.f22621629.processor.ImageProcessor;
+
 import java.io.*;
 
 /**
@@ -9,6 +11,7 @@ import java.io.*;
 public class FileUtils {
 
   private static FileUtils instance;
+
 
   /**
    * Returns the singleton instance of the FileUtils class.
@@ -43,37 +46,37 @@ public class FileUtils {
   /**
    * Checks if a file exists at the specified path.
    *
-   * @param filePath the path of the file to check
+   * @param image the path of the file to check
    * @return true if the file exists, false otherwise
    */
-  public static boolean fileExists(String filePath) {
-    return new File(filePath).exists();
+  public static boolean fileExists(Image image) {
+    return new File(image.getName()).exists();
   }
 
   /**
    * Saves collage data to a specified file.
    *
-   * @param collageData the data of the collage to save
-   * @param outImage the name of the output file
+   * @param collageImage the Image object representing the collage to save
+   * @param outImage     the name of the output file
    * @throws IOException if an I/O error occurs
    */
-  public void saveCollageToFile(String collageData, String outImage) throws IOException {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter("images/" + outImage))) {
-      writer.write(collageData);
+  public void saveCollageToFile(Image collageImage, Image outImage) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("images/" + outImage.getName()))) {
+      writer.write(collageImage.getContent());
     }
-    System.out.println("Collage created successfully and added to the current session: " + outImage);
+    System.out.println("Collage created successfully and added to the current session: " + outImage.getName());
   }
 
   /**
    * Generates a file name for a rotated image based on the original file name and rotation direction.
    *
-   * @param originalFileName the original file name
-   * @param direction the direction of rotation (e.g., "left", "right")
+   * @param originalImage the original file
+   * @param direction        the direction of rotation (e.g., "left", "right")
    * @return the new file name with rotation information
    */
-  public static String getRotatedFileName(String originalFileName, String direction) {
-    int dotIndex = originalFileName.lastIndexOf(".");
-    String fileNameWithoutExtension = originalFileName.substring(0, dotIndex);
-    return fileNameWithoutExtension + "_rotated_" + direction + originalFileName.substring(dotIndex);
+  public static String getRotatedFileName(Image originalImage, String direction) {
+    int dotIndex = originalImage.getName().lastIndexOf(".");
+    String fileNameWithoutExtension = originalImage.getName().substring(0, dotIndex);
+    return fileNameWithoutExtension + "_rotated_" + direction + originalImage.getName().substring(dotIndex);
   }
 }

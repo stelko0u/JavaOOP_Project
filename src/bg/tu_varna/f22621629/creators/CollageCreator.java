@@ -16,33 +16,36 @@ public class CollageCreator {
   public CollageCreator() {
     this.utils = utils.getInstance();
   }
+
   /**
-   * Creates a collage by combining two images.
+   * Creates a collage by combining two images in the specified direction.
    *
    * @param firstImageContent the content of the first image
    * @param secondImageContent the content of the second image
-   * @param direction the direction of collage creation (horizontal or vertical)
-   * @param outImage the path to save the collage image
+   * @param direction the direction to combine the images, either "horizontal" or "vertical"
+   * @param outImage the resulting collage image
    * @throws IOException if an I/O error occurs while creating the collage
    */
-  public void createCollage(Image firstImageContent, Image secondImageContent, String direction, String outImage) throws IOException {
+  public void createCollage(Image firstImageContent, Image secondImageContent, String direction, Image outImage) throws IOException {
     StringBuilder collageData = new StringBuilder();
     if (direction.equalsIgnoreCase("horizontal")) {
       createHorizontalCollage(firstImageContent, secondImageContent, collageData, outImage);
     } else if (direction.equalsIgnoreCase("vertical")) {
       createVerticalCollage(firstImageContent, secondImageContent, collageData, outImage);
     }
-    utils.saveCollageToFile(collageData.toString(), outImage);
+    Image image = new Image(collageData.toString());
+    utils.saveCollageToFile(image, outImage);
   }
+
   /**
-   * Creates a horizontal collage by combining two images.
+   * Creates a horizontal collage by combining two images side by side.
    *
    * @param firstImageContent the content of the first image
    * @param secondImageContent the content of the second image
-   * @param collageData the StringBuilder to store collage data
-   * @param outImage the path to save the collage image
+   * @param collageData the StringBuilder to store the resulting collage data
+   * @param outImage the resulting collage image
    */
-  private void createHorizontalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, String outImage) {
+  private void createHorizontalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, Image outImage) {
     String[] contentFirstImage = firstImageContent.getContent().split("\n");
     String[] contentSecondImage = secondImageContent.getContent().split("\n");
     String[] sizes = contentFirstImage[1].split(" ");
@@ -65,7 +68,7 @@ public class CollageCreator {
       height = Integer.parseInt(sizes[1]);
       start = 4;
       collageData.append("P2").append("\n");
-      collageData.append("# ").append(outImage).append("\n");
+      collageData.append("# ").append(outImage.getName()).append("\n");
       collageData.append(width + width).append(" ").append(height).append("\n");
       for (int i = start; i < contentFirstImage.length; i++) {
         collageData.append(contentFirstImage[i]).append(" ");
@@ -84,15 +87,16 @@ public class CollageCreator {
       }
     }
   }
+
   /**
-   * Creates a vertical collage by combining two images.
+   * Creates a vertical collage by combining two images one on top of the other.
    *
    * @param firstImageContent the content of the first image
    * @param secondImageContent the content of the second image
-   * @param collageData the StringBuilder to store collage data
-   * @param outImage the path to save the collage image
+   * @param collageData the StringBuilder to store the resulting collage data
+   * @param outImage the resulting collage image
    */
-  private void createVerticalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, String outImage) {
+  private void createVerticalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, Image outImage) {
     String[] contentFirstImage = firstImageContent.getContent().split("\n");
     String[] contentSecondImage = secondImageContent.getContent().split("\n");
     String[] sizes;
@@ -119,7 +123,7 @@ public class CollageCreator {
       height = Integer.parseInt(sizes[1]);
       start = 4;
       collageData.append("P2").append("\n");
-      collageData.append("# ").append(outImage).append("\n");
+      collageData.append("# ").append(outImage.getName()).append("\n");
       collageData.append(width).append(" ").append(height + height).append("\n");
       for (int i = start; i < contentFirstImage.length; i++) {
         collageData.append(contentFirstImage[i]).append("\n");

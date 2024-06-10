@@ -6,11 +6,9 @@ import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
 import bg.tu_varna.f22621629.models.Image;
-import bg.tu_varna.f22621629.models.Session;
 import bg.tu_varna.f22621629.utils.ImageUtils;
 
 import java.io.*;
-import java.util.Set;
 
 /**
  * The CollageCommand class represents a command for creating a collage from two images.
@@ -31,11 +29,11 @@ public class CollageCommand implements CommandHandler {
     this.collageCreator = new CollageCreator();
   }
   /**
-   * Executes the collage command by creating a collage from two images.
+   * Executes the command to create a collage from two images.
    *
-   * @param command the command object representing the collage command
-   * @throws IOException if an I/O error occurs while reading or writing image files
-   * @throws FileExceptionHandler if any file-related exception occurs
+   * @param command the command to be executed
+   * @throws IOException if an I/O error occurs
+   * @throws FileExceptionHandler if a file handling error occurs
    */
   @Override
   public void execute(Command command) throws IOException, FileExceptionHandler {
@@ -51,11 +49,22 @@ public class CollageCommand implements CommandHandler {
     String direction = command.getArguments()[0];
     String firstImageFileName = "images/" + command.getArguments()[1];
     String secondImageFileName = "images/" + command.getArguments()[2];
-    String outimage = command.getArguments()[3];
+    String outImageFileName = command.getArguments()[3];
 
-    Image firstImageContent = new Image(imageReader.readImage(firstImageFileName).toString());
-    Image secondImageContent = new Image(imageReader.readImage(secondImageFileName).toString());
 
-    collageCreator.createCollage(firstImageContent, secondImageContent, direction, outimage);
+    Image firstImage = new Image("");
+    firstImage.setName(firstImageFileName);
+
+    Image secondImage = new Image("");
+    secondImage.setName(secondImageFileName);
+
+
+    firstImage.setContent(imageReader.readImage(firstImage).toString());
+    secondImage.setContent(imageReader.readImage(secondImage).toString());
+
+    Image outImage = new Image("");
+    outImage.setName(outImageFileName);
+
+    collageCreator.createCollage(firstImage, secondImage, direction, outImage);
   }
 }

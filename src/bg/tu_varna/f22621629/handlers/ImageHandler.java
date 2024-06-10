@@ -17,11 +17,12 @@ public class ImageHandler {
   public ImageHandler(String imagePath) {
     this.imagePath = imagePath;
   }
+
   /**
-   * Reads the image data from the specified image file.
+   * Reads the image data from the file specified by the imagePath.
    *
-   * @return the image data read from the file
-   * @throws IOException if an I/O error occurs while reading the file
+   * @return the content of the image as a string
+   * @throws IOException if an I/O error occurs while reading the image file
    */
   public String readImageData() throws IOException {
     Image imageData = new Image("");
@@ -35,15 +36,16 @@ public class ImageHandler {
     }
     return imageData.getContent();
   }
+
   /**
-   * Writes the rotated image data to the specified file path.
+   * Writes the image data to the file specified by the rotatedImage.
    *
-   * @param rotatedImagePath the path to write the rotated image data
-   * @param rotatedImageData the rotated image data to write to the file
-   * @throws IOException if an I/O error occurs while writing the file
+   * @param rotatedImage the image object containing the file name to write to
+   * @param rotatedImageData the image object containing the content to write
+   * @throws IOException if an I/O error occurs while writing the image file
    */
-  public void writeImageData(String rotatedImagePath, Image rotatedImageData) throws IOException {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(rotatedImagePath))) {
+  public void writeImageData(Image rotatedImage, Image rotatedImageData) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(rotatedImage.getName()))) {
       writer.write(rotatedImageData.getContent());
     }
   }

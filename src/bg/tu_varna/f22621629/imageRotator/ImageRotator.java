@@ -12,14 +12,13 @@ public class ImageRotator {
   /**
    * Rotates an image based on the specified direction.
    *
-   * @param fileName   the name of the file containing the image
-   * @param imageData  the Image object containing the image data
-   * @param direction  the direction to rotate the image ("right" or "left")
+   * @param image the image to rotate
+   * @param direction the direction to rotate the image ("right" or "left")
    * @return a string representing the rotated image data
    */
-  public static String rotateImage(String fileName, Image imageData, String direction) {
+  public static String rotateImage(Image image, String direction) {
     Image rotatedImageData = new Image("");
-    String[] lines = imageData.getContent().split("\n");
+    String[] lines = image.getContent().split("\n");
     int[][] matrix = null;
     int[][][] pixelMatrix = null;
     int maxLightValue;

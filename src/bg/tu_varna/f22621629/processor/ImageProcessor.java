@@ -1,21 +1,23 @@
 package bg.tu_varna.f22621629.processor;
 
+import bg.tu_varna.f22621629.models.Image;
+
 import java.io.*;
 /**
  * Handles image processing tasks such as checking if an image is a color image
  * and applying grayscale effects to images.
  */
 public class ImageProcessor {
+
   /**
    * Checks if the specified image file is a color image.
    * The method determines this by checking if the image file starts with "P3".
    *
-   * @param fileName the name of the file to check
-   * @return true if the file is a color image, false otherwise
+   * @param image the image to check
+   * @return true if the image is a color image, false otherwise
    */
-
-  public boolean isColorImage(String fileName) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+  public boolean isColorImage(Image image) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(image.getName()))) {
       String line;
       if ((line = reader.readLine()) != null) {
         return line.startsWith("P3");
@@ -28,13 +30,13 @@ public class ImageProcessor {
   }
 
   /**
-   * Applies a grayscale effect to the specified color image file.
+   * Applies a grayscale effect to the specified color image.
    * The grayscale image is saved as a new file with "_grayscale" appended to the original filename.
    *
-   * @param fileName the name of the file to process
+   * @param image the image to process
    */
-  public void applyGrayScaleEffect(String fileName) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+  public void applyGrayScaleEffect(Image image) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(image.getName()))) {
       StringBuilder imageAsString = new StringBuilder();
       String line;
 
@@ -45,7 +47,7 @@ public class ImageProcessor {
       if (imageAsString.length() >= 4 && imageAsString.toString().startsWith("P3")) {
         String[] imageAsStringArray = imageAsString.toString().split("\n");
         String[] dimensions = imageAsStringArray[1].split(" ");
-        String[] fullFilePath = fileName.split("/");
+        String[] fullFilePath = image.getName().split("/");
         int maxValue = Integer.parseInt(dimensions[2]);
         String[] fileAndExtension = fullFilePath[1].split("\\.");
         String newFile = fullFilePath[0] + "/" + fileAndExtension[0] + "_grayscale." +  fileAndExtension[1];
