@@ -1,6 +1,7 @@
 package bg.tu_varna.f22621629.creators;
 
 import bg.tu_varna.f22621629.models.Image;
+import bg.tu_varna.f22621629.models.Pixel;
 import bg.tu_varna.f22621629.utils.FileUtils;
 
 import java.io.IOException;
@@ -8,142 +9,130 @@ import java.io.IOException;
  * Creates a collage by combining two images either horizontally or vertically.
  */
 public class CollageCreator {
+
   /** The utility class for file operations. */
   private FileUtils utils;
+
   /**
    * Constructs a CollageCreator.
    */
   public CollageCreator() {
-    this.utils = utils.getInstance();
+    this.utils = FileUtils.getInstance();
   }
 
   /**
    * Creates a collage by combining two images in the specified direction.
    *
-   * @param firstImageContent the content of the first image
-   * @param secondImageContent the content of the second image
+   * @param firstImage the first image object
+   * @param secondImage the second image object
    * @param direction the direction to combine the images, either "horizontal" or "vertical"
-   * @param outImage the resulting collage image
+   * @param outImage the resulting collage image object
    * @throws IOException if an I/O error occurs while creating the collage
    */
-  public void createCollage(Image firstImageContent, Image secondImageContent, String direction, Image outImage) throws IOException {
-    StringBuilder collageData = new StringBuilder();
+  public void createCollage(Image firstImage, Image secondImage, String direction, Image outImage) throws IOException {
+    Pixel[][] collagePixels;
+    int width, height;
+
     if (direction.equalsIgnoreCase("horizontal")) {
-      createHorizontalCollage(firstImageContent, secondImageContent, collageData, outImage);
+      collagePixels = createHorizontalCollage(firstImage, secondImage);
+      width = firstImage.getSizes()[0] + secondImage.getSizes()[0];
+      height = Math.max(firstImage.getSizes()[1], secondImage.getSizes()[1]);
     } else if (direction.equalsIgnoreCase("vertical")) {
-      createVerticalCollage(firstImageContent, secondImageContent, collageData, outImage);
+      collagePixels = createVerticalCollage(firstImage, secondImage);
+      width = Math.max(firstImage.getSizes()[0], secondImage.getSizes()[0]);
+      height = firstImage.getSizes()[1] + secondImage.getSizes()[1];
+    } else {
+      throw new IllegalArgumentException("Invalid direction. Expected 'horizontal' or 'vertical'.");
     }
-    Image image = new Image(collageData.toString());
-    utils.saveCollageToFile(image, outImage);
+
+    outImage.setPixels(collagePixels);
+    outImage.setSizes(new int[]{width, height});
+    outImage.setFormat(firstImage.getFormat());
+
+    // Set the content of outImage from collagePixels
+    outImage.setContentFromPixels();
+
+    utils.saveCollageToFile(outImage);
   }
 
   /**
    * Creates a horizontal collage by combining two images side by side.
    *
-   * @param firstImageContent the content of the first image
-   * @param secondImageContent the content of the second image
-   * @param collageData the StringBuilder to store the resulting collage data
-   * @param outImage the resulting collage image
+   * @param firstImage the first image object
+   * @param secondImage the second image object
+   * @return a 2D array of pixels representing the horizontal collage
    */
-  private void createHorizontalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, Image outImage) {
-    String[] contentFirstImage = firstImageContent.getContent().split("\n");
-    String[] contentSecondImage = secondImageContent.getContent().split("\n");
-    String[] sizes = contentFirstImage[1].split(" ");
-    int width = 0;
-    int height = 0;
-    int start = 0;
-    if (contentFirstImage[0].startsWith("P1")) {
-      width = Integer.parseInt(sizes[0]);
-      height = Integer.parseInt(sizes[1]);
-      start = 2;
-      collageData.append("P1").append('\n');
-      collageData.append(width + width).append(" ").append(height).append("\n");
-      for (int i = start; i < contentFirstImage.length; i++) {
-        collageData.append(contentFirstImage[i]).append(" ");
-        collageData.append(contentSecondImage[i]).append(" ").append("\n");
+  private Pixel[][] createHorizontalCollage(Image firstImage, Image secondImage) {
+    Pixel[][] firstPixels = firstImage.getPixels();
+    Pixel[][] secondPixels = secondImage.getPixels();
+
+    int height = Math.max(firstPixels.length, secondPixels.length);
+    int width = firstPixels[0].length + secondPixels[0].length;
+
+    Pixel[][] collagePixels = new Pixel[height][width];
+
+    for (int y = 0; y < firstPixels.length; y++) {
+      for (int x = 0; x < firstPixels[0].length; x++) {
+        collagePixels[y][x] = firstPixels[y][x];
       }
-    } else if (contentFirstImage[0].startsWith("P2")) {
-      sizes = contentFirstImage[2].split(" ");
-      width = Integer.parseInt(sizes[0]);
-      height = Integer.parseInt(sizes[1]);
-      start = 4;
-      collageData.append("P2").append("\n");
-      collageData.append("# ").append(outImage.getName()).append("\n");
-      collageData.append(width + width).append(" ").append(height).append("\n");
-      for (int i = start; i < contentFirstImage.length; i++) {
-        collageData.append(contentFirstImage[i]).append(" ");
-        collageData.append(contentSecondImage[i]).append(" ").append("\n");
+    }
+
+
+    for (int y = 0; y < secondPixels.length; y++) {
+      for (int x = 0; x < secondPixels[0].length; x++) {
+        collagePixels[y][x + firstPixels[0].length] = secondPixels[y][x];
       }
-    } else if (contentFirstImage[0].startsWith("P3")) {
-      sizes = contentFirstImage[1].split(" ");
-      width = Integer.parseInt(sizes[0]);
-      height = Integer.parseInt(sizes[1]);
-      start = 2;
-      collageData.append("P3").append(" ").append(width + width).append(" ")
-              .append(height).append(" ").append(sizes[2]).append("\n");
-      for (int i = start; i < contentFirstImage.length; i++) {
-        collageData.append(contentFirstImage[i]).append(" ");
-        collageData.append(contentSecondImage[i]).append(" ").append("\n");
+    }
+
+    return collagePixels;
+  }
+
+
+//  private Pixel[][] createVerticalCollage(Image firstImage, Image secondImage) {
+//    Pixel[][] firstPixels = firstImage.getPixels();
+//    Pixel[][] secondPixels = secondImage.getPixels();
+//    int height = firstImage.getSizes()[1] + secondImage.getSizes()[1];
+//    int width = Math.max(firstImage.getSizes()[0], secondImage.getSizes()[0]);
+//
+//    Pixel[][] collagePixels = new Pixel[height][width];
+//
+//    // Copy pixels from the first image
+//    for (int y = 0; y < firstImage.getSizes()[1]; y++) {
+//      for (int x = 0; x < firstImage.getSizes()[0]; x++) {
+//        collagePixels[y][x] = firstPixels[y][x];
+//      }
+//    }
+//
+//    // Copy pixels from the second image
+//    for (int y = 0; y < secondImage.getSizes()[1]; y++) {
+//      for (int x = 0; x < secondImage.getSizes()[0]; x++) {
+//        collagePixels[y + firstImage.getSizes()[1]][x] = secondPixels[y][x];
+//      }
+//    }
+//
+//    return collagePixels;
+//  }
+private Pixel[][] createVerticalCollage(Image firstImage, Image secondImage) {
+  Pixel[][] firstPixels = firstImage.getPixels();
+  Pixel[][] secondPixels = secondImage.getPixels();
+
+  int height = firstImage.getSizes()[1] + secondImage.getSizes()[1];
+  int width = Math.max(firstImage.getSizes()[0], secondImage.getSizes()[0]);
+
+  Pixel[][] collagePixels = new Pixel[height][width];
+
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      if (y < firstPixels.length && x < firstPixels[0].length) {
+        collagePixels[y][x] = firstPixels[y][x];
+      } else if (y - firstPixels.length < secondPixels.length && x < secondPixels[0].length) {
+        collagePixels[y][x] = secondPixels[y - firstPixels.length][x];
+      } else {
+        collagePixels[y][x] = new Pixel(0, 0, 0); // Запълване с черен цвят при липса на пиксели
       }
     }
   }
 
-  /**
-   * Creates a vertical collage by combining two images one on top of the other.
-   *
-   * @param firstImageContent the content of the first image
-   * @param secondImageContent the content of the second image
-   * @param collageData the StringBuilder to store the resulting collage data
-   * @param outImage the resulting collage image
-   */
-  private void createVerticalCollage(Image firstImageContent, Image secondImageContent, StringBuilder collageData, Image outImage) {
-    String[] contentFirstImage = firstImageContent.getContent().split("\n");
-    String[] contentSecondImage = secondImageContent.getContent().split("\n");
-    String[] sizes;
-
-    int width = 0;
-    int height = 0;
-    int start = 0;
-    if (contentSecondImage[0].equalsIgnoreCase("P1")) {
-      sizes = contentFirstImage[1].split(" ");
-      width = Integer.parseInt(sizes[0]);
-      height = Integer.parseInt(sizes[1]);
-      start = 2;
-      collageData.append("P1").append('\n');
-      collageData.append(width).append(" ").append(height + height).append("\n");
-      for (int i = start; i < contentFirstImage.length; i++) {
-        collageData.append(contentFirstImage[i]).append("\n");
-      }
-      for (int i = start; i < contentSecondImage.length; i++) {
-        collageData.append(contentSecondImage[i]).append("\n");
-      }
-    } else if (contentFirstImage[0].equalsIgnoreCase("P2")) {
-      sizes = contentFirstImage[2].split(" ");
-      width = Integer.parseInt(sizes[0]);
-      height = Integer.parseInt(sizes[1]);
-      start = 4;
-      collageData.append("P2").append("\n");
-      collageData.append("# ").append(outImage.getName()).append("\n");
-      collageData.append(width).append(" ").append(height + height).append("\n");
-      for (int i = start; i < contentFirstImage.length; i++) {
-        collageData.append(contentFirstImage[i]).append("\n");
-      }
-      for (int i = start; i < contentSecondImage.length; i++) {
-        collageData.append(contentSecondImage[i]).append("\n");
-      }
-    } else if (contentFirstImage[0].startsWith("P3")) {
-      sizes = contentFirstImage[1].split(" ");
-      width = Integer.parseInt(sizes[0]);
-      height = Integer.parseInt(sizes[1]);
-      start = 2;
-      collageData.append("P3").append(" ").append(width).append(" ")
-              .append(height + height).append(" ").append(sizes[2]).append("\n");
-      for (int i = start; i < contentFirstImage.length; i++) {
-        collageData.append(contentFirstImage[i]).append("\n");
-      }
-      for (int i = start; i < contentSecondImage.length; i++) {
-        collageData.append(contentSecondImage[i]).append("\n");
-      }
-    }
-  }
+  return collagePixels;
+}
 }

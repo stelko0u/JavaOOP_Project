@@ -2,16 +2,15 @@ package bg.tu_varna.f22621629.commands;
 
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
-import bg.tu_varna.f22621629.models.Command;
-import bg.tu_varna.f22621629.models.Image;
+import bg.tu_varna.f22621629.models.*;
+import bg.tu_varna.f22621629.utils.ImageUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * The AddImageCommand class is responsible for handling the addition of images
- * to the current session in the XML file.
- * This class implements the CommandHandler interface.
- */
+
 public class AddImageCommand implements CommandHandler {
 
   private XMLFileHandler fileHandler;
@@ -51,8 +50,8 @@ public class AddImageCommand implements CommandHandler {
 
     String newImageElement = "        <image name=\"" + imageName + "\">\n" +
             "        </image>\n";
-    Image newImage = new Image(newImageElement);
-    newImage.setName(imageName);
+    Image newImage = fileHandler.getLoadedImage();
+
     fileHandler.setNextLocalImageForSession(currentSessionNumber, newImage);
     System.out.println("Image added to session " + currentSessionNumber + " successfully.");
   }

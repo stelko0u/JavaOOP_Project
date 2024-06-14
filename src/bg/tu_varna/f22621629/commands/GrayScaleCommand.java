@@ -7,6 +7,7 @@ import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.models.Session;
 import bg.tu_varna.f22621629.processor.ImageProcessor;
 import bg.tu_varna.f22621629.utils.FileUtils;
+import bg.tu_varna.f22621629.utils.ImageUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,25 +17,16 @@ import java.util.List;
  * The GrayScaleCommand class represents a command for applying grayscale effect to images.
  */
 public class GrayScaleCommand implements CommandHandler {
-  /** The XML file handler instance for handling file operations. */
   private XMLFileHandler fileHandler;
-  /** The image processor for applying grayscale effect to images. */
   private ImageProcessor imageProcessor;
+  private ImageUtils imageUtils;
 
-  /**
-   * Constructs a GrayScaleCommand.
-   */
   public GrayScaleCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
     this.imageProcessor = new ImageProcessor();
+    this.imageUtils = new ImageUtils();
   }
 
-  /**
-   * Executes the grayscale command by applying the effect to each color image in the current session.
-   *
-   * @param command the command object representing the grayscale command
-   * @throws IOException if an I/O error occurs while processing image files
-   */
   @Override
   public void execute(Command command) throws IOException {
     if (!fileHandler.isFileOpened()) {
@@ -53,19 +45,21 @@ public class GrayScaleCommand implements CommandHandler {
     for (String files : fileNames) {
       individualFileNames.addAll(Arrays.asList(files.split(", ")));
     }
+
     for (String fileName : individualFileNames) {
       String filePath = "images/" + fileName;
-      Image image = new Image("");
-      image.setName(filePath);
-      if (!FileUtils.fileExists(image)) {
+
+      if (!FileUtils.fileExists(filePath)) {
         System.out.println("File '" + fileName + "' not found in the current session. Skipping.");
         continue;
       }
-        if (imageProcessor.isColorImage(image)) {
-          imageProcessor.applyGrayScaleEffect(image);
-        } else {
-          System.out.println("This format is not supported! - " + fileName);
-        }
+
+      Image loadedImageAsObject = fileHandler.getLoadedImage();
+      if (imageUtils.isColorImage(loadedImageAsObject)) {
+        imageProcessor.applyGrayScaleEffect(loadedImageAsObject);
+      } else {
+        System.out.println("This format is not supported! - " + fileName);
+      }
     }
   }
 }

@@ -644,7 +644,7 @@ public class XMLFileHandler {
     this.nextLocalImage = nextLocalImage;
   }
 
- 
+
 
   /**
    * Sets the sessions for this instance.

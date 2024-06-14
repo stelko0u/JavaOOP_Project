@@ -17,7 +17,7 @@ public class ImageProcessor {
    * @return true if the image is a color image, false otherwise
    */
   public boolean isColorImage(Image image) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(image.getName()))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(image.getImageName()))) {
       String line;
       if ((line = reader.readLine()) != null) {
         return line.startsWith("P3");
@@ -36,7 +36,7 @@ public class ImageProcessor {
    * @param image the image to process
    */
   public void applyGrayScaleEffect(Image image) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(image.getName()))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(image.getImageName()))) {
       StringBuilder imageAsString = new StringBuilder();
       String line;
 
@@ -47,7 +47,7 @@ public class ImageProcessor {
       if (imageAsString.length() >= 4 && imageAsString.toString().startsWith("P3")) {
         String[] imageAsStringArray = imageAsString.toString().split("\n");
         String[] dimensions = imageAsStringArray[1].split(" ");
-        String[] fullFilePath = image.getName().split("/");
+        String[] fullFilePath = image.getImageName().split("/");
         int maxValue = Integer.parseInt(dimensions[2]);
         String[] fileAndExtension = fullFilePath[1].split("\\.");
         String newFile = fullFilePath[0] + "/" + fileAndExtension[0] + "_grayscale." +  fileAndExtension[1];

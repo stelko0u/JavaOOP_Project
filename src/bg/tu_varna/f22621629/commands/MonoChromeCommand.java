@@ -16,21 +16,13 @@ import java.util.List;
  * The MonoChromeCommand class represents a command for converting color images to monochrome.
  */
 public class MonoChromeCommand implements CommandHandler {
-  /** The XML file handler instance for handling file operations. */
   private XMLFileHandler fileHandler;
 
-  /**
-   * Constructs a MonoChromeCommand.
-   */
+
   public MonoChromeCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
-  /**
-   * Executes the monochrome command by converting each color image in the current session to monochrome.
-   *
-   * @param command the command object representing the monochrome command
-   * @throws IOException if an I/O error occurs while processing image files
-   */
+
 
   @Override
   public void execute(Command command) throws IOException {
@@ -53,9 +45,8 @@ public class MonoChromeCommand implements CommandHandler {
     }
     for (String fileName : individualFileNames) {
       String filePath = "images/" + fileName;
-      Image image = new Image("");
-      image.setName(filePath);
-      if (!FileUtils.fileExists(image)) {
+      Image image = ImageUtils.readImageFromFile(filePath);
+      if (image == null) {
         System.out.println("File '" + fileName + "' not found in the current session. Skipping.");
         continue;
       }

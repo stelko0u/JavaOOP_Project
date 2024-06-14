@@ -13,7 +13,6 @@ public class Application {
    * @param args command-line arguments (not used)
    * @throws Exception if an error occurs while running the application
    */
-
   public static void main(String[] args) throws Exception {
     App.run();
   }
