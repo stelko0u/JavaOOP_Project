@@ -3,30 +3,25 @@ package bg.tu_varna.f22621629.commands;
 import bg.tu_varna.f22621629.handlers.CommandHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.*;
-import bg.tu_varna.f22621629.utils.ImageUtils;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
-
+/**
+ * The AddImageCommand class is a concrete implementation of the CommandHandler interface.
+ * It handles the addition of an image to the current session in an XML file managed by XMLFileHandler.
+ */
 public class AddImageCommand implements CommandHandler {
-
   private XMLFileHandler fileHandler;
-
   /**
-   * Constructs an AddImageCommand object and initializes the file handler.
+   * Constructs an AddImageCommand instance and initializes the XMLFileHandler.
    */
   public AddImageCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
-
   /**
    * Executes the command to add an image to the current session.
    *
-   * @param command the command to be executed
-   * @throws IOException if an I/O error occurs
+   * @param command The command containing the arguments.
+   * @throws IOException if an I/O error occurs during execution.
    */
   @Override
   public void execute(Command command) throws IOException {
@@ -47,9 +42,6 @@ public class AddImageCommand implements CommandHandler {
       System.out.println("Error: Image already exists in session " + currentSessionNumber + ".");
       return;
     }
-
-    String newImageElement = "        <image name=\"" + imageName + "\">\n" +
-            "        </image>\n";
     Image newImage = fileHandler.getLoadedImage();
 
     fileHandler.setNextLocalImageForSession(currentSessionNumber, newImage);

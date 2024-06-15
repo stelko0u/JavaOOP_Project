@@ -6,7 +6,6 @@ import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.imageRotator.ImageRotator;
 import bg.tu_varna.f22621629.models.*;
 import bg.tu_varna.f22621629.utils.FileUtils;
-
 import java.io.*;
 /**
  * The RotateImage class represents a command for rotating the loaded image.

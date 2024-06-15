@@ -12,20 +12,27 @@ import bg.tu_varna.f22621629.utils.ImageUtils;
 import java.io.*;
 
 /**
- * The CollageCommand class represents a command for creating a collage from two images.
+ * The CollageCommand class is a concrete implementation of the CommandHandler interface.
+ * It handles the creation of a collage from two images and saves the result.
  */
 public class CollageCommand implements CommandHandler {
 
   private final XMLFileHandler fileHandler;
-  private final ImageUtils imageReader;
   private final CollageCreator collageCreator;
-
+  /**
+   * Constructs a CollageCommand instance and initializes the XMLFileHandler and CollageCreator.
+   */
   public CollageCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
-    this.imageReader = new ImageUtils();
     this.collageCreator = new CollageCreator();
   }
-
+  /**
+   * Executes the command to create a collage from two images.
+   *
+   * @param command The command containing the arguments.
+   * @throws IOException if an I/O error occurs during execution.
+   * @throws FileExceptionHandler if an error occurs related to file handling.
+   */
   @Override
   public void execute(Command command) throws IOException, FileExceptionHandler {
     if (!fileHandler.isSessionLoaded()) {
@@ -42,8 +49,8 @@ public class CollageCommand implements CommandHandler {
     String secondImageFileName = "images/" + command.getArguments()[2];
     String outImageFileName = "images/" + command.getArguments()[3];
 
-    Image firstImage = imageReader.readImageFromFile(firstImageFileName);
-    Image secondImage = imageReader.readImageFromFile(secondImageFileName);
+    Image firstImage = ImageUtils.readImageFromFile(firstImageFileName);
+    Image secondImage = ImageUtils.readImageFromFile(secondImageFileName);
 
     Image outImage = new Image(null, new int[]{0, 0}, outImageFileName, firstImage.getFormat());
     collageCreator.createCollage(firstImage, secondImage, direction, outImage);

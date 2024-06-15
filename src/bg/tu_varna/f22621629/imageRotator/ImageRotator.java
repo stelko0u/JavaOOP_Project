@@ -9,6 +9,13 @@ import bg.tu_varna.f22621629.models.Pixel;
  * Provides methods for rotating images to the right or left.
  */
 public class ImageRotator {
+  /**
+   * Rotates the given image according to the specified direction.
+   *
+   * @param image     The image object to rotate.
+   * @param direction The direction to rotate ("left" or "right").
+   * @return The rotated image object.
+   */
   public static Image rotateImage(Image image, String direction) {
     Pixel[][] pixels = image.getPixels();
     int[][] matrix = null;
@@ -34,7 +41,12 @@ public class ImageRotator {
 
     return image;
   }
-
+  /**
+   * Parses the pixel data from a PBM image into a matrix of integers.
+   *
+   * @param pixels The 2D array of pixels representing the image.
+   * @return The parsed matrix of pixel values.
+   */
   private static int[][] parsePBMData(Pixel[][] pixels) {
     int height = pixels.length;
     int width = pixels[0].length;
@@ -47,7 +59,12 @@ public class ImageRotator {
     }
     return matrix;
   }
-
+  /**
+   * Parses the pixel data from a PGM image into a matrix of integers.
+   *
+   * @param pixels The 2D array of pixels representing the image.
+   * @return The parsed matrix of pixel values.
+   */
   private static int[][] parsePGMData(Pixel[][] pixels) {
     int height = pixels.length;
     int width = pixels[0].length;
@@ -61,13 +78,17 @@ public class ImageRotator {
 
     return matrix;
   }
-
+  /**
+   * Parses the pixel data from a PPM image into a 3D matrix of integers.
+   *
+   * @param pixels The 2D array of pixels representing the image.
+   * @return The parsed 3D matrix of pixel values.
+   */
   private static int[][][] parsePPMData(Pixel[][] pixels) {
     int height = pixels.length;
     int width = pixels[0].length;
     int[][][] matrix = new int[height][width][3];
 
-    // Assuming pixels is already populated correctly
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         int red = pixels[i][j].getRed();
@@ -81,6 +102,12 @@ public class ImageRotator {
 
     return matrix;
   }
+  /**
+   * Rotates a matrix of pixel values 90 degrees clockwise.
+   *
+   * @param matrix The matrix of pixel values to rotate.
+   * @return The rotated matrix of pixel values.
+   */
   private static int[][] rotateRight(int[][] matrix) {
     int height = matrix.length;
     int width = matrix[0].length;
@@ -91,10 +118,15 @@ public class ImageRotator {
         rotatedMatrix[j][height - 1 - i] = matrix[i][j];
       }
     }
-
     return rotatedMatrix;
   }
 
+  /**
+   * Rotates a matrix of pixel values 90 degrees counterclockwise.
+   *
+   * @param matrix The matrix of pixel values to rotate.
+   * @return The rotated matrix of pixel values.
+   */
   private static int[][] rotateLeft(int[][] matrix) {
     int height = matrix.length;
     int width = matrix[0].length;
@@ -109,6 +141,12 @@ public class ImageRotator {
     return rotatedMatrix;
   }
 
+  /**
+   * Rotates a 3D matrix of pixel values 90 degrees clockwise.
+   *
+   * @param matrix The 3D matrix of pixel values to rotate.
+   * @return The rotated 3D matrix of pixel values.
+   */
   private static int[][][] rotateClockwise(int[][][] matrix) {
     int height = matrix.length;
     int width = matrix[0].length;
@@ -119,10 +157,15 @@ public class ImageRotator {
         rotatedMatrix[j][height - 1 - i] = matrix[i][j];
       }
     }
-
     return rotatedMatrix;
   }
 
+  /**
+   * Rotates a 3D matrix of pixel values 90 degrees counterclockwise.
+   *
+   * @param matrix The 3D matrix of pixel values to rotate.
+   * @return The rotated 3D matrix of pixel values.
+   */
   private static int[][][] rotateCounterClockwise(int[][][] matrix) {
     int height = matrix.length;
     int width = matrix[0].length;
@@ -136,6 +179,12 @@ public class ImageRotator {
     return rotatedMatrix;
   }
 
+  /**
+   * Formats a matrix of pixel values into a 2D array of Pixel objects for PBM images.
+   *
+   * @param matrix The matrix of pixel values to format.
+   * @return The formatted 2D array of Pixel objects.
+   */
   private static Pixel[][] formatPBMData(int[][] matrix) {
     int height = matrix.length;
     int width = matrix[0].length;
@@ -145,15 +194,22 @@ public class ImageRotator {
       for (int j = 0; j < width; j++) {
         int value = matrix[i][j];
         if (value == 0) {
-          pixels[i][j] = new Pixel(0); // Assuming Pixel constructor for black
+          pixels[i][j] = new Pixel(0);
         } else {
-          pixels[i][j] = new Pixel(1); // Assuming Pixel constructor for white
+          pixels[i][j] = new Pixel(1);
         }
       }
     }
     return pixels;
   }
 
+  /**
+   * Formats a matrix of pixel values into a 2D array of Pixel objects for PGM images.
+   *
+   * @param matrix         The matrix of pixel values to format.
+   * @param maxLightValue The maximum light value (typically 15 for PGM images).
+   * @return The formatted 2D array of Pixel objects.
+   */
   private static Pixel[][] formatPGMData(int[][] matrix, int maxLightValue) {
     int height = matrix.length;
     int width = matrix[0].length;
@@ -169,6 +225,13 @@ public class ImageRotator {
     return pixels;
   }
 
+  /**
+   * Formats a 3D matrix of pixel values into a 2D array of Pixel objects for PPM images.
+   *
+   * @param matrix         The 3D matrix of pixel values to format.
+   * @param maxLightValue The maximum light value (typically 255 for PPM images).
+   * @return The formatted 2D array of Pixel objects.
+   */
   private static Pixel[][] formatPPMData(int[][][] matrix, int maxLightValue) {
     int height = matrix.length;
     int width = matrix[0].length;
@@ -182,7 +245,6 @@ public class ImageRotator {
         pixels[i][j] = new Pixel(red, green, blue);
       }
     }
-
     return pixels;
   }
 }

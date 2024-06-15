@@ -1,12 +1,17 @@
 package bg.tu_varna.f22621629.utils;
 
 import bg.tu_varna.f22621629.models.*;
-
 import java.io.*;
-
+/**
+ * Utility class for various image processing operations.
+ */
 public class ImageUtils {
-  private static final String[] SUPPORTED_FORMATS = {"ppm", "pgm", "pbm"};
-
+  /**
+   * Checks if the given image is a color image (P3 format).
+   *
+   * @param image The image to check.
+   * @return true if the image is in P3 format (color image), false otherwise.
+   */
   public static boolean isColorImage(Image image) {
     try (BufferedReader reader = new BufferedReader(new FileReader(image.getImageName()))) {
       String line;
@@ -19,6 +24,11 @@ public class ImageUtils {
     return false;
   }
 
+  /**
+   * Applies a monochrome effect to the given image and saves the result as a PBM format file.
+   *
+   * @param image The image to apply the effect to.
+   */
   public static void applyMonochromeEffect(Image image) {
     try (BufferedReader reader = new BufferedReader(new FileReader(image.getImageName()))) {
       StringBuilder imageAsString = new StringBuilder();
@@ -71,7 +81,12 @@ public class ImageUtils {
     }
   }
 
-
+  /**
+   * Reads the content of an image file into a StringBuilder.
+   * @param image The image to read.
+   * @return A StringBuilder containing the content of the image file.
+   * @throws IOException if an I/O error occurs while reading the image file.
+   */
   public static StringBuilder readImage(Image image) throws IOException {
     StringBuilder imageContent = new StringBuilder();
     try (BufferedReader reader = new BufferedReader(new FileReader(image.getImageName()))) {
@@ -83,7 +98,12 @@ public class ImageUtils {
     return imageContent;
   }
 
-
+  /**
+   * Applies a negative effect to the given image and returns a new Image object with the effect applied.
+   *
+   * @param image The image to apply the effect to.
+   * @return A new Image object with the negative effect applied.
+   */
   public static Image applyNegativeEffect(Image image) {
     try (BufferedReader reader = new BufferedReader(new FileReader(image.getImageName()))) {
       String[] lines = readImage(image).toString().split("\n");
@@ -166,15 +186,12 @@ public class ImageUtils {
     return maxValue - value;
   }
 
-  public static boolean isSupportedImageFormat(Image image) {
-    for (String format : SUPPORTED_FORMATS) {
-      if (image.getImageName().toLowerCase().endsWith(format)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
+  /**
+   * Reads the content of an image file into a StringBuilder.
+   * @param fileName The image to read.
+   * @return A StringBuilder containing the content of the image file.
+   * @throws IOException if an I/O error occurs while reading the image file.
+   */
   public static Image readImageFromFile(String fileName) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       String format = reader.readLine().trim();
@@ -217,59 +234,4 @@ public class ImageUtils {
       return new Image(pixels, new int[]{width, height}, fileName, format);
     }
   }
-
-
-  public Image readImageFromImageName(String imageName) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader(imageName))) {
-      String format = reader.readLine();
-      String[] sizeTokens = reader.readLine().split(" ");
-      int width = Integer.parseInt(sizeTokens[0]);
-      int height = Integer.parseInt(sizeTokens[1]);
-      int maxVal = 255;
-
-      if (format.equals("P2") || format.equals("P3")) {
-        maxVal = Integer.parseInt(reader.readLine());
-      }
-
-      Pixel[][] pixels = new Pixel[height][width];
-      for (int y = 0; y < height; y++) {
-        String[] pixelTokens = reader.readLine().split(" ");
-        for (int x = 0; x < width; x++) {
-          int red = 0, green = 0, blue = 0;
-          if (format.equals("P1")) {
-            int val = Integer.parseInt(pixelTokens[x]);
-            red = green = blue = val * 255;
-          } else if (format.equals("P2")) {
-            int gray = Integer.parseInt(pixelTokens[x]);
-            red = green = blue = gray;
-          } else if (format.equals("P3")) {
-            red = Integer.parseInt(pixelTokens[x * 3]);
-            green = Integer.parseInt(pixelTokens[x * 3 + 1]);
-            blue = Integer.parseInt(pixelTokens[x * 3 + 2]);
-          }
-          pixels[y][x] = new Pixel(red, green, blue);
-        }
-      }
-
-      return new Image(pixels, new int[]{width, height, maxVal}, imageName, format);
-    }
-  }
-
-  public void writeImage(Image image, String filePath) throws IOException {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-      writer.write(image.getFormat() + "\n");
-      writer.write(image.getSizes()[0] + " " + image.getSizes()[1] + "\n");
-      if (image.getFormat().equals("P2") || image.getFormat().equals("P3")) {
-        writer.write(image.getSizes()[2] + "\n");
-      }
-
-      for (Pixel[] row : image.getPixels()) {
-        for (Pixel pixel : row) {
-          writer.write(pixel.getValue());
-        }
-        writer.write("\n");
-      }
-    }
-  }
 }
-

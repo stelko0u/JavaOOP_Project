@@ -9,7 +9,6 @@ import java.io.IOException;
  * It interacts with an XMLFileHandler instance to close the file and reset file-related attributes.
  */
 public class CloseCommand implements CommandHandler {
-
   private XMLFileHandler fileHandler;
 
   /**
@@ -27,7 +26,6 @@ public class CloseCommand implements CommandHandler {
   public void execute(Command command) throws IOException {
     if (fileHandler != null) {
       fileHandler.setFileOpened(false);
-      fileHandler.setContent(null);
       fileHandler.close();
       fileHandler.setFileName(null);
       System.out.println("Successfully closed the file!");

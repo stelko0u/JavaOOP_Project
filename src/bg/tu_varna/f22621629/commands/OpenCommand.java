@@ -21,10 +21,10 @@ public class OpenCommand implements CommandHandler {
   }
 
   /**
-   * Executes the open command to open a file.
+   * Executes the command to open a file. If a file is already open, it notifies the user.
    *
-//   * @param args Command arguments.
-   * @throws IOException If an I/O error occurs.
+   * @param command The command containing the file name to open.
+   * @throws IOException if an I/O error occurs during the file opening process.
    */
   @Override
   public void execute(Command command) throws IOException {

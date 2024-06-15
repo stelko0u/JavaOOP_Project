@@ -8,27 +8,7 @@ import java.io.*;
  * and applying grayscale effects to images.
  */
 public class ImageProcessor {
-
-  /**
-   * Checks if the specified image file is a color image.
-   * The method determines this by checking if the image file starts with "P3".
-   *
-   * @param image the image to check
-   * @return true if the image is a color image, false otherwise
-   */
-  public boolean isColorImage(Image image) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(image.getImageName()))) {
-      String line;
-      if ((line = reader.readLine()) != null) {
-        return line.startsWith("P3");
-      }
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return false;
-  }
-
+  
   /**
    * Applies a grayscale effect to the specified color image.
    * The grayscale image is saved as a new file with "_grayscale" appended to the original filename.

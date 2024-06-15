@@ -22,7 +22,6 @@ public class ExitCommand implements CommandHandler {
     System.exit(0);
   }
 
-
   /**
    * Animates the provided text by printing it character by character with a delay.
    * @param text The text to be animated.

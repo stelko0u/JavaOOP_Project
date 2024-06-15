@@ -60,8 +60,8 @@
           System.out.println("Unknown command: " + command.getName());
         }
     } catch (Exception e) {
-//        System.out.println(e.getMessage());
-        e.printStackTrace();
+        System.out.println("Error: " + e.getMessage());
+//        e.printStackTrace();
       }
   }
 }

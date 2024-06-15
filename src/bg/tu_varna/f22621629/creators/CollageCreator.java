@@ -49,7 +49,6 @@ public class CollageCreator {
     outImage.setSizes(new int[]{width, height});
     outImage.setFormat(firstImage.getFormat());
 
-    // Set the content of outImage from collagePixels
     outImage.setContentFromPixels();
 
     utils.saveCollageToFile(outImage);
@@ -88,30 +87,6 @@ public class CollageCreator {
   }
 
 
-//  private Pixel[][] createVerticalCollage(Image firstImage, Image secondImage) {
-//    Pixel[][] firstPixels = firstImage.getPixels();
-//    Pixel[][] secondPixels = secondImage.getPixels();
-//    int height = firstImage.getSizes()[1] + secondImage.getSizes()[1];
-//    int width = Math.max(firstImage.getSizes()[0], secondImage.getSizes()[0]);
-//
-//    Pixel[][] collagePixels = new Pixel[height][width];
-//
-//    // Copy pixels from the first image
-//    for (int y = 0; y < firstImage.getSizes()[1]; y++) {
-//      for (int x = 0; x < firstImage.getSizes()[0]; x++) {
-//        collagePixels[y][x] = firstPixels[y][x];
-//      }
-//    }
-//
-//    // Copy pixels from the second image
-//    for (int y = 0; y < secondImage.getSizes()[1]; y++) {
-//      for (int x = 0; x < secondImage.getSizes()[0]; x++) {
-//        collagePixels[y + firstImage.getSizes()[1]][x] = secondPixels[y][x];
-//      }
-//    }
-//
-//    return collagePixels;
-//  }
 private Pixel[][] createVerticalCollage(Image firstImage, Image secondImage) {
   Pixel[][] firstPixels = firstImage.getPixels();
   Pixel[][] secondPixels = secondImage.getPixels();
@@ -132,7 +107,6 @@ private Pixel[][] createVerticalCollage(Image firstImage, Image secondImage) {
       }
     }
   }
-
   return collagePixels;
-}
+  }
 }

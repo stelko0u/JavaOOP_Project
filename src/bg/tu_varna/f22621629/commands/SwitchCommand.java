@@ -26,7 +26,8 @@ public class SwitchCommand implements CommandHandler {
 
   /**
    * Executes the command to switch to the specified session by ID.
-//   * @param args The command arguments containing the session ID to switch to.
+   *
+   * @param command The command object containing the arguments with the session ID to switch to.
    * @throws IOException if an I/O error occurs.
    * @throws FileExceptionHandler if an error related to file handling occurs.
    */

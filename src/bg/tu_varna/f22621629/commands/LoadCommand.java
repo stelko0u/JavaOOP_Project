@@ -5,21 +5,34 @@ import bg.tu_varna.f22621629.handlers.FileExceptionHandler;
 import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.*;
 import bg.tu_varna.f22621629.utils.ImageUtils;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * The LoadCommand class is responsible for loading image files into the current session
+ * using the XMLFileHandler. It supports loading .ppm, .pgm, and .pbm file formats.
+ */
 public class LoadCommand implements CommandHandler {
   private XMLFileHandler fileHandler;
   private StringBuilder loadedImageBuffer;
 
+  /**
+   * Constructs a LoadCommand instance and initializes the XMLFileHandler and the StringBuilder
+   * for buffering loaded image content.
+   */
   public LoadCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
     this.loadedImageBuffer = new StringBuilder();
   }
 
+  /**
+   * Executes the command to load an image file into the current session.
+   *
+   * @param command The command containing the arguments.
+   * @throws IOException if an I/O error occurs during execution.
+   * @throws FileExceptionHandler if an error occurs related to file handling.
+   */
   @Override
   public void execute(Command command) throws IOException, FileExceptionHandler {
     if (command.getArguments().length != 1) {
@@ -50,6 +63,11 @@ public class LoadCommand implements CommandHandler {
     }
   }
 
+  /**
+   * Loads the image from the specified file path and sets it in the file handler.
+   *
+   * @param filePath The path to the image file.
+   */
   private void loadSessionImage(String filePath) {
     loadedImageBuffer.setLength(0);
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -66,9 +84,7 @@ public class LoadCommand implements CommandHandler {
         return;
       }
 
-      // Check if it's a P3 image
       if (lines[0].trim().equals("P3")) {
-        // Read dimensions and max color value
         String[] dimensions = lines[1].trim().split("\\s+");
         int width = Integer.parseInt(dimensions[0]);
         int height = Integer.parseInt(dimensions[1]);
@@ -77,7 +93,6 @@ public class LoadCommand implements CommandHandler {
         Pixel[][] pixels = new Pixel[height][width];
         int pixelIndex = 0;
 
-        // Read RGB data
         for (int i = 2; i < lines.length; i++) {
           String[] rgbValues = lines[i].trim().split("\\s+");
           for (int j = 0; j < rgbValues.length; j += 3) {
@@ -90,7 +105,6 @@ public class LoadCommand implements CommandHandler {
           }
         }
 
-        // Create and set Image object
         Image image = new Image(pixels, new int[]{width, height}, filePath, "P3");
         image.setPixels(pixels);
         image.setContent(content);
@@ -109,12 +123,22 @@ public class LoadCommand implements CommandHandler {
       System.out.println("Error loading image: " + e.getMessage());
     }
   }
-
+  /**
+   * Checks if the given file name has a valid image file extension.
+   *
+   * @param fileName The name of the file to check.
+   * @return true if the file has a valid extension, false otherwise.
+   */
   private boolean isValidImageFile(String fileName) {
     String extension = getFileExtension(fileName);
     return extension != null && (extension.equals("ppm") || extension.equals("pgm") || extension.equals("pbm"));
   }
-
+  /**
+   * Gets the file extension of the given file name.
+   *
+   * @param fileName The name of the file.
+   * @return The file extension, or null if there is no extension.
+   */
   private String getFileExtension(String fileName) {
     int dotIndex = fileName.lastIndexOf(".");
     if (dotIndex == -1 || dotIndex == fileName.length() - 1) {

@@ -5,9 +5,7 @@ import bg.tu_varna.f22621629.handlers.XMLFileHandler;
 import bg.tu_varna.f22621629.models.Command;
 import bg.tu_varna.f22621629.models.Image;
 import bg.tu_varna.f22621629.models.Session;
-import bg.tu_varna.f22621629.utils.FileUtils;
 import bg.tu_varna.f22621629.utils.ImageUtils;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,12 +16,19 @@ import java.util.List;
 public class MonoChromeCommand implements CommandHandler {
   private XMLFileHandler fileHandler;
 
-
+  /**
+   * Constructs a MonoChromeCommand instance and initializes the XMLFileHandler.
+   */
   public MonoChromeCommand() {
     this.fileHandler = XMLFileHandler.getInstance();
   }
 
-
+  /**
+   * Executes the command to convert all color images in the current session to monochrome.
+   *
+   * @param command The command containing the arguments (not used in this implementation).
+   * @throws IOException if an I/O error occurs during execution.
+   */
   @Override
   public void execute(Command command) throws IOException {
     if (!fileHandler.isFileOpened()) {

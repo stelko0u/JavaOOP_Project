@@ -21,7 +21,8 @@ public class UndoCommand implements CommandHandler {
 
   /**
    * Executes the command to remove the last transformation from the current session.
-//   * @param args The command arguments (not used in this command).
+   *
+   * @param command The command object representing the undo command (not used in this command).
    */
   @Override
   public void execute(Command command) {
