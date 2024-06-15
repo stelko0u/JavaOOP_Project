@@ -89,7 +89,7 @@ public class Image {
     StringBuilder contentBuilder = new StringBuilder();
     contentBuilder.append(format).append("\n");
     if (format.equals("P1") || format.equals("P2")) {
-      contentBuilder.append(pixels[0].length).append(" ").append(pixels.length).append(" ");
+      contentBuilder.append(pixels[0].length).append(" ").append(pixels.length).append(" ").append("\n");
     }
     if (format.equals("P2")) {
       contentBuilder.append(15).append("\n");

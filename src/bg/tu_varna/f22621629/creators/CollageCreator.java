@@ -86,7 +86,13 @@ public class CollageCreator {
     return collagePixels;
   }
 
-
+  /**
+   * Creates a vertical collage by combining two images, one above the other.
+   *
+   * @param firstImage  The first image to be placed at the top of the collage.
+   * @param secondImage The second image to be placed at the bottom of the collage.
+   * @return A 2D array of Pixels representing the combined vertical collage of the two images.
+   */
 private Pixel[][] createVerticalCollage(Image firstImage, Image secondImage) {
   Pixel[][] firstPixels = firstImage.getPixels();
   Pixel[][] secondPixels = secondImage.getPixels();
@@ -103,7 +109,7 @@ private Pixel[][] createVerticalCollage(Image firstImage, Image secondImage) {
       } else if (y - firstPixels.length < secondPixels.length && x < secondPixels[0].length) {
         collagePixels[y][x] = secondPixels[y - firstPixels.length][x];
       } else {
-        collagePixels[y][x] = new Pixel(0, 0, 0); // Запълване с черен цвят при липса на пиксели
+        collagePixels[y][x] = new Pixel(0, 0, 0);
       }
     }
   }

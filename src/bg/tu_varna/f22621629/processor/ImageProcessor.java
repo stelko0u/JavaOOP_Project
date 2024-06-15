@@ -8,7 +8,7 @@ import java.io.*;
  * and applying grayscale effects to images.
  */
 public class ImageProcessor {
-  
+
   /**
    * Applies a grayscale effect to the specified color image.
    * The grayscale image is saved as a new file with "_grayscale" appended to the original filename.
